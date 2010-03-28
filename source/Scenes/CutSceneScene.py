@@ -1,9 +1,9 @@
 class CutSceneScene:
-	def __init__(self):
+	def __init__(self, name):
 		self.next = self
 		self.counter = 0
-		self.scene = None
-		self.script = None
+		self.script = SceneStateMachine(name)
+		self.scene = self.script.Next()
 
 	def ProcessInput(self, events):
 		for event in events:
@@ -20,10 +20,6 @@ class CutSceneScene:
 	def Update(self):
 		self.counter += 1
 	
-	def SetScript(self, sceneScriptFile):
-		self.script = SceneStateMachine(sceneScriptFile)
-		self.scene = self.script.Next()
-
 
 class Frame:
 	def __init__(self):
