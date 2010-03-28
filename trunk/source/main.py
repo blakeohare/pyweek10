@@ -9,6 +9,14 @@ screen = pygame.Surface((256, 224))
 
 counter = 0
 
+# initialize joysticks connected at the time of startup
+pygame.joystick.init()
+for id in range(pygame.joystick.get_count()):
+	joystick = pygame.joystick.Joystick(id)
+	joystick.init()
+	input.add_joystick(joystick)
+
+
 # first create a play queue
 musicq = PlayQueue(['darkwizard.mp3'])
 # or add music to it like this
@@ -20,8 +28,6 @@ musicq.SetLoopLast(True)
 soundtrack.SetQueue(musicq)
 soundtrack.Play()
 
-
-scene = LoadScene()
 
 while scene != None:
 	

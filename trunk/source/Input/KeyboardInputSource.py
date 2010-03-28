@@ -15,6 +15,9 @@ class KeyboardInputSource:
 			K_2 : 'R'
 			}
 	
+	def get_input_type(self):
+		return 'keyboard'
+	
 	def process_events(self, pygame_events):
 		events = []
 		for event in pygame_events:
@@ -22,4 +25,11 @@ class KeyboardInputSource:
 				if event.key in self.keymap.keys():
 					events.append(InputEvent(self.keymap[event.key], event.type == KEYDOWN))
 		return events
+	
+	def get_name(self):
+		return "Keyboard"
+		
+	def configure_key(self, key):
+		pass
+		#TODO: configure keyboard keys
 		
