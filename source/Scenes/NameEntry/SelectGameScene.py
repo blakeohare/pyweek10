@@ -44,7 +44,7 @@ class SelectGameScene:
 				if self.mode == 'selection':
 					game = games.get_saved_game(self.cursor_index + 1)
 					if game.get_value('saved') == 0:
-						self.next = NameEntryScene()
+						self.next = NameEntryScene(game)
 					else:
 						self.next = None #actual game play! (or probably a brief cut scene depending on the state of the game)
 				elif self.mode == 'erase':

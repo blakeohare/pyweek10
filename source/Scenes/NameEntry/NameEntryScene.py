@@ -1,13 +1,14 @@
 
 class NameEntryScene:
 	
-	def __init__(self):
+	def __init__(self, game):
 		self.next = self
 		self.counter = 0
 		self.cursor_x = 0
 		self.cursor_y = 0
 		self.mode = 'selection' # 'copy' or 'erase'
 		self.text_entry = ''
+		self.game = game
 		
 	def ProcessInput(self, events):
 		
@@ -24,16 +25,35 @@ class NameEntryScene:
 				elif event.key == 'start' or event.key == 'A':
 					
 					if len(self.text_entry) < 10:
-						self.text_entry
+						char = self.current_character()
+						name = self.text_entry
+						if char == None:
+							if len(name) > 0:
+								self.game.save_value('name', name)
+								self.game.save_value('saved', 1)
+								self.game.save_to_file()
+								self.next = SelectGameScene()
+							else:
+								# TODO: play error sound
+								pass
+						else:	
+							self.text_entry += char
+					
 					
 				elif event.key == 'B':
-					backspaced = True
+					self.text_entry = self.text_entry[:-1]
 		
 					
 		
 	def Render(self, screen):
 		
 		cursor_coords = self._get_coords(self.cursor_x, self.cursor_y)
+		
+		name = self.text_entry
+		if int(self.counter / 15) % 2 == 1:
+			name += '_'
+		
+		screen.blit(get_text(name), (10, 10))
 		
 		pygame.draw.circle(screen, (120, 120, 120), (cursor_coords[0] + 4, cursor_coords[1] + 4), 7)
 		
@@ -73,9 +93,20 @@ class NameEntryScene:
 	def Update(self):
 		self.counter += 1
 	
-	def CurrentCharacter(self):
+	def current_character(self):
 		if self.cursor_y == 5:
 			return None
 		
-		#if 
+		if self.cursor_x < 6:
+			alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ .,-'
+			index = self.cursor_x + self.cursor_y * 6
+			return alphabet[index]
+		
+		else:
+			x = self.cursor_x - 6
+			index = x + self.cursor_y * 2
+			numbers = '1234567890'
+			return numbers[index]
+			
+		
 		
