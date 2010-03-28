@@ -17,9 +17,13 @@ class MainCharacter:
 		self.left_facing = False
 	
 	def get_top_left(self):
-		x = int(self.x - self.width / 2)
-		y = int(self.y - self.height / 2)
-		return (x, y)
+		return (self.get_left(), self.get_top())
+	
+	def get_left(self):
+		return int(self.x - self.width / 2)
+	
+	def get_top(self):
+		return int(self.y - self.height / 2)
 	
 	def get_bottom(self):
 		return self.get_top_left()[1] + self.height
