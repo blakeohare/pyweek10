@@ -12,15 +12,16 @@ class PlayScreen:
 		self.platforms = {
 			'jumpthrough' : [ # left, top, width
 				[10, 150, 50],
+				[60, 150, 50],
 				[50, 102, 50]
 				],
 			
-			'blocking' : [
+			'blocking' : [ # left, top, width
 				[75, 54, 50]
 				],
 			
-			'solid' : [
-			
+			'solid' : [ #left, top, width, height
+				[50, 125, 50, 50]
 				],
 			
 			'inclines' : [
@@ -31,13 +32,20 @@ class PlayScreen:
 		self.player = MainCharacter(15, 20)
 		
 		self.sprites = [self.player]
-		
+	
+	def get_walls(self, xy):
+		return self.platforms['solid']
 	
 	def get_landing_surfaces_near(self, xy):
-		return self.platforms['jumpthrough'] + self.platforms['blocking']
+		return self.platforms['jumpthrough'] + self.platforms['blocking'] + self.platforms['solid']
 	
 	def get_ceilings(self, xy):
-		return self.platforms['blocking']
+		platforms = self.platforms['blocking'][:]
+		
+		for platform in self.platforms['solid']:
+			platforms.append([platform[0], platform[1] + platform[3], platform[2]])
+		
+		return platforms
 	
 	def ProcessInput(self, events):
 		for event in events:
@@ -69,6 +77,16 @@ class PlayScreen:
 			sprite.dx = sprite.vx
 			new_x = sprite.x + sprite.dx
 			#todo: make sure (new_x, sprite.y) is valid and CROSSABLE
+			
+			if sprite.dx > 0: #going right
+				wall = self.find_leftmost_wall_in_path(sprite.x, new_x, sprite.y)
+				if wall != None:
+					new_x = wall[0] - 1
+			elif sprite.dx < 0: #going left
+				wall = self.find_rightmost_wall_in_path(new_x, sprite.x, sprite.y)
+				if wall != None:
+					new_x = wall[0] + wall[2] + 1
+			
 			sprite.x = new_x
 			
 			
@@ -126,12 +144,37 @@ class PlayScreen:
 				else:
 					# This shouldn't happen. But just in case...
 					sprite.on_ground = False
-		
+	
 	def set_sprite_on_platform(self, sprite, platform):
 		sprite.y = int(platform[1] - sprite.height + sprite.height / 2) # odd math to keep consistent rounding
-
+	
+	def find_leftmost_wall_in_path(self, left_x, right_x, y):
+		return self._find_first_wall_in_path(left_x, right_x, y, True)
+	
+	def find_rightmost_wall_in_path(self, left_x, right_x, y):
+		return self._find_first_wall_in_path(left_x, right_x, y, False)
+	
+	
+	def _find_first_wall_in_path(self, left_x, right_x, y, going_right):
+		furthest = None
+		
+		vicinity = ((left_x + right_x) / 2, y)
+		platforms = self.get_walls(vicinity)
+		
+		for platform in platforms:
+			if y >= platform[1] and y <= platform[1] + platform[3]:
+				wall_x = (platform[0] + platform[2], platform[0])[going_right]
+				if left_x <= wall_x and right_x >= wall_x:
+					if furthest == None:
+						furthest = platform
+					elif going_right and furthest[0] > platform[0]:
+						furthest = platform
+					elif not going_right and furthest[0] + furthest[2] < platform[0] + platform[2]:
+						furthest = platform
+		return furthest
+		
 	def _find_first_platform_in_path(self, x, upper_y, lower_y, going_down):
-		highest = None
+		furthest = None
 		
 		vicinity = (x, (upper_y + lower_y) / 2) # TODO: remove this and replace with all tile-generated platforms at coordinate X
 		if going_down:
@@ -142,14 +185,14 @@ class PlayScreen:
 		for platform in platforms: 
 			if x >= platform[0] and x <= platform[0] + platform[2]:
 				if upper_y <= platform[1] and lower_y >= platform[1]:
-					if highest == None:
-						highest = platform
-					elif going_down and highest[1] > platform[1]:
-						highest = platform
-					elif not going_down and highest[1] < platform[1]:
-						highest = platform
+					if furthest == None:
+						furthest = platform
+					elif going_down and furthest[1] > platform[1]:
+						furthest = platform
+					elif not going_down and furthest[1] < platform[1]:
+						furthest = platform
 		
-		return highest
+		return furthest
 		
 	def find_highest_platform_in_path(self, x, upper_y, lower_y):
 		return self._find_first_platform_in_path(x, upper_y, lower_y, True)
@@ -172,6 +215,13 @@ class PlayScreen:
 			y = platform[1]
 			width = platform[2]
 			pygame.draw.line(screen, (255, 0, 0), (x, y), (x + width, y))
+		
+		for platform in self.platforms['solid']:
+			x = platform[0]
+			y = platform[1]
+			width = platform[2]
+			height = platform[3]
+			pygame.draw.rect(screen, (100, 100, 100), Rect(x, y, width, height))
 		
 		self.player.draw(screen, self.player.vx != 0, self.counter)
 		
