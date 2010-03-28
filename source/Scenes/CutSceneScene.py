@@ -4,8 +4,6 @@ class CutSceneScene:
 		self.counter = 0
 		self.scene = None
 		self.script = None
-		
-		self.SetScript('demo.scn')
 
 	def ProcessInput(self, events):
 		for event in events:
