@@ -4,6 +4,7 @@ class CutSceneScene:
 		self.counter = 0
 		self.script = SceneStateMachine(name)
 		self.scene = None
+		self.oldScreen = None
 		
 		self.SetScene(self.script.Next())
 
@@ -28,7 +29,6 @@ class CutSceneScene:
 			soundtrack.SetQueue(bg)
 			soundtrack.Play()
 
-
 	def ProcessInput(self, events):
 		for event in events:
 			if event.down and event.key == 'start':
@@ -39,7 +39,15 @@ class CutSceneScene:
 			return
 		
 		frame = self.scene
-		screen.blit(images.Get(frame.image), (frame.coords))
+		if self.oldScreen:
+			self.oldScreen.blit(images.Get(frame.image), (frame.coords))
+			screen.blit(self.oldScreen, ((0,0)))
+		else:
+			screen.blit(images.Get(frame.image), (frame.coords))
+
+		self.oldScreen = screen.copy()
+		
+		
    
 	def Update(self):
 		self.counter += 1
