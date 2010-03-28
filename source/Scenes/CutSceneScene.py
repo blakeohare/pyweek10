@@ -3,13 +3,37 @@ class CutSceneScene:
 		self.next = self
 		self.counter = 0
 		self.script = SceneStateMachine(name)
-		self.scene = self.script.Next()
+		self.scene = None
+		
+		self.SetScene(self.script.Next())
+
+	def SetScene(self, scn):
+		self.scene = scn
+		if not scn:
+			return
+		
+		music = scn.music
+		if 'stop' == music:
+			soundtrack.Stop()
+		elif 'fadeout' == music:
+			soundtrack.Fadeout()
+		elif music:
+			bg = PlayQueue()
+			bg.SetLoopLast(True)
+			
+			tracks = music.split(',')
+			for t in tracks:
+				bg.AddTrack(t.strip())
+			
+			soundtrack.SetQueue(bg)
+			soundtrack.Play()
+
 
 	def ProcessInput(self, events):
 		for event in events:
 			if event.down and event.key == 'start':
-				self.scene = self.script.Next()
-   
+				self.SetScene(self.script.Next())
+				
 	def Render(self, screen):
 		if not self.scene:
 			return

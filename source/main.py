@@ -16,18 +16,6 @@ for id in range(pygame.joystick.get_count()):
 	joystick.init()
 	input.add_joystick(joystick)
 
-
-# first create a play queue
-musicq = PlayQueue(['darkwizard.mp3'])
-# or add music to it like this
-#musicq.AddTrack('darkwizard.mp3')
-#musicq.AddTrack('snuzz.mp3')
-#musicq.AddTrack('darkwizard.mp3')
-# NOTE: looping the last track is _NOT_ default
-musicq.SetLoopLast(True)
-soundtrack.SetQueue(musicq)
-soundtrack.Play()
-
 scene = TitleScene()
 
 while scene != None:
