@@ -11,12 +11,17 @@ while scene != None:
 	
 	start = time.time()
 	
+	events = []
 	for event in pygame.event.get():
 		if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
 			scene = None
-			
+		else:
+			events.append(event)
+	
 	if scene == None:
 		break
+	
+	scene.ProcessInput(input.get_input(events))
 	
 	scene.Update()
 		
