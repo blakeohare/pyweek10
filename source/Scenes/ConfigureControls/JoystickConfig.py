@@ -22,11 +22,18 @@ class JoystickConfig:
 		self.config_index = 0
 		self.joystick.reset_mappings()
 		self.down_pressed = False
-		
+		self.keys_released = False
 		
 	def Update(self):
 		self.counter += 1
-		if self.config_index < len(self.keys):
+		
+		if self.config_index == 0 and not self.keys_released:
+			# When entering the menu by pressing the joystick, it will use the
+			# button you pressed to enter the menu as the first configuration value.
+			# This will wait for the keys to ALL be released before listening to any value.
+			if not self.joystick.any_keys_pressed():
+				self.keys_released = True
+		elif self.config_index < len(self.keys):
 			key = self.keys[self.config_index]
 			if self.joystick.configure_key(key):
 				self.config_index += 1
