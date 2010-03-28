@@ -42,7 +42,7 @@ class Frame:
 
 class SceneStateMachine:
 	def __init__(self, script):
-		self.frameSet = self.parseScript(script);
+		self.frameSet = self.parseScript(script + '.scn');
 
 	def Next(self):
 		if 0 == len(self.frameSet):
