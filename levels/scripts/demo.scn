@@ -1,0 +1,13 @@
+[frame]
+[coords: 0,0]
+[image: cutscenes/1.png]
+[text: This is text]
+[music:]
+[transition:right]
+
+[frame]
+[coords: 0,0]
+[image:cutscenes/2.png]
+[text:This is more text]
+[music:]
+[end]
