@@ -5,22 +5,26 @@ screen = pygame.display.set_mode((800, 600))
 
 counter = 0
 
-done = False
+scene = LoadScene()
 
-while not done:
+while scene != None:
 	
 	start = time.time()
 	
 	for event in pygame.event.get():
 		if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-			done = True
+			scene = None
+			
+	if scene == None:
+		break
 	
+	scene.Update()
+		
 	screen.fill((0,0,0))
 	
-	x = int(counter % 800)
-	y = int(counter % 600)
+	scene.Render(screen)
 	
-	pygame.draw.circle(screen, (255, 0, 0), (x, y), 10)
+	scene = scene.next
 	
 	end = time.time()
 	
