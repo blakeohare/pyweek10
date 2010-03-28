@@ -1,7 +1,11 @@
 
 pygame.init()
 
-screen = pygame.display.set_mode((800, 600))
+fullscreen = False
+
+output_screen = pygame.display.set_mode((800, 600))
+
+screen = pygame.Surface((256, 224))
 
 counter = 0
 
@@ -15,6 +19,12 @@ while scene != None:
 	for event in pygame.event.get():
 		if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
 			scene = None
+		elif event.type == KEYDOWN and event.key == K_f:
+			fullscreen = not fullscreen
+			if fullscreen:
+				output_screen = pygame.display.set_mode((800, 600), FULLSCREEN)
+			else:
+				output_screen = pygame.display.set_mode((800, 600))
 		else:
 			events.append(event)
 	
@@ -28,6 +38,8 @@ while scene != None:
 	screen.fill((0,0,0))
 	
 	scene.Render(screen)
+	
+	pygame.transform.scale(screen, (800, 600), output_screen)
 	
 	scene = scene.next
 	
