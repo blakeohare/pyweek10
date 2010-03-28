@@ -53,8 +53,10 @@ class Soundtrack:
 	def Stop(self):
 		pygame.mixer.music.stop()
 	
-	def Fadeout(self, time = 2000):
+	def Fadeout(self, endQueue = True, time = 2000):
 		pygame.mixer.music.fadeout(time)
+		if endQueue:
+			self.playQueue = None
 
 class PlayQueue:
 	def __init__(self, lst = None):
@@ -62,8 +64,9 @@ class PlayQueue:
 		self.songList = []
 		self.loopLast = False
 		
-		for element in lst:
-			self.AddTrack(element)
+		if lst:
+			for element in lst:
+				self.AddTrack(element)
 	
 	def NameToFile(self, name):
 		f = 'media' + os.sep + 'music' + os.sep + name.replace('/', os.sep)
