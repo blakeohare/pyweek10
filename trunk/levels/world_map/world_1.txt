@@ -8,11 +8,11 @@
 8	37,202
 next	37,250
 #connections
-1	2
-2	3
-3	4
-4	5
-5	6
-6	7
-7	8
-8	next
+1	2	right
+2	3	down
+3	4	right
+4	5	right
+5	6	down
+6	7	left
+7	8	left
+8	next	down
