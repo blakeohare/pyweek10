@@ -4,6 +4,7 @@ import os
 root = 'source'
 main = root + os.sep + 'main.py'
 imports = root + os.sep + 'imports.py'
+functions = root + os.sep + 'functions.py'
 
 exclude = [main, imports]
 
@@ -35,9 +36,14 @@ def get_files(folder):
 	return (text, static)
 
 code = get_files(root)
+
 code = code[0] + "\n" + code[1]
 
-code = read_file(imports) + "\n" + code + "\n" + read_file(main)
+
+
+code = read_file(imports) + "\n" + code
+code += "\n# handy functions\n" + read_file(functions) + "\n"
+code += ("#" * 20) + "\n# main.py\n" + ("#" * 20) + read_file(main)
 
 c = open('run.py', 'wt')
 c.write(code)
