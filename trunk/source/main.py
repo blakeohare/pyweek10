@@ -28,6 +28,7 @@ musicq.SetLoopLast(True)
 soundtrack.SetQueue(musicq)
 soundtrack.Play()
 
+scene = TitleScene()
 
 while scene != None:
 	
