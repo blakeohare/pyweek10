@@ -9,6 +9,18 @@ screen = pygame.Surface((256, 224))
 
 counter = 0
 
+# first create a play queue
+musicq = PlayQueue(['darkwizard.mp3'])
+# or add music to it like this
+#musicq.AddTrack('darkwizard.mp3')
+#musicq.AddTrack('snuzz.mp3')
+#musicq.AddTrack('darkwizard.mp3')
+# NOTE: looping the last track is _NOT_ default
+musicq.SetLoopLast(True)
+soundtrack.SetQueue(musicq)
+soundtrack.Play()
+
+
 scene = LoadScene()
 
 while scene != None:
@@ -17,6 +29,8 @@ while scene != None:
 	
 	events = []
 	for event in pygame.event.get():
+		if event.type == MUSICEND:
+			soundtrack.HandleEvent(event)
 		if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
 			scene = None
 		elif event.type == KEYDOWN and event.key == K_f:
