@@ -8,6 +8,11 @@ def min(a, b):
 		return a
 	return b
 
+def abs(num):
+	if num < 0:
+		return -num
+	return num
+
 def ensure_range(x, lower, upper):
 	return max(lower, min(upper, x))
 
