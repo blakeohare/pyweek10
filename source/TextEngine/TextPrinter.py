@@ -39,7 +39,7 @@ class TextPrinter:
 		for char_key in punctuation:
 			file = char_key[0]
 			char = char_key[1]
-			self.images[char] = images.Get('text/number/' + file + '.png')
+			self.images[char] = images.Get('text/punctuation/' + file + '.png')
 			
 	def get_rendered_text(self, string):
 		
@@ -75,4 +75,10 @@ class TextPrinter:
 		if not (char in self.images.keys()):
 			char = '?'
 		return self.images[char]
+	
+	def clear_cache(self):
+		self.text_cache = {}
 		
+#STATIC
+
+_text_printer = TextPrinter()
