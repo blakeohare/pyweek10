@@ -1,5 +1,6 @@
 class CutSceneScene:
    def __init__(self):
+      self.next = self
       self.counter = 0
 
    def ProcessInput(self, events):
