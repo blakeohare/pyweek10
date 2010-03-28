@@ -33,3 +33,9 @@ def trim(string):
 	
 	string = string[:index + 1]
 	return string
+
+def get_text(string):
+	return _text_printer.get_rendered_text(string)
+
+def clear_text_cache():
+	_text_printer.clear_cache()

@@ -34,14 +34,16 @@ while scene != None:
 	scene.ProcessInput(input.get_input(events))
 	
 	scene.Update()
-		
+	
 	screen.fill((0,0,0))
 	
 	scene.Render(screen)
 	
 	pygame.transform.scale(screen, (800, 600), output_screen)
 	
-	scene = scene.next
+	if scene != scene.next:
+		clear_text_cache()
+		scene = scene.next
 	
 	end = time.time()
 	
