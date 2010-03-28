@@ -59,7 +59,6 @@ class TextPrinter:
 		self.text_cache[string] = surface
 		return surface
 		
-	
 	def calc_size(self, string):
 		height = 8
 		width = 0
@@ -68,8 +67,8 @@ class TextPrinter:
 		for char in string:
 			img = self.get_image_for_char(char)
 			width += img.get_width()
-			height = max(max_height, img.get_height())
-		return (width, height)
+			max_height = max(max_height, img.get_height())
+		return (width, max_height)
 	
 	def get_image_for_char(self, char):
 		if not (char in self.images.keys()):
