@@ -25,11 +25,12 @@ def get_files(folder):
 				folder_code = get_files(path)
 				text += folder_code[0]
 				static += folder_code[1]
-			else:
+			elif path.endswith('.py'):
 				t = read_file(path)
 				parts = t.split('#STATIC')
 				text += header + parts[0] + "\n"
-				static += static_header + parts[1]
+				if len(parts) > 1:
+					static += static_header + parts[1]
 		
 	return (text, static)
 
