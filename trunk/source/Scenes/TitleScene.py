@@ -9,8 +9,7 @@ class TitleScene:
 			if event.key == 'start':
 				self.next = SelectGameScene()
 			elif event.key == 'L':
-				self.next = CutSceneScene()
-				self.next.SetScript('demo.scn')
+				self.next = CutSceneScene('demo')
 	
 	def Render(self, screen):
 		screen.blit(images.Get('title.png'), (0, 0))
