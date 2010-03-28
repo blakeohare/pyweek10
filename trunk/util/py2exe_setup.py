@@ -31,7 +31,8 @@ extra_files = [
 			("media"+os.sep+"music", glob.glob(os.path.join('music','*.mp3'))),
 			("media"+os.sep+"sound", glob.glob(os.path.join('sound','*.wav'))),
 			('tiles', glob.glob(os.path.join('tiles','*.txt'))),
-			('levels', glob.glob(os.path.join('levels','*.txt')))
+			('levels', glob.glob(os.path.join('levels','*.txt'))),
+			('saved', glob.glob(os.path.join('saved','*.txt')))
 			]
  
 # List of all modules to automatically exclude from distribution build

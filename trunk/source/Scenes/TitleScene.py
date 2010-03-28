@@ -6,7 +6,8 @@ class TitleScene:
 	
 	def ProcessInput(self, events):
 		for event in events:
-			print(event.key)
+			if event.key == 'start':
+				self.next = SelectGameScene()
 	
 	def Render(self, screen):
 		screen.blit(images.Get('title.png'), (0, 0))
