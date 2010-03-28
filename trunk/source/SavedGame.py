@@ -52,7 +52,9 @@ class SavedGame:
 		self.values[name] = value
 	
 	def get_value(self, name):
-		return self.values[name]
+		if name in self.values.keys():
+			return self.values[name]
+		return None
 
 class SavedState:
 	def __init__(self):

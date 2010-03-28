@@ -46,7 +46,8 @@ class SelectGameScene:
 					if game.get_value('saved') == 0:
 						self.next = NameEntryScene(game)
 					else:
-						self.next = None #actual game play! (or probably a brief cut scene depending on the state of the game)
+						games.set_active_game(self.cursor_index + 1)
+						self.next = MapScene(1) # TODO: actually read last level completed from file
 				elif self.mode == 'erase':
 					games.erase_game(self.cursor_index + 1)
 					self.mode = 'selection'
