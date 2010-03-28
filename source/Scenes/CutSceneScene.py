@@ -45,6 +45,8 @@ class SceneStateMachine:
 		self.frameSet = self.parseScript(script);
 
 	def Next(self):
+		if 0 == len(self.frameSet):
+			return None
 		return self.frameSet.popleft()
 	
 	def parseScript(self, script):
