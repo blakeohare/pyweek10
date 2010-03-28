@@ -22,6 +22,21 @@ class JoystickInputSource:
 	def get_name(self):
 		return self.joystick.get_name()
 	
+	def any_keys_pressed(self):
+		for hat in range(self.joystick.get_numhats()):
+			if not (self.joystick.get_hat(hat) == (0,0)):
+				return True
+		
+		for button in range(self.joystick.get_numbuttons()):
+			if self.joystick.get_button(button):
+				return True
+		
+		for axis in range(self.joystick.get_numaxes()):
+			if abs(self.joystick.get_axis(axis)) > 0.3:
+				return True
+		
+		return False
+	
 	def is_key_pressed(self, key):
 		mapping = self.mapping[key]
 		if mapping[0] == 'none':
