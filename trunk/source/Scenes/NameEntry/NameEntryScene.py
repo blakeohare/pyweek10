@@ -22,7 +22,7 @@ class NameEntryScene:
 					self.cursor_x = max(0, self.cursor_x - 1)
 				elif event.key == 'right' and self.cursor_y < 5:
 					self.cursor_x = min(7, self.cursor_x + 1)
-				elif event.key == 'start' or event.key == 'A':
+				elif event.key in ('start', 'A'):
 					
 					if len(self.text_entry) < 10:
 						char = self.current_character()
@@ -40,7 +40,7 @@ class NameEntryScene:
 							self.text_entry += char
 					
 					
-				elif event.key == 'B':
+				elif event.key in ('Y', 'B'):
 					self.text_entry = self.text_entry[:-1]
 		
 					

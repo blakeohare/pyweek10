@@ -4,7 +4,7 @@ class JoystickConfig:
 		self.next = self
 		self.counter = 0
 		self.joystick = joystick #JoystickInputSource instance
-		self.keys = 'up left right down A B Y X L R start'.split(' ')
+		self.keys = 'up left right down start A B Y X L R'.split(' ')
 		self.descriptions = {
 			'up' : "Press the button for UP",
 			'down' : "Press the button for DOWN",
@@ -21,6 +21,7 @@ class JoystickConfig:
 		
 		self.config_index = 0
 		self.joystick.reset_mappings()
+		self.down_pressed = False
 		
 		
 	def Update(self):
@@ -36,21 +37,26 @@ class JoystickConfig:
 	def ProcessInput(self, events):
 		if self.config_index >= len(self.keys):
 			for event in events:
-				if event.key == 'start' and event.up:
-					self.previous_menu.next = self.previous_menu
-					self.next = self.previous_menu
+				if event.key == 'start':
+					if event.down:
+						self.down_pressed = True
+					elif self.down_pressed:
+						self.previous_menu.next = self.previous_menu
+						self.next = self.previous_menu
 	
 	def Render(self, screen):
 		img = images.Get('joystick_config/joystick_basic.png')
 		
 		if self.config_index < len(self.keys):
 			key = self.keys[self.config_index]
-			text = self.descriptions[key]
+			texts = [self.descriptions[key]]
 			if int(self.counter / 10) % 2 == 0:
 				img = images.Get('joystick_config/joystick_' + key.lower() + '.png')
 		else:
-			text = "Configuration complete, press START/ENTER"
-			
-		screen.blit(get_text(text), (10, 10))		
+			texts = ["Configuration complete", "Press START or ENTER"]
+		y = 10
+		for text in texts:
+			screen.blit(get_text(text), (10, y))
+			y += 12
 		screen.blit(img, (40, 40))
 		

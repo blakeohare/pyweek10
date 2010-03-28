@@ -8,7 +8,7 @@ class TitleScene:
 	def ProcessInput(self, events):
 		for event in events:
 			if event.down:
-				if event.key == 'start':
+				if event.key in ('start', 'A', 'B'):
 					if self.index == 0:
 						self.next = SelectGameScene()
 					else:
