@@ -29,6 +29,9 @@ class InputModel:
 	def get_input_sources(self):
 		return [self.keyboard] + self.joysticks
 	
+	def get_joysticks(self):
+		return self.joysticks
+	
 	def get_active_input_sources(self):
 		if self.active_joystick == None:
 			return [self.keyboard]

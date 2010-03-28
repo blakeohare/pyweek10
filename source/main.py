@@ -16,6 +16,8 @@ for id in range(pygame.joystick.get_count()):
 	joystick.init()
 	input.add_joystick(joystick)
 
+load_joystick_config()
+
 scene = TitleScene()
 
 while scene != None:
@@ -68,5 +70,7 @@ while scene != None:
 	pygame.display.flip()
 	
 	counter += 1
+
+save_joystick_config()
 
 pygame.quit()

@@ -15,7 +15,7 @@ class ConfigureControlsScene:
 					self.index = max(0, self.index - 1)
 				elif event.key == 'down':
 					self.index = min(len(sources), self.index + 1)
-				elif event.key == 'start':
+				elif event.key in ('start', 'A', 'B'):
 					if len(sources) > self.index:
 						source = sources[self.index]
 						if source.get_input_type() == 'keyboard':
