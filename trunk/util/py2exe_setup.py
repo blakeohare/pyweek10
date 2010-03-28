@@ -27,14 +27,20 @@ if os.path.exists('dist/'): shutil.rmtree('dist/')
  
 extra_files = [
 			("",[ICONFILE]),
-			("images", glob.glob(os.path.join('images','*.png'))),
-			("media"+os.sep+"music", glob.glob(os.path.join('music','*.mp3'))),
-			("media"+os.sep+"sound", glob.glob(os.path.join('sound','*.wav'))),
-			('tiles', glob.glob(os.path.join('tiles','*.txt'))),
-			('levels', glob.glob(os.path.join('levels','*.txt'))),
 			('saved', glob.glob(os.path.join('saved','*.txt')))
 			]
- 
+
+full_directory_copies = ['images','media', 'tiles', 'levels', 'saved']
+
+while len(full_directory_copies) > 0:
+	folder = full_directory_copies[0]
+	full_directory_copies = full_directory_copies[1:]
+	extra_files.append((folder, glob.glob(os.path.join(folder, '*.*'))))
+	for file in os.listdir(folder):
+		subfolder = os.path.join(folder, file)
+		if os.path.isdir(subfolder):
+			full_directory_copies.append(subfolder)
+
 # List of all modules to automatically exclude from distribution build
 # This gets rid of extra modules that aren't necessary for proper functioning of app
 # You should only put things in this list if you know exactly what you DON'T need
