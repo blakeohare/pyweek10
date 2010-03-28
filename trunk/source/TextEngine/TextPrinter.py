@@ -5,7 +5,7 @@ class TextPrinter:
 		self.space_width = 8
 		
 		self.images = {
-			' ' : pygame.Surface((self.space_width, 1))
+			' ' : pygame.Surface((self.space_width, 1), SRCALPHA)
 			}
 		self.text_cache = {}
 		
@@ -49,7 +49,7 @@ class TextPrinter:
 		if string in self.text_cache.keys():
 			return self.text_cache[string]
 		
-		surface = pygame.Surface(self.calc_size(string))
+		surface = pygame.Surface(self.calc_size(string), SRCALPHA)
 		x = 0
 		for char in string:
 			img = self.get_image_for_char(char)
