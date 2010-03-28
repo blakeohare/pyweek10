@@ -9,8 +9,6 @@ class SelectGameScene:
 		self.text_entry = ''
 		self.copy_from = 0
 		
-		
-		
 	def ProcessInput(self, events):
 		
 		enter_pressed = False
@@ -47,7 +45,8 @@ class SelectGameScene:
 						self.next = NameEntryScene(game)
 					else:
 						games.set_active_game(self.cursor_index + 1)
-						self.next = MapScene(1) # TODO: actually read last level completed from file
+						mapScene = MapScene(1) # TODO: actually read last level completed from file
+						self.next = TransitionScene(self, mapScene, 'fadeout', 30)
 				elif self.mode == 'erase':
 					games.erase_game(self.cursor_index + 1)
 					self.mode = 'selection'
