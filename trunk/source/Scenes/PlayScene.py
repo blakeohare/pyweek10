@@ -129,7 +129,7 @@ class PlayScreen:
 		for sprite in self.sprites:
 			
 			sprite.dx = sprite.vx
-			new_x = sprite.x + sprite.dx
+			new_x = int(sprite.x + sprite.dx)
 			
 			if sprite.dx > 0: #going right
 				wall = self.find_leftmost_wall_in_path(sprite.x, new_x, sprite.get_head_bonk_top(), sprite.get_bottom())
@@ -141,7 +141,7 @@ class PlayScreen:
 					new_x = wall.get_right_wall_x() + 1
 			
 			# player may have possibly jumped through an incline
-			if new_x != sprite.x and sprite.platform == None:
+			if new_x != sprite.x and not sprite.on_ground:
 				
 				inclines = []
 				
@@ -150,15 +150,16 @@ class PlayScreen:
 					#we're only interested in inclines in the horizontal component
 					top = min(incline.y_left, incline.y_right)
 					bottom = max(incline.y_left, incline.y_right)
-					if sprite.y >= top and sprite.y <= bottom:
+					if sprite.get_bottom() >= top and sprite.get_bottom() <= bottom:
 						if new_x > sprite.x and incline.y_left > incline.y_right:
 							inclines.append(incline)
 						elif new_x < sprite.x and incline.y_left < incline.y_right:
 							inclines.append(incline)
 				
 				for incline in inclines:
-					starts_above = sprite.y < incline.get_y_at_x(sprite.x)
-					ends_above = sprite.y < incline.get_y_at_x(new_x)
+				
+					starts_above = sprite.get_bottom() < incline.get_y_at_x(sprite.x)
+					ends_above = sprite.get_bottom() < incline.get_y_at_x(new_x)
 					
 					if starts_above and not ends_above:
 						new_x = incline.get_x_at_y(sprite.y)
@@ -193,7 +194,7 @@ class PlayScreen:
 					self.set_sprite_on_platform(sprite, highest)
 				else:
 					sprite.y = new_y
-			elif sprite.dy < 0:
+			elif sprite.dy <= 0 and sprite.platform == None:
 				
 				y_offset = sprite.get_head_bonk_top() - sprite.y
 				
@@ -201,13 +202,13 @@ class PlayScreen:
 				
 				if lowest != None:
 					sprite.dy = 0
-					#TODO: play BONK noise
 					sprite.vy = 0
 					new_y = lowest.get_bottom() + y_offset
+					#TODO: play BONK noise
 					
 				else:
 					sprite.y = new_y
-				
+			
 			else:
 				if sprite.platform != None:
 					platform = sprite.platform
@@ -250,10 +251,6 @@ class PlayScreen:
 							#the sprite has fallen off the edge
 							sprite.on_ground = False
 							sprite.platform = None
-							
-				else:
-					# This shouldn't happen. But just in case...
-					sprite.on_ground = False
 	
 	def set_sprite_on_platform(self, sprite, platform):
 		sprite.y = int(platform.get_y_at_x(sprite.x) - sprite.height + sprite.height / 2) # odd math to keep consistent rounding
