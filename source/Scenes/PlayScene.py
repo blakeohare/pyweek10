@@ -190,7 +190,7 @@ class PlayScreen:
 					sprite.y = new_y
 			elif sprite.dy < 0:
 				
-				y_offset = sprite.get_top() - sprite.y + 5 #allow overlap into ceiling of 5 pixels
+				y_offset = sprite.get_top() - sprite.y + 10 #allow overlap into ceiling of 5 pixels
 				
 				lowest = self.find_lowest_platform_in_path(sprite.x, new_y + y_offset, sprite.y + y_offset)
 				
