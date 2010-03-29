@@ -25,6 +25,9 @@ class MainCharacter:
 	def get_top(self):
 		return int(self.y - self.height / 2)
 	
+	def get_head_bonk_top(self):
+		return int(self.y - self.height / 2) + 5
+	
 	def get_bottom(self):
 		return self.get_top_left()[1] + self.height
 	

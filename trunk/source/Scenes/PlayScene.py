@@ -58,22 +58,26 @@ class PlayScreen:
 		self.platforms = {
 			'jumpthrough' : [ # left, top, width
 				Platform('jumpthrough', debug_offset + 0, 150, 40, 150, 0, True),
-				Platform('jumpthrough', debug_offset + 40, 150, 40, 150, 0, True),
+				#Platform('jumpthrough', debug_offset + 40, 150, 40, 150, 0, True),
 				Platform('jumpthrough', debug_offset + 120, 110, 40, 110, 0, True),
-				Platform('jumpthrough', debug_offset + 200, 150, 40, 150, 0, True)
+				Platform('jumpthrough', debug_offset + 200, 150, 20, 150, 0, True)
 				],
 			
 			'blocking' : [ # left, top, width
-				Platform('blocking', debug_offset + 140, 40, 80, 40, 0, False)
+				Platform('blocking', debug_offset + 40, 60, 80, 60, 0, False),
+				Platform('blocking', debug_offset + 4, 100, 30, 100, 0, False)
 				],
 			
 			'solid' : [ #left, top, width, height
-				Platform('solid', debug_offset + 220, 20, 30, 20, 50, False)
+				Platform('solid', debug_offset + 120, 40, 30, 40, 20, False),
+				Platform('solid', debug_offset + 241, 130, 6, 130, 100, False)
 				],
 			
 			'inclines' : [ #left, left_top, width, right_top
 				Platform('incline', debug_offset + 80, 150, 40, 110, 0, True),
-				Platform('incline', debug_offset + 160, 110, 40, 150, 0, True)
+				Platform('incline', debug_offset + 160, 110, 40, 150, 0, True),
+				Platform('incline', debug_offset + 220, 150, 20, 140, 0, True)
+				
 				]
 		}
 		
@@ -81,7 +85,7 @@ class PlayScreen:
 		
 		self.sprites = [self.player]
 	
-	def get_walls(self, xy):
+	def get_walls(self):
 		return self.platforms['solid']
 	
 	def get_landing_surfaces_near(self, xy):
@@ -128,11 +132,11 @@ class PlayScreen:
 			new_x = sprite.x + sprite.dx
 			
 			if sprite.dx > 0: #going right
-				wall = self.find_leftmost_wall_in_path(sprite.x, new_x, sprite.y)
+				wall = self.find_leftmost_wall_in_path(sprite.x, new_x, sprite.get_head_bonk_top(), sprite.get_bottom())
 				if wall != None:
 					new_x = wall.get_left_wall_x() - 1
 			elif sprite.dx < 0: #going left
-				wall = self.find_rightmost_wall_in_path(new_x, sprite.x, sprite.y)
+				wall = self.find_rightmost_wall_in_path(new_x, sprite.x, sprite.get_head_bonk_top(), sprite.get_bottom())
 				if wall != None:
 					new_x = wall.get_right_wall_x() + 1
 			
@@ -161,6 +165,7 @@ class PlayScreen:
 						sprite.platform = incline
 						sprite.on_ground = True
 						sprite.vy = 0
+						self.set_sprite_on_platform(sprite, incline)
 						break
 			
 			sprite.x = new_x
@@ -190,7 +195,7 @@ class PlayScreen:
 					sprite.y = new_y
 			elif sprite.dy < 0:
 				
-				y_offset = sprite.get_top() - sprite.y + 10 #allow overlap into ceiling of 5 pixels
+				y_offset = sprite.get_head_bonk_top() - sprite.y
 				
 				lowest = self.find_lowest_platform_in_path(sprite.x, new_y + y_offset, sprite.y + y_offset)
 				
@@ -253,21 +258,21 @@ class PlayScreen:
 	def set_sprite_on_platform(self, sprite, platform):
 		sprite.y = int(platform.get_y_at_x(sprite.x) - sprite.height + sprite.height / 2) # odd math to keep consistent rounding
 	
-	def find_leftmost_wall_in_path(self, left_x, right_x, y):
-		return self._find_first_wall_in_path(left_x, right_x, y, True)
+	def find_leftmost_wall_in_path(self, left_x, right_x, y_top, y_bottom):
+		return self._find_first_wall_in_path(left_x, right_x, y_top, y_bottom, True)
 	
-	def find_rightmost_wall_in_path(self, left_x, right_x, y):
-		return self._find_first_wall_in_path(left_x, right_x, y, False)
+	def find_rightmost_wall_in_path(self, left_x, right_x, y_top, y_bottom):
+		return self._find_first_wall_in_path(left_x, right_x, y_top, y_bottom, False)
 	
 	
-	def _find_first_wall_in_path(self, left_x, right_x, y, going_right):
+	def _find_first_wall_in_path(self, left_x, right_x, y_top, y_bottom, going_right):
 		furthest = None
 		
-		vicinity = ((left_x + right_x) / 2, y)
-		platforms = self.get_walls(vicinity)
+		
+		platforms = self.get_walls()
 		
 		for platform in platforms: # all platforms are guaranteed to be solid type
-			if y >= platform.get_top() and y <= platform.get_bottom():
+			if not (y_bottom < platform.get_top() or y_top > platform.get_bottom()):
 				if going_right:
 					wall_x = platform.left
 				else:
@@ -293,7 +298,11 @@ class PlayScreen:
 		
 		for platform in platforms: 
 			if platform.is_x_in_range(x):
-				platform_y = platform.get_y_at_x(x)
+				if going_down:
+					platform_y = platform.get_y_at_x(x)
+				else:
+					platform_y = platform.get_bottom()
+					
 				if upper_y <= platform_y and lower_y >= platform_y:
 					if furthest == None:
 						furthest = platform
