@@ -10,8 +10,8 @@ class MainCharacter:
 		self.vx = 0
 		self.dx = 0
 		self.dy = 0
-		self.width = 16
-		self.height = 24
+		self.width = 14
+		self.height = 30
 		self.on_ground = False
 		self.platform = None
 		self.left_facing = False
@@ -40,11 +40,11 @@ class MainCharacter:
 	def draw(self, surface, is_moving, counter):
 		file = ('right', 'left')[self.left_facing]
 		if is_moving:
-			file += '_walk_' + str(int(int(counter / 3) % 3))
+			file += 'walk' + str(int(int(counter / 3) % 3))
 		else:
-			file += '_stand'
+			file += 'stand'
 		file += '.png'
 		
-		img = images.Get('sprites/MainChar/' + file)
+		img = images.Get('sprites/ClumsyWizard/' + file)
 		
 		surface.blit(img, self.get_top_left())
