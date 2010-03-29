@@ -14,6 +14,11 @@ class Platform:
 			return int(self.y_right * percentage + self.y_left * (1 - percentage))
 		return self.y_left
 	
+	def get_x_at_y(self, y):
+		# this method is for INCLINES only
+		percentage = (y - self.y_left + 0.0) / (self.y_right - self.y_left)
+		return int(self.left + percentage * self.width)
+	
 	def is_x_in_range(self, x):
 		return self.left <= x and self.left + self.width >= x
 	
@@ -90,11 +95,14 @@ class PlayScreen:
 	def get_ceilings(self, xy):
 		return self.platforms['blocking'] + self.platforms['solid']
 	
+	def get_just_inclines(self):
+		return self.platforms['inclines']
+	
 	def ProcessInput(self, events):
 		for event in events:
 			if event.key == 'B':
 				# jump
-				if event.down:
+				if event.down and self.player.on_ground:
 					self.player.vy = -15
 					self.player.on_ground = False
 					self.player.platform = None
@@ -128,7 +136,32 @@ class PlayScreen:
 				if wall != None:
 					new_x = wall.get_right_wall_x() + 1
 			
-			#TODO: fix jump through incline bug
+			# player may have possibly jumped through an incline
+			if new_x != sprite.x and sprite.platform == None:
+				
+				inclines = []
+				
+				for incline in self.get_just_inclines():
+					
+					#we're only interested in inclines in the horizontal component
+					top = min(incline.y_left, incline.y_right)
+					bottom = max(incline.y_left, incline.y_right)
+					if sprite.y >= top and sprite.y <= bottom:
+						if new_x > sprite.x and incline.y_left > incline.y_right:
+							inclines.append(incline)
+						elif new_x < sprite.x and incline.y_left < incline.y_right:
+							inclines.append(incline)
+				
+				for incline in inclines:
+					starts_above = sprite.y < incline.get_y_at_x(sprite.x)
+					ends_above = sprite.y < incline.get_y_at_x(new_x)
+					
+					if starts_above and not ends_above:
+						new_x = incline.get_x_at_y(sprite.y)
+						sprite.platform = incline
+						sprite.on_ground = True
+						sprite.vy = 0
+						break
 			
 			sprite.x = new_x
 			
