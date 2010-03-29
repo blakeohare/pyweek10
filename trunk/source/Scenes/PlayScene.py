@@ -60,33 +60,37 @@ class PlayScreen:
 		
 		self.next = self
 		self.g = 1.4
+		
+		level = level + 'a' #TODO: remove this
 		self.level_id = level
+		
+		self.level_info = levels.get_level(self.level_id)
 		
 		wibbly_wobbly = False
 		
 		debug_offset = 0
 		self.platforms = {
 			'jumpthrough' : [ # left, top, width
-				Platform('jumpthrough', debug_offset + 0, 150, 40, 150, 0, True),
+				#Platform('jumpthrough', debug_offset + 0, 150, 40, 150, 0, True),
 				#Platform('jumpthrough', debug_offset + 40, 150, 40, 150, 0, True),
-				Platform('jumpthrough', debug_offset + 120, 110, 40, 110, 0, True),
-				Platform('jumpthrough', debug_offset + 200, 150, 20, 150, 0, True)
+				#Platform('jumpthrough', debug_offset + 120, 110, 40, 110, 0, True),
+				#Platform('jumpthrough', debug_offset + 200, 150, 20, 150, 0, True)
 				],
 			
 			'blocking' : [ # left, top, width
-				Platform('blocking', debug_offset + 40, 60, 80, 60, 0, False),
-				Platform('blocking', debug_offset + 4, 100, 30, 100, 0, False)
+				#Platform('blocking', debug_offset + 40, 60, 80, 60, 0, False),
+				#Platform('blocking', debug_offset + 4, 100, 30, 100, 0, False)
 				],
 			
 			'solid' : [ #left, top, width, height
-				Platform('solid', debug_offset + 120, 40, 30, 40, 20, False),
-				Platform('solid', debug_offset + 241, 100, 60, 100, 100, False)
+				#Platform('solid', debug_offset + 120, 40, 30, 40, 20, False),
+				#Platform('solid', debug_offset + 241, 100, 60, 100, 100, False)
 				],
 			
 			'inclines' : [ #left, left_top, width, right_top
-				Platform('incline', debug_offset + 80, 150, 40, 110, 0, True),
-				Platform('incline', debug_offset + 160, 110, 40, 150, 0, True),
-				Platform('incline', debug_offset + 220, 150, 20, 140, 0, True)
+				#Platform('incline', debug_offset + 80, 150, 40, 110, 0, True),
+				#Platform('incline', debug_offset + 160, 110, 40, 150, 0, True),
+				#Platform('incline', debug_offset + 220, 150, 20, 140, 0, True)
 				
 				]
 		}
@@ -95,22 +99,45 @@ class PlayScreen:
 		
 		self.sprites = [self.player]
 	
-	def get_walls(self):
-		return self.platforms['solid']
-	
-	def get_landing_surfaces_near(self, xy):
-		platforms = self.platforms['jumpthrough'] + self.platforms['blocking'] + self.platforms['solid']
-		x = xy[0]
-		for incline in self.platforms['inclines']:
-			if incline.is_x_in_range(x):
-				platforms.append(incline)
+	def get_walls(self, x_left, x_right, y_top, y_bottom):
+		tile_left = (x_left - 1) >> 4
+		tile_right = (x_right + 1) >> 4
+		tile_top = (y_top - 1) >> 4
+		tile_bottom = (y_bottom + 1) >> 4
+		
+		platforms = []
+		
+		for tile_x in range(tile_left, tile_right + 1):
+			for tile_y in range(tile_top, tile_bottom + 1):
+				platforms += self.level_info.get_tile(tile_x, tile_y).get_platforms()['solid']
+				
 		return platforms
 	
-	def get_ceilings(self, xy):
-		return self.platforms['blocking'] + self.platforms['solid']
+	def get_landing_surfaces(self, x, y_top, y_bottom):
+		tile_left = (x - 1) >> 4
+		tile_right = (x + 1) >> 4
+		tile_top = (y_top - 1) >> 4
+		tile_bottom = (y_bottom + 1) >> 4
+		
+		return self.level_info.get_landing_platforms_in_rectangle(tile_left - 1, tile_right + 1, tile_top, tile_bottom)
 	
-	def get_just_inclines(self):
-		return self.platforms['inclines']
+	def get_ceilings(self, x, y_top, y_bottom):
+	
+		tile_left = (x - 1) >> 4
+		tile_right = (x + 1) >> 4
+		tile_top = (y_top - 1) >> 4
+		tile_bottom = (y_bottom + 1) >> 4
+		
+		return self.level_info.get_ceilings_in_rectangle(tile_left, tile_right, tile_top, tile_bottom)
+	
+	def get_just_inclines(self, x_left, x_right, y_top, y_bottom):
+	
+		tile_left = (x_left - 1) >> 4
+		tile_right = (x_right + 1) >> 4
+		tile_top = (y_top - 1) >> 4
+		tile_bottom = (y_bottom + 1) >> 4
+		
+		return self.level_info.get_inclines_in_rectangle(tile_left, tile_right, tile_top, tile_bottom)
 	
 	def ProcessInput(self, events):
 		for event in events:
@@ -157,7 +184,7 @@ class PlayScreen:
 				
 				sprite_bottom = sprite.get_bottom()
 				
-				for incline in self.get_just_inclines():
+				for incline in self.get_just_inclines(min(new_x, sprite.x) - 2, max(new_x, sprite.x) + 2, sprite.y - 1, sprite.y + 1):
 					
 					#we're only interested in inclines in the horizontal component
 					top = min(incline.y_left, incline.y_right)
@@ -236,7 +263,8 @@ class PlayScreen:
 						# which way?
 						if sprite.x < platform.left:
 							# walked off left
-							for left_platform in self.get_landing_surfaces_near((platform.left - 1, sprite.y)):
+							left = platform.left
+							for left_platform in self.get_landing_surfaces(left - 1, sprite.y - 18, sprite.y + 18):
 								
 								# check to see if the right side of this platform is vertically aligned with 
 								# the left side of the one you walked off
@@ -249,7 +277,8 @@ class PlayScreen:
 								
 						else:
 							# walked off right
-							for right_platform in self.get_landing_surfaces_near((platform.left + platform.width + 1, sprite.y)):
+							right = platform.left + platform.width
+							for right_platform in self.get_landing_surfaces(right + 1, sprite.y - 18, sprite.y + 18):
 								
 								# check to see if the left side of this platform is vertically aligned with 
 								# the right side of the one you walked off
@@ -280,7 +309,7 @@ class PlayScreen:
 		furthest = None
 		
 		
-		platforms = self.get_walls()
+		platforms = self.get_walls(left_x, right_x, y_top, y_bottom)
 		
 		for platform in platforms: # all platforms are guaranteed to be solid type
 			if not (y_bottom < platform.get_top() or y_top > platform.get_bottom()):
@@ -301,11 +330,10 @@ class PlayScreen:
 	def _find_first_platform_in_path(self, x, upper_y, lower_y, going_down):
 		furthest = None
 		
-		vicinity = (x, (upper_y + lower_y) / 2) # TODO: remove this and replace with all tile-generated platforms at coordinate X
 		if going_down:
-			platforms = self.get_landing_surfaces_near(vicinity)
+			platforms = self.get_landing_surfaces(x, upper_y, lower_y)
 		else:
-			platforms = self.get_ceilings(vicinity)
+			platforms = self.get_ceilings(x, upper_y, lower_y)
 		
 		for platform in platforms: 
 			if platform.is_x_in_range(x):
@@ -333,6 +361,16 @@ class PlayScreen:
 	def Render(self, screen):
 		
 		self.render_counter += 1
+		
+		for row in range(self.level_info.get_height()):
+			for col in range(self.level_info.get_width()):
+				x = col * 16
+				y = row * 16
+				tile = self.level_info.get_tile(col, row)
+				img = tile.get_image(self.render_counter)
+				if img != None:
+					screen.blit(img, (x, y))
+				
 		
 		for platform in self.platforms['jumpthrough']:
 			x = platform.left
