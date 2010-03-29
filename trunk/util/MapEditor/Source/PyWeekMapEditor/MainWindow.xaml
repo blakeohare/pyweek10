@@ -1,0 +1,89 @@
+﻿<Window x:Class="PyWeekMapEditor.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Title="MainWindow" Height="350" Width="525">
+	<Grid>
+		<DockPanel>
+			<Menu DockPanel.Dock="Top">
+				<MenuItem Header="Map">
+					<MenuItem.Items>
+						<MenuItem Header="New" x:Name="file_new"/>
+						<MenuItem Header="Open" x:Name="file_open" />
+						<MenuItem Header="Save" x:Name="file_save" />
+						<MenuItem Header="Change Size" x:Name="file_change_size" />
+					</MenuItem.Items>
+				</MenuItem>
+				<MenuItem Header="Tile">
+					<MenuItem.Items>
+						<MenuItem Header="Add" x:Name="tile_add"/>
+					</MenuItem.Items>
+				</MenuItem>
+			</Menu>
+			
+			<Grid DockPanel.Dock="Left" Width="150">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+
+				<DockPanel>
+					<TextBlock DockPanel.Dock="Top" Text="Folders" />
+					<ListBox x:Name="folder_listing" />
+				</DockPanel>
+
+				<DockPanel Grid.Row="1">
+					<TextBlock DockPanel.Dock="Top" Text="Tiles" />
+					<ListBox x:Name="tile_palette">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Height="16" Source="{Binding Source}" />
+									<TextBlock Text="{Binding Name}" Margin="5, 0, 0, 0"/>
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</DockPanel>
+			</Grid>
+			
+			<Grid DockPanel.Dock="Bottom" Height="80">
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Grid.Column="1" Text="Front" />
+				<TextBlock Grid.Column="2" Text="Middle" />
+				<TextBlock Grid.Column="3" Text="Back" />
+				
+				<TextBlock Grid.Row="1" Text="Active" />
+				<TextBlock Grid.Row="2" Text="Visible" />
+
+				<RadioButton Grid.Row="1" Grid.Column="1" GroupName="LayerActive" x:Name="active_front" />
+				<RadioButton Grid.Row="1" IsChecked="True" Grid.Column="2" GroupName="LayerActive" x:Name="active_middle" />
+				<RadioButton Grid.Row="1" Grid.Column="3" GroupName="LayerActive" x:Name="active_back" />
+
+				<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="True" x:Name="visible_front" />
+				<CheckBox Grid.Row="2" Grid.Column="2" IsChecked="True" x:Name="visible_middle" />
+				<CheckBox Grid.Row="2" Grid.Column="3" IsChecked="True" x:Name="visible_back" />
+			</Grid>
+			
+			<ScrollViewer>
+				<ScrollViewer.Content>
+					<Grid>
+						<Grid x:Name="ArtBoard_Back" Background="#FF333333"/>
+						<Grid x:Name="ArtBoard_Middle" />
+						<Grid x:Name="ArtBoard_Front" Background="Transparent" />
+					</Grid>
+				</ScrollViewer.Content>
+			</ScrollViewer>
+		</DockPanel>
+	</Grid>
+</Window>
