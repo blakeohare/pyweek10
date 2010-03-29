@@ -366,9 +366,11 @@ class PlayScreen:
 				x = col * 16
 				y = row * 16
 				tile = self.level_info.get_tile(col, row)
-				img = tile.get_image(self.render_counter)
-				if img != None:
-					screen.blit(img, (x, y))
+				imgs = tile.get_images(self.render_counter)
+				if imgs != None:
+					for img in imgs:
+						if img != None:
+							screen.blit(img, (x, y))
 				
 		
 		for platform in self.platforms['jumpthrough']:

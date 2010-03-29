@@ -39,15 +39,21 @@ namespace PyWeekMapEditor
 						if (trimmed.Length > 0 && trimmed[0] != '#')
 						{
 							string[] parts = trimmed.Split('\t');
+							try
+							{
+								string id = parts[0];
+								string[] org = parts[1].Split('/');
+								string folder = org[0];
+								string name = org[1];
+								string[] images = parts[2].Split('|');
+								Tile t = new Tile(images, id, name);
+								this.AddTileToHierarchy(t, folder, name);
+								this.tiles.Add(id, t);
+							}
+							catch (Exception e)
+							{
 
-							string id = parts[0];
-							string[] org = parts[1].Split('/');
-							string folder = org[0];
-							string name = org[1];
-							string[] images = parts[2].Split('|');
-							Tile t = new Tile(images, id, name);
-							this.AddTileToHierarchy(t, folder, name);
-							this.tiles.Add(id, t);
+							}
 						}
 					}
 				}

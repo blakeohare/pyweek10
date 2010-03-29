@@ -43,5 +43,5 @@
 
 
 0	nature/air		passable
-1	nature/dirt	nature/dirt	unpassable
+1	nature/dirt	nature/dirt	passable
 
