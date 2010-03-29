@@ -37,9 +37,10 @@ while len(full_directory_copies) > 0:
 	full_directory_copies = full_directory_copies[1:]
 	extra_files.append((folder, glob.glob(os.path.join(folder, '*.*'))))
 	for file in os.listdir(folder):
-		subfolder = os.path.join(folder, file)
-		if os.path.isdir(subfolder):
-			full_directory_copies.append(subfolder)
+		if file != '.svn':
+			subfolder = os.path.join(folder, file)
+			if os.path.isdir(subfolder):
+				full_directory_copies.append(subfolder)
 
 # List of all modules to automatically exclude from distribution build
 # This gets rid of extra modules that aren't necessary for proper functioning of app
