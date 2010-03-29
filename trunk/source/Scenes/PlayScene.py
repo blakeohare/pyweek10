@@ -308,11 +308,10 @@ class PlayScreen:
 	def _find_first_wall_in_path(self, left_x, right_x, y_top, y_bottom, going_right):
 		furthest = None
 		
-		
 		platforms = self.get_walls(left_x, right_x, y_top, y_bottom)
 		
 		for platform in platforms: # all platforms are guaranteed to be solid type
-			if not (y_bottom < platform.get_top() or y_top > platform.get_bottom()):
+			if not (y_bottom <= platform.get_top() or y_top > platform.get_bottom()):
 				if going_right:
 					wall_x = platform.left
 				else:
