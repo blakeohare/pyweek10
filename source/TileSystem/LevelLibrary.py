@@ -36,8 +36,7 @@ class LevelLibrary:
 			if len(keys) == 1:
 				tiles.append(tile_library.GetTile(x * 16, y * 16, keys[0]))
 			else:
-				print('composite tiles are not implemented yet')
-				#TODO: this
+				tiles.append(tile_library.GetCompositeTile(x * 16, y * 16, keys))
 			x += 1
 			if x == width:
 				x = 0

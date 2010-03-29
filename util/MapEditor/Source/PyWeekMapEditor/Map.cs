@@ -85,7 +85,7 @@ namespace PyWeekMapEditor
 			for (int i = 0; i < this.back.Length; ++i)
 			{
 				List<string> tile = new List<string>();
-				Tile t = this.front[i];
+				Tile t = this.back[i];
 				if (t != null)
 				{
 					tile.Add(t.Id);
@@ -97,7 +97,7 @@ namespace PyWeekMapEditor
 					tile.Add(t.Id);
 				}
 
-				t = this.back[i];
+				t = this.front[i];
 				if (t != null)
 				{
 					tile.Add(t.Id);
@@ -170,14 +170,14 @@ namespace PyWeekMapEditor
 				}
 				else if (tile_ids.Length == 2)
 				{
-					front[i] = TileLibrary.GetTile(tile_ids[0]);
-					middle[i] = TileLibrary.GetTile(tile_ids[1]);
+					front[i] = TileLibrary.GetTile(tile_ids[1]);
+					middle[i] = TileLibrary.GetTile(tile_ids[0]);
 				}
 				else if (tile_ids.Length == 3)
 				{
-					front[i] = TileLibrary.GetTile(tile_ids[0]);
+					front[i] = TileLibrary.GetTile(tile_ids[2]);
 					middle[i] = TileLibrary.GetTile(tile_ids[1]);
-					back[i] = TileLibrary.GetTile(tile_ids[2]);
+					back[i] = TileLibrary.GetTile(tile_ids[1]);
 				}
 				else
 				{

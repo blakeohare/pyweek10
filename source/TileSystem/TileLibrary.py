@@ -40,7 +40,11 @@ class TileLibrary:
 		return Tile(x, y, self.GetTileTemplate(key))
 	
 	# keys are ordered from bottom to top
-	#def GetCompositeTile(self, x, y, keys):
+	def GetCompositeTile(self, x, y, keys):
+		templates = []
+		for key in keys:
+			templates.append(self.GetTileTemplate(key))
+		return CompositeTile(x, y, templates)
 		
 #STATIC
 tile_library = TileLibrary()

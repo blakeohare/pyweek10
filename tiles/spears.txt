@@ -1,0 +1,57 @@
+# ID, classification/Name, image seuence, physics, animation delay
+# each column is separated with with tabs
+#
+# ID:
+# must be unique
+#
+# classification:
+# will determine which group the tile will appear in in the map editor
+#
+# Name
+# will be the user-friendly name of the tile. 
+# Cannot contain tabs or slashes. 
+# Spaces are okay.
+#
+# Image sequence
+# A list of files in the /images/tiles/ directory. 
+# Leave off the .png.
+# Leave off /images/tiles/
+# If this is an animated sequence of tiles, then 
+# put | characters between each file name.
+# This column is optional: if this column is omitted, then the tile will be blank
+# 
+# physics
+# This determines how the tile will behave
+# Choices:
+# - passable
+# - unpassable
+# - platform
+# - incline_up
+# - incline_down
+# - ladder
+# - water
+# - shallow_incline_up_lower - this is for the left tile of inclines with a slope of 1/2
+# - shallow_incline_up_upper - this is for the right tile of inclines with a slope of 1/2
+# - shallow_incline_down_lower - this is for the right tile of inclines with a slope of -1/2
+# - shallow_incline_down_upper - this is for the left tile of inclines with a slope of -1/2
+# - spikes
+#
+# animation delay
+# If you have multiple images for an animation, this determines 
+# the frame rate of the animation
+# This parameter is optional and obviously not required if there is only 1 image.
+# If omitted for an animated sequence, then a framerate of 4 is used
+
+
+s0	nature/grass platform [left]	Ground1TL	platform
+s1	nature/grass platform [middle]	Ground1TM	platform
+s2	nature/grass platform [right]	Ground1TR	platform
+s3	nature/dirt column [left]	Ground1BL	passable
+s4	nature/dirt column [middle]	Ground1BM	passable
+s5	nature/dirt column [right]	Ground1BR	passable
+s6	ice/ice platform [left]	Icy1TL	platform
+s7	ice/ice platform [middle]	IcyTM	platform
+s8	ice/ice platform [right]	IcyTR	platform
+s9	ice/ice column [left]	IcyBL	passable
+s10	ice/ice column [middle]	IcyBM	passable
+s11	ice/ice column [right]	IcyBR	passable
