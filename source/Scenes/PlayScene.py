@@ -8,6 +8,15 @@ class Platform:
 		self.y_right = y_right
 		self.jumpthrough = jumpthrough
 	
+	def duplicate(self, x_offset, y_offset):
+		return Platform(type,
+			self.left + x_offset,
+			self.y_left + y_offset,
+			self.width,
+			self.y_right + y_offset,
+			self.height,
+			self.jumpthrough)
+	
 	def get_y_at_x(self, x):
 		if self.type == 'incline':
 			percentage = (x - self.left + 0.0) / self.width
@@ -16,6 +25,7 @@ class Platform:
 	
 	def get_x_at_y(self, y):
 		# this method is for INCLINES only
+		# y MUST be in the range of this incline
 		percentage = (y - self.y_left + 0.0) / (self.y_right - self.y_left)
 		return int(self.left + percentage * self.width)
 	
@@ -70,7 +80,7 @@ class PlayScreen:
 			
 			'solid' : [ #left, top, width, height
 				Platform('solid', debug_offset + 120, 40, 30, 40, 20, False),
-				Platform('solid', debug_offset + 241, 130, 6, 130, 100, False)
+				Platform('solid', debug_offset + 241, 100, 60, 100, 100, False)
 				],
 			
 			'inclines' : [ #left, left_top, width, right_top
@@ -145,24 +155,28 @@ class PlayScreen:
 				
 				inclines = []
 				
+				sprite_bottom = sprite.get_bottom()
+				
 				for incline in self.get_just_inclines():
 					
 					#we're only interested in inclines in the horizontal component
 					top = min(incline.y_left, incline.y_right)
 					bottom = max(incline.y_left, incline.y_right)
-					if sprite.get_bottom() >= top and sprite.get_bottom() <= bottom:
-						if new_x > sprite.x and incline.y_left > incline.y_right:
+					if sprite_bottom >= top and sprite_bottom <= bottom:
+						#if new_x > sprite.x and incline.y_left > incline.y_right:
 							inclines.append(incline)
-						elif new_x < sprite.x and incline.y_left < incline.y_right:
-							inclines.append(incline)
+						#elif new_x < sprite.x and incline.y_left < incline.y_right:
+						#	inclines.append(incline)
 				
 				for incline in inclines:
 				
-					starts_above = sprite.get_bottom() < incline.get_y_at_x(sprite.x)
-					ends_above = sprite.get_bottom() < incline.get_y_at_x(new_x)
+					starts_above = sprite_bottom < incline.get_y_at_x(sprite.x)
+					ends_above = sprite_bottom < incline.get_y_at_x(new_x)
 					
 					if starts_above and not ends_above:
-						new_x = incline.get_x_at_y(sprite.y)
+						sprite.x = incline.get_x_at_y(sprite.y)
+						
+						#if incline.is_x_in_range(new_x):
 						sprite.platform = incline
 						sprite.on_ground = True
 						sprite.vy = 0
