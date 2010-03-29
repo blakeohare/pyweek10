@@ -40,6 +40,43 @@ namespace PyWeekMapEditor
 			this.ArtBoard_Front.MouseDown += new MouseButtonEventHandler(ArtBoard_Front_MouseDown);
 			this.ArtBoard_Front.MouseUp += new MouseButtonEventHandler(ArtBoard_Front_MouseUp);
 			this.ArtBoard_Front.MouseMove += new MouseEventHandler(ArtBoard_Front_MouseMove);
+
+			this.visible_back.Checked += new RoutedEventHandler(visible_back_Checked);
+			this.visible_back.Unchecked += new RoutedEventHandler(visible_back_Unchecked);
+			this.visible_middle.Checked += new RoutedEventHandler(visible_middle_Checked);
+			this.visible_middle.Unchecked += new RoutedEventHandler(visible_middle_Unchecked);
+			this.visible_front.Checked += new RoutedEventHandler(visible_front_Checked);
+			this.visible_front.Unchecked += new RoutedEventHandler(visible_front_Unchecked);
+		}
+
+		void visible_front_Unchecked(object sender, RoutedEventArgs e)
+		{
+			this.ArtBoard_Front.Visibility = System.Windows.Visibility.Hidden;
+		}
+
+		void visible_front_Checked(object sender, RoutedEventArgs e)
+		{
+			this.ArtBoard_Front.Visibility = System.Windows.Visibility.Visible;
+		}
+
+		void visible_middle_Unchecked(object sender, RoutedEventArgs e)
+		{
+			this.ArtBoard_Middle.Visibility = System.Windows.Visibility.Hidden;
+		}
+
+		void visible_middle_Checked(object sender, RoutedEventArgs e)
+		{
+			this.ArtBoard_Middle.Visibility = System.Windows.Visibility.Visible;
+		}
+
+		void visible_back_Unchecked(object sender, RoutedEventArgs e)
+		{
+			this.ArtBoard_Back.Visibility = System.Windows.Visibility.Hidden;
+		}
+
+		void visible_back_Checked(object sender, RoutedEventArgs e)
+		{
+			this.ArtBoard_Back.Visibility = System.Windows.Visibility.Visible;
 		}
 
 		void file_save_Click(object sender, RoutedEventArgs e)
