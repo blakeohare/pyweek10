@@ -125,6 +125,11 @@ class PlayScreen:
 		
 		for sprite in self.sprites:
 			
+			sprite.update(self)
+			
+			if self.player.special_state != None and self.player.special_state.block_update:
+				continue
+			
 			sprite.dx = sprite.vx
 			new_x = int(sprite.x + sprite.dx)
 			
@@ -263,8 +268,8 @@ class PlayScreen:
 		
 		# Check for door entry
 		door = self.level_info.get_door_dest(int(self.player.x / 16), int(self.player.y / 16))
-		if door != None:
-			self.next = PlayScreen(self.level_id, door[0], door[1])
+		if door != None and self.player.special_state == None:
+			self.player.special_state = SpecialStateDoorEntry(door, self.player)
 		
 			
 	def set_sprite_on_platform(self, sprite, platform):
