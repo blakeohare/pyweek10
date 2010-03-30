@@ -12,6 +12,12 @@ class Level:
 	def get_height(self):
 		return self.level_template.get_height()
 	
+	def get_door_dest(self, x, y):
+		for door in self.level_template.values['doors']:
+			if door[0] == x and door[1] == y:
+				return (door[2], door[3])
+		return None
+		
 	def get_victory_x(self):
 		return self.level_template.values['victoryX']
 	

@@ -7,10 +7,11 @@ class PlayScreen:
 		self.next = self
 		self.g = 1.4
 		
-		level = level + screen
 		self.level_id = level
 		
-		self.level_info = levels.get_level(self.level_id)
+		self.screen_id = screen
+		
+		self.level_info = levels.get_level(self.level_id + screen)
 		
 		wibbly_wobbly = False
 		
@@ -254,10 +255,17 @@ class PlayScreen:
 							sprite.on_ground = False
 							sprite.platform = None
 							
+		# Check for victory
 		victory_x = self.level_info.get_victory_x() * 16
 		if victory_x > 0 and self.player.x >= victory_x:
 			#TODO: automated victory sequence
 			self.next = MapScene(int(self.level_id.split('_')[0]))
+		
+		# Check for door entry
+		door = self.level_info.get_door_dest(int(self.player.x / 16), int(self.player.y / 16))
+		if door != None:
+			self.next = PlayScreen(self.level_id, door[0], door[1])
+		
 			
 	def set_sprite_on_platform(self, sprite, platform):
 		sprite.y = int(platform.get_y_at_x(sprite.x) - sprite.height + sprite.height / 2) # odd math to keep consistent rounding
