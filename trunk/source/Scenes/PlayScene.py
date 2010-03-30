@@ -54,14 +54,14 @@ class Platform:
 		# this function will not be called when x is in the platform
 
 class PlayScreen:
-	def __init__(self, level):
+	def __init__(self, level, screen):
 		self.counter = 0
 		self.render_counter = 0
 		
 		self.next = self
 		self.g = 1.4
 		
-		level = level + 'a' #TODO: remove this
+		level = level + screen
 		self.level_id = level
 		
 		self.level_info = levels.get_level(self.level_id)
@@ -304,7 +304,13 @@ class PlayScreen:
 							#the sprite has fallen off the edge
 							sprite.on_ground = False
 							sprite.platform = None
-	
+							
+							
+		victory_x = self.level_info.get_victory_x() * 16
+		if victory_x > 0 and self.player.x >= victory_x:
+			#TODO: automated victory sequence
+			self.next = MapScene(int(self.level_id.split('_')[0]))
+			
 	def set_sprite_on_platform(self, sprite, platform):
 		sprite.y = int(platform.get_y_at_x(sprite.x) - sprite.height + sprite.height / 2) # odd math to keep consistent rounding
 	

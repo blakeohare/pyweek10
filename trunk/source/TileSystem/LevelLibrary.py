@@ -16,6 +16,7 @@ class LevelLibrary:
 		
 		values = {}
 		width = 0
+		victory = -1
 		tile_keys = []
 		for line in lines:
 			line = trim(line)
@@ -27,6 +28,8 @@ class LevelLibrary:
 					width = int(line)
 				elif item == 'tiles':
 					tile_keys = line.split(' ')
+				elif item == 'victoryX':
+					values['victoryX'] = int(line)
 		
 		tiles = []
 		x = 0
@@ -42,7 +45,7 @@ class LevelLibrary:
 				x = 0
 				y += 1
 		
-		self.levels[level_key] = LevelTemplate(tiles, width)
+		self.levels[level_key] = LevelTemplate(tiles, width, values)
 		
 class Level:
 	def __init__(self, level_template):
@@ -57,6 +60,9 @@ class Level:
 	def get_height(self):
 		return self.level_template.get_height()
 	
+	def get_victory_x(self):
+		return self.level_template.values['victoryX']
+		
 	def get_landing_platforms_in_rectangle(self, x_start, x_end, y_start, y_end):
 		#perf is important here, note that this code is duplicated in the other methods
 		x_start = max(0, x_start)
@@ -154,10 +160,19 @@ class Level:
 	
 	
 class LevelTemplate:
-	def __init__(self, tiles, width):
+	def __init__(self, tiles, width, values):
 		self.width = width
 		self.tiles = tiles
+		self.values = values
 		self.height = int(len(self.tiles) / width)
+		
+		default_values = {
+			'victoryX' : 0
+		}
+		
+		for key in default_values.keys():
+			if not (key in self.values.keys()):
+				self.values[key] = default_values['victoryX']
 	
 	def get_tile(self, col, row):
 		return self.tiles[self.width * row + col]
