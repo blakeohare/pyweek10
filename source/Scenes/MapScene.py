@@ -60,7 +60,7 @@ class MapScene:
 		nodes = self.nodes
 		
 		color = (255, 255, 255)
-		complete_color = (255, 255, 0)
+		complete_color = (0, 128, 0)
 		incomplete_color = (255, 0, 0)
 		for start in nodes.keys():
 			start_x = nodes[start]['x']

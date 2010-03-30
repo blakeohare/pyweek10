@@ -110,12 +110,14 @@ class PlayScreen:
 				elif self.player.vy < 0:
 					self.player.vy = 0
 		
+		running = input.is_key_pressed('A')
+		
 		if input.is_key_pressed('left'):
 			self.player.left_facing = True
-			self.player.vx = -3
+			self.player.vx = (-3, -5)[running]
 		elif input.is_key_pressed('right'):
 			self.player.left_facing = False
-			self.player.vx = 3
+			self.player.vx = (3, 5)[running]
 		else:
 			self.player.vx = 0
 			#TODO: screeching halt
@@ -265,6 +267,7 @@ class PlayScreen:
 		if victory_x > 0 and self.player.x >= victory_x:
 			#TODO: automated victory sequence
 			games.active_game().save_value('finished_world' + self.level_id, 1)
+			games.active_game().save_to_file()
 			self.next = MapScene(int(self.level_id.split('_')[0]))
 		
 		# Check for door entry
@@ -344,16 +347,17 @@ class PlayScreen:
 		cy = camera[1]
 		
 		bg = self.level_info.get_background_image()
-		bg_percent = (0.0 + cx) / (self.level_info.get_width() * 16 - 256)
-		bg_width = bg.get_width()
-		
-		bg_offset = -1 * bg_percent * (bg_width - 256)
-		
-		bg_offset += self.level_info.get_background_offset(self.render_counter)
-		
-		bg_offset = int(bg_offset % bg.get_width())
-		screen.blit(bg, (bg_offset, 0))
-		screen.blit(bg, (bg_offset - bg.get_width(), 0))
+		if bg != None:
+			bg_percent = (0.0 + cx) / (self.level_info.get_width() * 16 - 256)
+			bg_width = bg.get_width()
+			
+			bg_offset = -1 * bg_percent * (bg_width - 256)
+			
+			bg_offset += self.level_info.get_background_offset(self.render_counter)
+			
+			bg_offset = int(bg_offset % bg.get_width())
+			screen.blit(bg, (bg_offset, 0))
+			screen.blit(bg, (bg_offset - bg.get_width(), 0))
 		
 		for row in range(self.level_info.get_height()):
 			for col in range(self.level_info.get_width()):
