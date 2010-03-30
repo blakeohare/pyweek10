@@ -5,14 +5,17 @@ class CutSceneScene:
 		self.script = SceneStateMachine(name)
 		self.scene = None
 		self.oldScreen = None
+		self.sceneStartTime = None
 		
 		self.SetScene(self.script.Next())
 
 	def SetScene(self, scn):
+		self.sceneStartTime = time.time()
+		
 		self.scene = scn
 		if not scn:
 			return
-		
+
 		music = scn.music
 		if 'stop' == music:
 			soundtrack.Stop()
@@ -36,6 +39,7 @@ class CutSceneScene:
 				
 	def Render(self, screen):
 		if not self.scene:
+			print("TODO: should transition out of the cut scene scene now")
 			return
 		
 		frame = self.scene
@@ -46,10 +50,16 @@ class CutSceneScene:
 			screen.blit(images.Get(frame.image), (frame.coords))
 
 		self.oldScreen = screen.copy()
-		
-		
-   
+
+  
 	def Update(self):
+		scn = self.scene
+		
+		if scn and scn.transition and scn.transition == 'timed':
+			passedTime = 1000 * (time.time() - self.sceneStartTime)
+			if passedTime > scn.delay:
+				self.SetScene(self.script.Next())
+		
 		self.counter += 1
 	
 
@@ -60,6 +70,7 @@ class Frame:
 		self.text = None
 		self.music = None
 		self.transition = None
+		self.delay = None
 	
 	def __str__(self):
 		ret =  'frame: {\n'
@@ -68,6 +79,7 @@ class Frame:
 		ret += '    ' + str(self.text) + '\n'
 		ret += '    ' + str(self.music) + '\n'
 		ret += '    ' + str(self.transition) + '\n'
+		ret += '    ' + str(self.delay) + '\n'
 		ret += '}'
 		return ret
 
@@ -89,6 +101,7 @@ class SceneStateMachine:
 		reText = re.compile('^\[text:(.*)\]')
 		reMusic = re.compile('^\[music:(.*)\]')
 		reTransition = re.compile('^\[transition:(.*)\]')
+		reTimedTransition = re.compile('^timed:(.*)$')
 		
 		frameSet = []
 	
@@ -139,6 +152,10 @@ class SceneStateMachine:
 			m = reTransition.match(line)
 			if m:
 				tran = m.group(1).strip()
+				m = reTimedTransition.match(tran)
+				if m:
+					tran = 'timed'
+					frame.delay = int(m.group(1).strip())
 				frame.transition = tran
 				continue
 			
