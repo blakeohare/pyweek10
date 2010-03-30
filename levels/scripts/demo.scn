@@ -1,18 +1,38 @@
 [frame]
 [coords: 0,0]
-[image: cutscenes/1.png]
-[text: This is text]
-[music: darkwizard.mp3,adamhurst-clip.mp3]
-[transition:timed:15000]
+[image: cutscenes/intro/frame-1.jpg]
+[text:Hi! My name is $Wizard. Some\nwizards have a reputation for\nbeing...]
 
 [frame]
 [coords: 0,0]
-[image:cutscenes/2.png]
-[text:This is more text]
-[music:fadeout]
+[image: cutscenes/intro/frame-1.jpg]
+[text:well to be honest I have a bit\nof a reputation for clumsiness.]
+[music: adamhurst-clip.mp3]
+
 
 [frame]
-[coords: 26,30]
-[image: cutscenes/filler.png]
+[coords: 0,0]
+[image: cutscenes/intro/frame-2.jpg]
+[text:Ah, my latest research project.\nI thought I was so close to\nmaking the Amazing Mumblefoo.]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/intro/frame-2.jpg]
+[text:Of course what I really ended\nup discovering...]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/intro/frame-3.jpg]
+[text:Was how to push my soul out of my\nbody and sending it flying\nout into the world.]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/intro/frame-4.jpg]
+[text:Now I must go and find the\npieces that flew off and visit\nmy teacher, $GreatWizard,]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/intro/frame-4.jpg]
+[text:Who can help me fix this,\num... minor research mistake]
 
 [end]
