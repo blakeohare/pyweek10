@@ -4,3 +4,5 @@ victoryX:25
 start_locations:A,2,11 B,10,11
 default_start:A
 doors:8,11|b,A
+background_scroll_rate:0
+background_image:clouds
