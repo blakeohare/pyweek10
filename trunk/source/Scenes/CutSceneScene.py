@@ -11,6 +11,7 @@ class CutSceneScene:
 
 	def SetScene(self, scn):
 		self.sceneStartTime = time.time()
+		self.text_counter = 1
 		
 		self.scene = scn
 		if not scn:
@@ -53,11 +54,17 @@ class CutSceneScene:
 		self.oldScreen = screen.copy()
 		
 		if frame.text:
-			txtList = frame.text.split('\\n')
+			text = frame.text
+			if len(text) > self.text_counter:
+				text = text[:self.text_counter]
+			elif int((self.counter / 10) % 2) == 0:
+				text += '.'
+			txtList = text.split('\\n')
 			yOffset = 190
 			i = 0
 			for txt in txtList:
 				t = get_text(frame.text)
+				
 				screen.blit(get_text(txt), (10, yOffset + 10 * i))
 				i += 1
 		
@@ -65,6 +72,7 @@ class CutSceneScene:
   
 	def Update(self):
 		scn = self.scene
+		self.text_counter += 1
 		
 		if scn and scn.transition and scn.transition == 'timed':
 			passedTime = 1000 * (time.time() - self.sceneStartTime)
