@@ -264,6 +264,7 @@ class PlayScreen:
 		victory_x = self.level_info.get_victory_x() * 16
 		if victory_x > 0 and self.player.x >= victory_x:
 			#TODO: automated victory sequence
+			games.active_game().save_value('finished_world' + self.level_id, 1)
 			self.next = MapScene(int(self.level_id.split('_')[0]))
 		
 		# Check for door entry
