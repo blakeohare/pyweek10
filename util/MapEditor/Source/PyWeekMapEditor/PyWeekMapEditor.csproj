@@ -58,6 +58,9 @@
       <DependentUpon>DoorsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Map.cs" />
+    <Compile Include="NewMapDialog.xaml.cs">
+      <DependentUpon>NewMapDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SavedConfiguration.cs" />
     <Compile Include="StartLocations.xaml.cs">
       <DependentUpon>StartLocations.xaml</DependentUpon>
@@ -87,6 +90,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NewMapDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="StartLocations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
