@@ -1,0 +1,2 @@
+b1	Misc/victory tape [lower]	misc/victory_low	passable
+b2	Misc/victory tape [upper]	misc/victory_upper	platform

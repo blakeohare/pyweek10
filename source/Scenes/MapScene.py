@@ -49,7 +49,7 @@ class MapScene:
 							self.destination = connection[0]
 							break
 				elif event.down and event.key in ('start', 'B', 'A'):
-					self.next = PlayScreen(str(self.world_num) + '_' + self.location) # TODO: actually initialize this to a level splash screen
+					self.next = PlayScreen(str(self.world_num) + '_' + self.location, 'a') # TODO: actually initialize this to a level splash screen
 	
 	def generate_map(self):
 		original = images.Get('maps/world_' + str(self.world_num) + '.png')
