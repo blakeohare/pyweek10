@@ -3,7 +3,7 @@
 [image: cutscenes/1.png]
 [text: This is text]
 [music: darkwizard.mp3,adamhurst-clip.mp3]
-[transition:right]
+[transition:timed:15000]
 
 [frame]
 [coords: 0,0]
