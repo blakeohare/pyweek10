@@ -54,7 +54,7 @@ class Platform:
 		# this function will not be called when x is in the platform
 
 class PlayScreen:
-	def __init__(self, level, screen):
+	def __init__(self, level, screen, start_location=None):
 		self.counter = 0
 		self.render_counter = 0
 		
@@ -95,7 +95,10 @@ class PlayScreen:
 				]
 		}
 		
-		self.player = MainCharacter(15, 20)
+		start_loc = self.level_info.get_start_location(start_location)
+		
+		self.player = MainCharacter(start_loc[0] * 16, start_loc[1] * 16)
+		
 		
 		self.sprites = [self.player]
 	
@@ -304,7 +307,6 @@ class PlayScreen:
 							#the sprite has fallen off the edge
 							sprite.on_ground = False
 							sprite.platform = None
-							
 							
 		victory_x = self.level_info.get_victory_x() * 16
 		if victory_x > 0 and self.player.x >= victory_x:

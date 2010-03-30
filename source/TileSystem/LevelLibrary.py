@@ -18,6 +18,8 @@ class LevelLibrary:
 		width = 0
 		victory = -1
 		tile_keys = []
+		start_locations = None
+		default_start = None
 		for line in lines:
 			line = trim(line)
 			if len(line) > 0:
@@ -30,7 +32,16 @@ class LevelLibrary:
 					tile_keys = line.split(' ')
 				elif item == 'victoryX':
 					values['victoryX'] = int(line)
+				elif item == 'default_start':
+					values['default_start'] = line
+				elif item == 'start_locations':
+					start_locations = line
 		
+		values['start_locations'] = {}
+		for loc in start_locations.split(' '):
+			parts = loc.split(',')
+			values['start_locations'][parts[0]] = (int(parts[1]), int(parts[2]))
+
 		tiles = []
 		x = 0
 		y = 0
@@ -62,7 +73,16 @@ class Level:
 	
 	def get_victory_x(self):
 		return self.level_template.values['victoryX']
+	
+	def get_start_location(self, name=None):
+		if name == None:
+			name = self.level_template.values['default_start']
 		
+		if name == None:
+			return (1, 1)
+		
+		return self.level_template.values['start_locations'][name]
+	
 	def get_landing_platforms_in_rectangle(self, x_start, x_end, y_start, y_end):
 		#perf is important here, note that this code is duplicated in the other methods
 		x_start = max(0, x_start)
