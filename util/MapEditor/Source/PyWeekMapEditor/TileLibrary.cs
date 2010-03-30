@@ -46,7 +46,7 @@ namespace PyWeekMapEditor
 								string folder = org[0];
 								string name = org[1];
 								string[] images = parts[2].Split('|');
-								Tile t = new Tile(images, id, name);
+								Tile t = new Tile(images, id, name, file.EndsWith("\\doors.txt"));
 								this.AddTileToHierarchy(t, folder, name);
 								this.tiles.Add(id, t);
 							}

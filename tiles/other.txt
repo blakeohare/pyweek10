@@ -1,0 +1,46 @@
+# ID, classification/Name, image seuence, physics, animation delay
+# each column is separated with with tabs
+#
+# ID:
+# must be unique
+#
+# classification:
+# will determine which group the tile will appear in in the map editor
+#
+# Name
+# will be the user-friendly name of the tile. 
+# Cannot contain tabs or slashes. 
+# Spaces are okay.
+#
+# Image sequence
+# A list of files in the /images/tiles/ directory. 
+# Leave off the .png.
+# Leave off /images/tiles/
+# If this is an animated sequence of tiles, then 
+# put | characters between each file name.
+# This column is optional: if this column is omitted, then the tile will be blank
+# 
+# physics
+# This determines how the tile will behave
+# Choices:
+# - passable
+# - unpassable
+# - incline_up
+# - incline_down
+# - ladder
+# - water
+# - shallow_incline_up_lower - this is for the left tile of inclines with a slope of 1/2
+# - shallow_incline_up_upper - this is for the right tile of inclines with a slope of 1/2
+# - shallow_incline_down_lower - this is for the right tile of inclines with a slope of -1/2
+# - shallow_incline_down_upper - this is for the left tile of inclines with a slope of -1/2
+# - spikes
+#
+# animation delay
+# If you have multiple images for an animation, this determines 
+# the frame rate of the animation
+# This parameter is optional and obviously not required if there is only 1 image.
+# If omitted for an animated sequence, then a framerate of 4 is used
+
+
+d0	doors/light door top	doors/light_door_top	passable
+d2	doors/dark door top	doors/dark_door_top	passable

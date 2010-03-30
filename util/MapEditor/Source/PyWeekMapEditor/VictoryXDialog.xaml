@@ -1,0 +1,17 @@
+﻿<Window x:Class="PyWeekMapEditor.VictoryXDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Victory X Dialog" SizeToContent="Height" Width="500">
+	<Grid>
+		<StackPanel Orientation="Vertical">
+			<TextBlock Text="When the character sprite is on this X-coordinate, a victory sequence" />
+			<TextBlock Text="for the level will be triggered. If you do not want this screen to be" />
+			<TextBlock Text="the ending screen, then leave this value at 0." />
+			<TextBox x:Name="xInput" Width="50" />
+			<StackPanel Orientation="Horizontal" Margin="20">
+				<Button Margin="10" x:Name="SaveButton">Save</Button>
+				<Button Margin="10" x:Name="CancelButton">Cancel</Button>
+			</StackPanel>
+		</StackPanel>
+	</Grid>
+</Window>

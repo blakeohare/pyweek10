@@ -51,10 +51,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DefaultLocationDialog.xaml.cs">
+      <DependentUpon>DefaultLocationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DoorsDialog.xaml.cs">
+      <DependentUpon>DoorsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Map.cs" />
     <Compile Include="SavedConfiguration.cs" />
+    <Compile Include="StartLocations.xaml.cs">
+      <DependentUpon>StartLocations.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tile.cs" />
     <Compile Include="TileLibrary.cs" />
+    <Compile Include="VictoryXDialog.xaml.cs">
+      <DependentUpon>VictoryXDialog.xaml</DependentUpon>
+    </Compile>
+    <Page Include="DefaultLocationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DoorsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,6 +87,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="StartLocations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VictoryXDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

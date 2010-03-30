@@ -1,0 +1,6 @@
+# Any tiles in this file will be flagged as doors in the map editor
+# Only the bottom half of doors will count as "door" tiles, so the top
+# halves need to go in other.txt
+
+d1	doors/light door bottom	doors/light_door_bottom	passable
+d3	doors/dark door bottom	doors/dark_door_bottom	passable

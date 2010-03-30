@@ -13,10 +13,14 @@ namespace PyWeekMapEditor
 		public string Name { get; private set; }
 		public string Id { get; private set; }
 		public BitmapSource Source { get; private set; }
-		public Tile(string[] images, string id, string name) : base()
+		public bool IsDoor { get; private set; }
+
+		public Tile(string[] images, string id, string name, bool isDoor) : base()
 		{
 			this.Id = id;
 			this.Name = name;
+			this.IsDoor = isDoor;
+
 			if (images.Length > 0 && images[0].Trim().Length > 0)
 			{
 				string file = MainWindow.TileImagesDirectory + "\\" + images[0].Trim() + ".png";
