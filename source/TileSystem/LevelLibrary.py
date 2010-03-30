@@ -20,6 +20,7 @@ class LevelLibrary:
 		tile_keys = []
 		start_locations = None
 		default_start = None
+		doors = []
 		for line in lines:
 			line = trim(line)
 			if len(line) > 0:
@@ -36,7 +37,15 @@ class LevelLibrary:
 					values['default_start'] = line
 				elif item == 'start_locations':
 					start_locations = line
+				elif item == 'doors':
+					if line != '':
+						for door in line.split(' '):
+							parts = door.split('|')
+							coords = parts[0].split(',')
+							dest = parts[1].split(',')
+							doors.append((int(coords[0]), int(coords[1]), dest[0], dest[1]))
 		
+		values['doors'] = doors
 		values['start_locations'] = {}
 		for loc in start_locations.split(' '):
 			parts = loc.split(',')
