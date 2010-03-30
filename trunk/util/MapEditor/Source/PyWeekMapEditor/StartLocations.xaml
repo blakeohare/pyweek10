@@ -1,0 +1,51 @@
+﻿<Window x:Class="PyWeekMapEditor.StartLocationsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Start Locations" Height="300" Width="400">
+	<DockPanel>
+		<StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+			<Button x:Name="SaveButton">Save</Button>
+			<Button x:Name="CancelButton">Cancel</Button>
+		</StackPanel>
+		
+		<Button DockPanel.Dock="Bottom" x:Name="AddButton">Add</Button>
+
+
+		<Grid Height="30" DockPanel.Dock="Top">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="100" />
+				<ColumnDefinition Width="100" />
+				<ColumnDefinition Width="100" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="100" />
+			</Grid.ColumnDefinitions>
+
+			<TextBlock Margin="4" Grid.Column="0" Text="Name" />
+			<TextBlock Margin="4" Grid.Column="1" Text="X" />
+			<TextBlock Margin="4" Grid.Column="2" Text="Y" />
+		</Grid>
+
+		<ItemsControl x:Name="StartLocationsList">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Border BorderBrush="#FF888888" BorderThickness="1">
+						<Grid Height="30">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="100" />
+								<ColumnDefinition Width="100" />
+								<ColumnDefinition Width="100" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="100" />
+							</Grid.ColumnDefinitions>
+
+							<TextBox Margin="4" Grid.Column="0" Text="{Binding Name}" />
+							<TextBox Margin="4" Grid.Column="1" Text="{Binding X}" />
+							<TextBox Margin="4" Grid.Column="2" Text="{Binding Y}" />
+							<Button Margin="4" Grid.Column="4" Command="{Binding RemoveMe}">Remove</Button>
+						</Grid>
+					</Border>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</DockPanel>
+</Window>

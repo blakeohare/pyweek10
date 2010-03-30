@@ -1,0 +1,20 @@
+﻿<Window x:Class="PyWeekMapEditor.DefaultLocationDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DefaultLocationDialog" SizeToContent="WidthAndHeight">
+    <Grid>
+		<StackPanel Orientation="Vertical">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Default Starting Location: " />
+				<ComboBox x:Name="choices"/>
+			</StackPanel>
+			
+			<TextBlock Text="If there are no choices here, you need to add locations first" />
+			
+			<StackPanel Orientation="Horizontal">
+				<Button x:Name="SaveButton">Save</Button>
+				<Button x:Name="CancelButton">Cancel</Button>
+			</StackPanel>
+		</StackPanel>
+    </Grid>
+</Window>

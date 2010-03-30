@@ -27,17 +27,36 @@ namespace PyWeekMapEditor
 			back = new Tile[width * height];
 		}
 
+		public string GetValue(string key)
+		{
+			string output = null;
+			this.values.TryGetValue(key, out output);
+			return output;
+		}
+
+		public void SetValue(string key, string value)
+		{
+			this.values[key] = value;
+		}
 		public void SetTile(int column, int row, Tile tile, int front_ness)
 		{
 			Tile[] layer = back;
 			if (front_ness == 0) layer = front;
 			if (front_ness == 1) layer = middle;
 
-			layer[row * this.width + column] = tile;
+			if (row >= 0 && row < this.height && column >= 0 && column < this.width)
+			{
+				layer[row * this.width + column] = tile;
+			}
 		}
 
 		public void FillTile(int column, int row, Grid front, Grid middle, Grid back)
 		{
+			if (column < 0 || column >= this.width || row < 0 || row >= this.height)
+			{
+				return;
+			}
+
 			int index = column + row * this.width;
 			Image newImage;
 
@@ -118,7 +137,10 @@ namespace PyWeekMapEditor
 
 			foreach (string key in this.values.Keys)
 			{
-				output.Add(key + ":" + this.values[key]);
+				if (this.values[key] != null)
+				{
+					output.Add(key + ":" + this.values[key]);
+				}
 			}
 
 			if (this.file == null)
@@ -128,9 +150,31 @@ namespace PyWeekMapEditor
 				this.file = dialog.FileName;
 			}
 
-			System.IO.File.WriteAllText(this.file, string.Join("\n", output.ToArray()));
+			System.IO.File.WriteAllText(this.file, string.Join("\r\n", output.ToArray()));
 		}
-		
+
+		public List<Door> GetDoors(FrameworkElement artboard)
+		{
+			List<Door> doors = new List<Door>();
+			Tile tile;
+			foreach (Tile[] tileLayer in new Tile[][] { front, middle, back })
+			{
+				for (int i = 0; i < tileLayer.Length; ++i)
+				{
+					tile = tileLayer[i];
+					if (tile != null && tile.IsDoor)
+					{
+						int y = i / this.width;
+						int x = i - y * this.width;
+
+						doors.Add(new Door(artboard, x, y, this.width, this.height) { IsSet = false });
+					}
+				}
+			}
+
+			return doors;
+		}
+
 		public Map(string filepath)
 		{
 			this.file = filepath;
