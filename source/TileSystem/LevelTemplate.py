@@ -5,6 +5,7 @@ class LevelTemplate:
 		self.tiles = tiles
 		self.values = values
 		self.height = int(len(self.tiles) / width)
+		self.virtualized_air = tile_library.GetTile(0, 0, '0')
 		
 		default_values = {
 			'victoryX' : 0
@@ -15,6 +16,8 @@ class LevelTemplate:
 				self.values[key] = default_values['victoryX']
 	
 	def get_tile(self, col, row):
+		if col < 0 or col >= self.width or row < 0 or row > self.height:
+			return self.virtualized_air
 		return self.tiles[self.width * row + col]
 	
 	def get_width(self):
