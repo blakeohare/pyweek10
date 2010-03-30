@@ -37,7 +37,7 @@ class MainCharacter:
 	def get_right(self):
 		return self.get_left() + self.width
 		
-	def draw(self, surface, is_moving, counter):
+	def draw(self, surface, is_moving, counter, camera_offset):
 		file = ('right', 'left')[self.left_facing]
 		if is_moving:
 			file += 'walk' + str(int(int(counter / 3) % 3))
@@ -47,4 +47,8 @@ class MainCharacter:
 		
 		img = images.Get('sprites/ClumsyWizard/' + file)
 		
-		surface.blit(img, self.get_top_left())
+		xy = self.get_top_left()
+		x = xy[0] - camera_offset[0]
+		y = xy[1] - camera_offset[1]
+		
+		surface.blit(img, (x, y))
