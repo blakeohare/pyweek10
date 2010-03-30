@@ -23,7 +23,7 @@
 [frame]
 [coords: 0,0]
 [image: cutscenes/intro/frame-3.jpg]
-[text:Was how to push my soul out of my\nbody and sending it flying\nout into the world.]
+[text:Was how to push my soul out of my\nbody and send it flying out\ninto the world.]
 
 [frame]
 [coords: 0,0]
@@ -33,6 +33,6 @@
 [frame]
 [coords: 0,0]
 [image: cutscenes/intro/frame-4.jpg]
-[text:Who can help me fix this,\num... minor research mistake]
+[text:Who can help me fix this\num... minor research mistake]
 
 [end]
