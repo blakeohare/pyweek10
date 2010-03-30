@@ -349,7 +349,7 @@ class PlayScreen:
 		bg_offset = -1 * bg_percent * (bg_width - 256)
 		
 		bg_offset += self.level_info.get_background_offset(self.render_counter)
-		#bg_offset -= cx
+		
 		bg_offset = int(bg_offset % bg.get_width())
 		screen.blit(bg, (bg_offset, 0))
 		screen.blit(bg, (bg_offset - bg.get_width(), 0))
