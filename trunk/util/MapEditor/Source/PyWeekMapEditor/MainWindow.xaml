@@ -81,8 +81,8 @@
 			
 			<ScrollViewer x:Name="Scroller" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
 				<ScrollViewer.Content>
-					<Grid x:Name="Artboard" Background="#FF333333">
-						<Grid x:Name="ArtBoard_Back"/>
+					<Grid x:Name="Artboard" Background="#FF666666">
+						<Grid x:Name="ArtBoard_Back" Background="#FF333333"/>
 						<Grid x:Name="ArtBoard_Middle" />
 						<Grid x:Name="ArtBoard_Front" />
 						<Grid x:Name="ClickCatcher" Background="#01888888" />

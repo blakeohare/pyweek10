@@ -41,6 +41,7 @@ namespace PyWeekMapEditor
 			this.maps_starting_locations.Click += new RoutedEventHandler(maps_starting_locations_Click);
 			this.map_default_start.Click += new RoutedEventHandler(map_default_start_Click);
 			this.map_victory_x.Click += new RoutedEventHandler(map_victory_x_Click);
+			this.file_change_size.Click += new RoutedEventHandler(file_change_size_Click);
 
 			this.ClickCatcher.MouseDown += new MouseButtonEventHandler(ArtBoard_Front_MouseDown);
 			this.ClickCatcher.MouseUp += new MouseButtonEventHandler(ArtBoard_Front_MouseUp);
@@ -52,6 +53,20 @@ namespace PyWeekMapEditor
 			this.visible_middle.Unchecked += new RoutedEventHandler(visible_middle_Unchecked);
 			this.visible_front.Checked += new RoutedEventHandler(visible_front_Checked);
 			this.visible_front.Unchecked += new RoutedEventHandler(visible_front_Unchecked);
+		}
+
+		void file_change_size_Click(object sender, RoutedEventArgs e)
+		{
+			if (this.activeMap != null)
+			{
+				NewMapDialog dialog = new NewMapDialog(this.activeMap);
+				dialog.ShowDialog();
+
+				this.activeMap.FillGrids(
+					this.ArtBoard_Front,
+					this.ArtBoard_Middle,
+					this.ArtBoard_Back);
+			}
 		}
 
 		void map_victory_x_Click(object sender, RoutedEventArgs e)
@@ -230,7 +245,21 @@ namespace PyWeekMapEditor
 
 		void file_new_Click(object sender, RoutedEventArgs e)
 		{
-			
+			NewMapDialog dialog = new NewMapDialog();
+			dialog.ShowDialog();
+			if (dialog.OutputMap != null)
+			{
+				this.activeMap = dialog.OutputMap;
+
+				this.ArtBoard_Back.Children.Clear();
+				this.ArtBoard_Middle.Children.Clear();
+				this.ArtBoard_Front.Children.Clear();
+
+				this.activeMap.FillGrids(
+					this.ArtBoard_Front,
+					this.ArtBoard_Middle,
+					this.ArtBoard_Back);
+			}
 		}
 	}
 }

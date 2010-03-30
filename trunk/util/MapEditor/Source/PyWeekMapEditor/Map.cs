@@ -73,6 +73,9 @@ namespace PyWeekMapEditor
 			back.Children.Insert(index, newImage);
 		}
 
+		public int Width { get { return this.width; } }
+		public int Height { get { return this.height; } }
+
 		public void FillGrids(Grid front, Grid middle, Grid back)
 		{
 			foreach (Grid grid in new Grid[] { front, middle, back })
@@ -143,14 +146,47 @@ namespace PyWeekMapEditor
 				}
 			}
 
-			if (this.file == null)
+			if (string.IsNullOrEmpty(this.file))
 			{
 				System.Windows.Forms.SaveFileDialog dialog = new System.Windows.Forms.SaveFileDialog();
 				dialog.InitialDirectory = MainWindow.LevelsDirectory;
+				dialog.ShowDialog();
 				this.file = dialog.FileName;
 			}
 
 			System.IO.File.WriteAllText(this.file, string.Join("\r\n", output.ToArray()));
+		}
+
+		public void ResizeTo(int newWidth, int newHeight)
+		{
+			Tile[] newFront = new Tile[newWidth * newHeight];
+			Tile[] newMiddle = new Tile[newWidth * newHeight];
+			Tile[] newBack = new Tile[newWidth * newHeight];
+
+			for (int y = 0; y < newHeight; ++y)
+			{
+				if (y < this.height)
+				{
+					for (int x = 0; x < newWidth; ++x)
+					{
+						if (x < this.width)
+						{
+							int index = y * newWidth + x;
+							int oldIndex = y * this.width + x;
+							newFront[index] = this.front[oldIndex];
+							newMiddle[index] = this.middle[oldIndex];
+							newBack[index] = this.back[oldIndex];
+						}
+					}
+				}
+			}
+
+			this.front = newFront;
+			this.middle = newMiddle;
+			this.back = newBack;
+
+			this.width = newWidth;
+			this.height = newHeight;
 		}
 
 		public List<Door> GetDoors(FrameworkElement artboard)
