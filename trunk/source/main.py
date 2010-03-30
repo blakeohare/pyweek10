@@ -8,6 +8,8 @@ output_screen = pygame.display.set_mode((800, 600))
 
 screen = pygame.Surface((256, 224))
 
+pygame.mouse.set_visible(False)
+
 counter = 0
 
 # initialize joysticks connected at the time of startup
