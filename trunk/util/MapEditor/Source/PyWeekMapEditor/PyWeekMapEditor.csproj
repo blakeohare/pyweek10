@@ -51,6 +51,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BackgroundDialog.xaml.cs">
+      <DependentUpon>BackgroundDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DefaultLocationDialog.xaml.cs">
       <DependentUpon>DefaultLocationDialog.xaml</DependentUpon>
     </Compile>
@@ -70,6 +73,10 @@
     <Compile Include="VictoryXDialog.xaml.cs">
       <DependentUpon>VictoryXDialog.xaml</DependentUpon>
     </Compile>
+    <Page Include="BackgroundDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DefaultLocationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

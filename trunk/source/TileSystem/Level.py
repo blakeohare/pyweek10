@@ -17,7 +17,13 @@ class Level:
 			if door[0] == x and door[1] == y:
 				return (door[2], door[3])
 		return None
-		
+	
+	def get_background_image(self):
+		return self.level_template.values['background']
+	
+	def get_background_offset(self, counter):
+		return int(counter * self.level_template.values['background_scroll'])
+	
 	def get_victory_x(self):
 		return self.level_template.values['victoryX']
 	

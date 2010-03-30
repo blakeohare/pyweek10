@@ -15,6 +15,7 @@
 						<MenuItem Header="Starting Locations" x:Name="maps_starting_locations" />
 						<MenuItem Header="Default Start Location" x:Name="map_default_start" />
 						<MenuItem Header="Victory X-coordinate" x:Name="map_victory_x" />
+						<MenuItem Header="Background Settings" x:Name="map_background" />
 					</MenuItem.Items>
 				</MenuItem>
 				<MenuItem Header="Tile">
@@ -81,8 +82,14 @@
 			
 			<ScrollViewer x:Name="Scroller" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
 				<ScrollViewer.Content>
-					<Grid x:Name="Artboard" Background="#FF666666">
-						<Grid x:Name="ArtBoard_Back" Background="#FF333333"/>
+					<Grid x:Name="Artboard" Background="#FF333333">
+						<Grid>
+							<Grid.Background>
+								<ImageBrush x:Name="BackgroundImageFile" TileMode="Tile"/>
+							</Grid.Background>
+						</Grid>
+						
+						<Grid x:Name="ArtBoard_Back" Background="#33000000"/>
 						<Grid x:Name="ArtBoard_Middle" />
 						<Grid x:Name="ArtBoard_Front" />
 						<Grid x:Name="ClickCatcher" Background="#01888888" />

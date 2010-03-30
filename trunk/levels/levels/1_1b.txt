@@ -2,3 +2,5 @@ tiles:0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 width:31
 start_locations:A,9,9
 doors:10,9|a,B
+background_scroll_rate:-1
+background_image:clouds

@@ -22,6 +22,8 @@ namespace PyWeekMapEditor
 		private static readonly SavedConfiguration Config = new SavedConfiguration();
 		public static readonly string TileDirectory = System.IO.Path.Combine(Config.RootPath, "tiles");
 		public static readonly string TileImagesDirectory = System.IO.Path.Combine(Config.RootPath, "images\\tiles");
+		public static readonly string ImagesDirectory = System.IO.Path.Combine(Config.RootPath, "images");
+		public static readonly string BackgroundsDirectory = System.IO.Path.Combine(ImagesDirectory, "backgrounds");
 		public static readonly string LevelsDirectory = System.IO.Path.Combine(Config.RootPath, "levels\\levels");
 		public static readonly string User = Config.User;
 		public static readonly string Prefix = Config.Prefix;
@@ -42,6 +44,7 @@ namespace PyWeekMapEditor
 			this.map_default_start.Click += new RoutedEventHandler(map_default_start_Click);
 			this.map_victory_x.Click += new RoutedEventHandler(map_victory_x_Click);
 			this.file_change_size.Click += new RoutedEventHandler(file_change_size_Click);
+			this.map_background.Click += new RoutedEventHandler(map_background_Click);
 
 			this.ClickCatcher.MouseDown += new MouseButtonEventHandler(ArtBoard_Front_MouseDown);
 			this.ClickCatcher.MouseUp += new MouseButtonEventHandler(ArtBoard_Front_MouseUp);
@@ -53,6 +56,50 @@ namespace PyWeekMapEditor
 			this.visible_middle.Unchecked += new RoutedEventHandler(visible_middle_Unchecked);
 			this.visible_front.Checked += new RoutedEventHandler(visible_front_Checked);
 			this.visible_front.Unchecked += new RoutedEventHandler(visible_front_Unchecked);
+		}
+
+		void map_background_Click(object sender, RoutedEventArgs e)
+		{
+			if (this.activeMap != null)
+			{
+				string bg_scroll = this.activeMap.GetValue("background_scroll_rate") ?? "0";
+				string bg_image = this.activeMap.GetValue("background_image") ?? "";
+				BackgroundDialog dialog = new BackgroundDialog(bg_image, bg_scroll);
+				dialog.ShowDialog();
+				if (dialog.Saved)
+				{
+					bg_scroll = dialog.ScrollRate.Trim();
+					bg_scroll = bg_scroll == "" ? null : bg_scroll;
+
+					bg_image = dialog.File.Trim();
+					bg_image = bg_image == "" ? null : bg_image;
+
+					this.activeMap.SetValue("background_scroll_rate", bg_scroll);
+					this.activeMap.SetValue("background_image", bg_image);
+
+					this.RefreshBackground();
+				}
+			}
+		}
+
+		private void RefreshBackground()
+		{
+			if (this.activeMap != null)
+			{
+				string bg_image = this.activeMap.GetValue("background_image");
+				if (!string.IsNullOrEmpty(bg_image))
+				{
+					this.BackgroundImageFile.ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(BackgroundsDirectory, bg_image + ".png")));
+				}
+				else
+				{
+					this.BackgroundImageFile.ImageSource = null;
+				}
+			}
+			else
+			{
+				this.BackgroundImageFile.ImageSource = null;
+			}
 		}
 
 		void file_change_size_Click(object sender, RoutedEventArgs e)
@@ -241,6 +288,7 @@ namespace PyWeekMapEditor
 			{
 				System.Windows.MessageBox.Show("Invalid file");
 			}
+			this.RefreshBackground();
 		}
 
 		void file_new_Click(object sender, RoutedEventArgs e)
@@ -259,6 +307,8 @@ namespace PyWeekMapEditor
 					this.ArtBoard_Front,
 					this.ArtBoard_Middle,
 					this.ArtBoard_Back);
+
+				this.RefreshBackground();
 			}
 		}
 	}

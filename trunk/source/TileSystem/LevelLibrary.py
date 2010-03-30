@@ -21,6 +21,8 @@ class LevelLibrary:
 		start_locations = None
 		default_start = None
 		doors = []
+		background = None
+		background_scroll = 0
 		for line in lines:
 			line = trim(line)
 			if len(line) > 0:
@@ -37,6 +39,10 @@ class LevelLibrary:
 					values['default_start'] = line
 				elif item == 'start_locations':
 					start_locations = line
+				elif item == 'background_image':
+					background = images.Get('backgrounds/' + line + '.png')
+				elif item == 'background_scroll_rate':
+					background_scroll = float(line)
 				elif item == 'doors':
 					if line != '':
 						for door in line.split(' '):
@@ -47,6 +53,8 @@ class LevelLibrary:
 		
 		values['doors'] = doors
 		values['start_locations'] = {}
+		values['background'] = background
+		values['background_scroll'] = background_scroll
 		for loc in start_locations.split(' '):
 			parts = loc.split(',')
 			values['start_locations'][parts[0]] = (int(parts[1]), int(parts[2]))

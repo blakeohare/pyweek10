@@ -342,6 +342,18 @@ class PlayScreen:
 		cx = camera[0]
 		cy = camera[1]
 		
+		bg = self.level_info.get_background_image()
+		bg_percent = (0.0 + cx) / (self.level_info.get_width() * 16 - 256)
+		bg_width = bg.get_width()
+		
+		bg_offset = -1 * bg_percent * (bg_width - 256)
+		
+		bg_offset += self.level_info.get_background_offset(self.render_counter)
+		#bg_offset -= cx
+		bg_offset = int(bg_offset % bg.get_width())
+		screen.blit(bg, (bg_offset, 0))
+		screen.blit(bg, (bg_offset - bg.get_width(), 0))
+		
 		for row in range(self.level_info.get_height()):
 			for col in range(self.level_info.get_width()):
 				x = col * 16
