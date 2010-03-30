@@ -15,33 +15,6 @@ class PlayScreen:
 		
 		wibbly_wobbly = False
 		
-		debug_offset = 0
-		self.platforms = {
-			'jumpthrough' : [ # left, top, width
-				#Platform('jumpthrough', debug_offset + 0, 150, 40, 150, 0, True),
-				#Platform('jumpthrough', debug_offset + 40, 150, 40, 150, 0, True),
-				#Platform('jumpthrough', debug_offset + 120, 110, 40, 110, 0, True),
-				#Platform('jumpthrough', debug_offset + 200, 150, 20, 150, 0, True)
-				],
-			
-			'blocking' : [ # left, top, width
-				#Platform('blocking', debug_offset + 40, 60, 80, 60, 0, False),
-				#Platform('blocking', debug_offset + 4, 100, 30, 100, 0, False)
-				],
-			
-			'solid' : [ #left, top, width, height
-				#Platform('solid', debug_offset + 120, 40, 30, 40, 20, False),
-				#Platform('solid', debug_offset + 241, 100, 60, 100, 100, False)
-				],
-			
-			'inclines' : [ #left, left_top, width, right_top
-				#Platform('incline', debug_offset + 80, 150, 40, 110, 0, True),
-				#Platform('incline', debug_offset + 160, 110, 40, 150, 0, True),
-				#Platform('incline', debug_offset + 220, 150, 20, 140, 0, True)
-				
-				]
-		}
-		
 		start_loc = self.level_info.get_start_location(start_location)
 		
 		self.player = MainCharacter(start_loc[0] * 16, start_loc[1] * 16)
@@ -275,6 +248,8 @@ class PlayScreen:
 		if door != None and self.player.special_state == None:
 			self.player.special_state = SpecialStateDoorEntry(door, self.player)
 		
+		if self.player.special_state == None and self.player.y > self.level_info.get_height() * 16 + 30:
+			self.player.special_state = SpecialStateDying(self.player)
 			
 	def set_sprite_on_platform(self, sprite, platform):
 		sprite.y = int(platform.get_y_at_x(sprite.x) - sprite.height + sprite.height / 2) # odd math to keep consistent rounding

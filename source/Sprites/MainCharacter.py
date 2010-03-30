@@ -54,8 +54,9 @@ class MainCharacter:
 			img = images.Get('sprites/ClumsyWizard/' + file)
 		
 		xy = self.get_top_left()
-		x = xy[0] - camera_offset[0]
-		y = xy[1] - camera_offset[1]
+		img_offset = images.GetOffset(img)
+		x = xy[0] - camera_offset[0] + img_offset[0]
+		y = xy[1] - camera_offset[1] + img_offset[1]
 		
 		surface.blit(img, (x, y))
 	
@@ -82,3 +83,24 @@ class SpecialStateDoorEntry:
 		self.expires -= 1
 		if self.expires <= 0:
 			playScene.next = TransitionScene(playScene, PlayScreen(playScene.level_id, self.door[0], self.door[1]), 'fadeout', 20)
+			
+class SpecialStateDying:
+	def __init__(self, player):
+		self.expires = 120
+		self.player = player
+		self.x = self.player.x
+		self.y = self.player.y + 7
+		self.block_update = True
+	
+	def draw(self, surface, main_char, is_moving, counter):
+		return images.Get('sprites/ClumsyWizard/sleeping.png')
+	
+	def update(self, main_char, playScene):
+		self.expires -= 1
+		if self.expires == 60:
+			camera = playScene.get_camera_offset()
+			x = self.x - camera[0]
+			y = self.y - camera[1]
+			playScene.next = TransitionScene(playScene, MapScene(int(playScene.level_id.split('_')[0])), 'circle_in', 59, (x, y))
+
+			

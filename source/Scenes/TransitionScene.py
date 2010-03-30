@@ -1,5 +1,5 @@
 class TransitionScene:
-	def __init__(self, from_scene, to_scene, type, duration):
+	def __init__(self, from_scene, to_scene, type, duration, params=None):
 		self.from_scene = from_scene
 		to_scene.next = to_scene
 		self.to_scene = to_scene
@@ -8,6 +8,7 @@ class TransitionScene:
 		self.counter = 0
 		self.next = self
 		self.temp_screen = pygame.Surface((256, 224))
+		self.params = params
 		
 	def Update(self):
 		self.counter += 1
@@ -37,7 +38,54 @@ class TransitionScene:
 			self.temp_screen.set_alpha(to_opacity)
 			self.to_scene.Render(self.temp_screen)
 			screen.blit(self.temp_screen, (0, 0))
+		
+		elif self.type == 'circle_in':
+			radius = int(300 * (1 - self.counter / (0.0 + self.duration)) * 1.5 - 150)
+			center_x = self.params[0]
+			center_y = self.params[1]
+			
+			if radius < 1:
+				screen.fill((0,0,0))
+			else:
+				left = center_x - radius
+				right = center_x + radius
+				top = center_y - radius
+				bottom = center_y + radius
+				self.from_scene.Render(screen)
 				
+				#left
+				if left > 0:
+					pygame.draw.rect(screen, (0, 0, 0), Rect(0, 0, left, 224))
+				#right
+				if right < 256:
+					pygame.draw.rect(screen, (0, 0, 0), Rect(right, 0, 256 - right + 1, 224))
+				#top
+				if top > 0:
+					pygame.draw.rect(screen, (0, 0, 0), Rect(left, 0, right - left, top))
+				#bottom
+				if bottom < 224:
+					pygame.draw.rect(screen, (0, 0, 0), Rect(left, bottom, right - left, 224 - bottom))
+				
+				count = 10
+				for i in range(count):
+					a = (0.0 + i) / count
+					b = (1.0 + i) / count
+					
+					xa = math.cos(a * 3.1415926 / 2) * radius
+					ya = math.sin(a * 3.1415926 / 2) * radius
+					xb = math.cos(b * 3.1415926 / 2) * radius
+					yb = math.sin(b * 3.1415926 / 2) * radius
+					
+					for signs in [(1, 1), (-1, -1), (1, -1), (-1, 1)]:
+						sx = signs[0]
+						sy = signs[1]
+						pygame.draw.polygon(screen, (0, 0, 0), [
+							(center_x + sx * xa, center_y + sy * ya),
+							(center_x + sx * xb, center_y + sy * yb),
+							(center_x + sx * xb, sy * radius + center_y),
+							(center_x + sx * xa, sy * radius + center_y)])
+					
+			
 		elif self.type == 'rectangle_down':
 			y = 224 * self.counter / self.duration
 			self.from_scene.Render(screen)
