@@ -99,6 +99,16 @@ class PlayScreen:
 		
 		self.sprites = [self.player]
 	
+	def get_camera_offset(self):
+		width = self.level_info.get_width()
+		height = self.level_info.get_height()
+		x = self.player.x - 128
+		y = self.player.y - 112
+		x = max(min(x, width * 16 - 256), 0)
+		y = max(min(y, height * 16 - 224), 0)
+		#print (x,y)
+		return (x, y)
+	
 	def get_walls(self, x_left, x_right, y_top, y_bottom):
 		tile_left = (x_left - 1) >> 4
 		tile_right = (x_right + 1) >> 4
@@ -361,6 +371,10 @@ class PlayScreen:
 		
 		self.render_counter += 1
 		
+		camera = self.get_camera_offset()
+		cx = camera[0]
+		cy = camera[1]
+		
 		for row in range(self.level_info.get_height()):
 			for col in range(self.level_info.get_width()):
 				x = col * 16
@@ -370,34 +384,8 @@ class PlayScreen:
 				if imgs != None:
 					for img in imgs:
 						if img != None:
-							screen.blit(img, (x, y))
+							screen.blit(img, (x - cx, y - cy))
 				
 		
-		for platform in self.platforms['jumpthrough']:
-			x = platform.left
-			y = platform.y_left
-			width = platform.width
-			pygame.draw.line(screen, (0, 0, 255), (x, y), (x + width, y))
-			
-		for platform in self.platforms['blocking']:
-			x = platform.left
-			y = platform.y_left
-			width = platform.width
-			pygame.draw.line(screen, (255, 0, 0), (x, y), (x + width, y))
-		
-		for platform in self.platforms['solid']:
-			x = platform.left
-			y = platform.y_left
-			width = platform.width
-			height = platform.height
-			pygame.draw.rect(screen, (100, 100, 100), Rect(x, y, width, height))
-		
-		for platform in self.platforms['inclines']:
-			x = platform.left
-			y_left = platform.y_left
-			width = platform.width
-			y_right = platform.y_right
-			pygame.draw.line(screen, (0, 0, 255), (x, y_left), (x + width, y_right))
-		
-		self.player.draw(screen, self.player.vx != 0, self.counter)
+		self.player.draw(screen, self.player.vx != 0, self.counter, camera)
 		
