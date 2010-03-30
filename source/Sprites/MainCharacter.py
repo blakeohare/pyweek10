@@ -15,6 +15,7 @@ class MainCharacter:
 		self.on_ground = False
 		self.platform = None
 		self.left_facing = False
+		self.special_state = None
 	
 	def get_top_left(self):
 		return (self.get_left(), self.get_top())
@@ -38,17 +39,46 @@ class MainCharacter:
 		return self.get_left() + self.width
 		
 	def draw(self, surface, is_moving, counter, camera_offset):
-		file = ('right', 'left')[self.left_facing]
-		if is_moving:
-			file += 'walk' + str(int(int(counter / 3) % 3))
-		else:
-			file += 'stand'
-		file += '.png'
 		
-		img = images.Get('sprites/ClumsyWizard/' + file)
+		direction = ('right', 'left')[self.left_facing]
+		
+		if self.special_state != None:
+			img = self.special_state.draw(surface, self, is_moving, counter)
+		else:
+			if is_moving:
+				file = direction + 'walk' + str(int(int(counter / 3) % 3))
+			else:
+				file = direction + 'stand'
+			file += '.png'
+			
+			img = images.Get('sprites/ClumsyWizard/' + file)
 		
 		xy = self.get_top_left()
 		x = xy[0] - camera_offset[0]
 		y = xy[1] - camera_offset[1]
 		
 		surface.blit(img, (x, y))
+	
+	def update(self, playScene):
+		if self.special_state != None:
+			self.special_state.update(self, playScene)
+			if self.special_state.expires <= 0:
+				self.special_state = None
+
+#Special States
+class SpecialStateDoorEntry:
+	def __init__(self, door, player):
+		self.expires = 10
+		self.player = player
+		self.door = door
+		self.direction = ('right', 'left')[player.left_facing]
+		self.block_update = True
+	
+	def draw(self, surface, main_char, is_moving, counter):
+		file = 'sprites/ClumsyWizard/' + self.direction + 'stand.png'
+		return images.Get(file)
+		
+	def update(self, main_char, playScene):
+		self.expires -= 1
+		if self.expires <= 0:
+			playScene.next = TransitionScene(playScene, PlayScreen(playScene.level_id, self.door[0], self.door[1]), 'fadeout', 20)
