@@ -49,7 +49,18 @@ class CutSceneScene:
 		else:
 			screen.blit(images.Get(frame.image), (frame.coords))
 
+		# save the image without the text
 		self.oldScreen = screen.copy()
+		
+		if frame.text:
+			txtList = frame.text.split('\\n')
+			yOffset = 190
+			i = 0
+			for txt in txtList:
+				t = get_text(frame.text)
+				screen.blit(get_text(txt), (10, yOffset + 10 * i))
+				i += 1
+		
 
   
 	def Update(self):
