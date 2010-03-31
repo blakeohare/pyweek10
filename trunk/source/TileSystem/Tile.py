@@ -37,7 +37,14 @@ class CompositeTile:
 			'passable': 0,
 			'water' : 1,
 			'platform' : 2,
-			'unpassable' : 3
+			'unpassable' : 3,
+			'incline_up' : 4,
+			'incline_down' : 5,
+			'shallow_incline_up_upper' : 6,
+			'shallow_incline_up_lower' : 7,
+			'shallow_incline_down_upper' : 8,
+			'shallow_incline_down_lower' : 9,
+			'spikes' : 10
 			}
 		
 		physics = tile_templates[0]

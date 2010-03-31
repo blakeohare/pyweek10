@@ -9,7 +9,7 @@ class Platform:
 		self.jumpthrough = jumpthrough
 	
 	def duplicate(self, x_offset, y_offset):
-		return Platform(type,
+		return Platform(self.type,
 			self.left + x_offset,
 			self.y_left + y_offset,
 			self.width,
@@ -20,7 +20,10 @@ class Platform:
 	def get_y_at_x(self, x):
 		if self.type == 'incline':
 			percentage = (x - self.left + 0.0) / self.width
-			return int(self.y_right * percentage + self.y_left * (1 - percentage))
+			value = int(self.y_right * percentage + self.y_left * (1 - percentage))
+			print value
+			return value
+		print self.type, x
 		return self.y_left
 	
 	def get_x_at_y(self, y):
