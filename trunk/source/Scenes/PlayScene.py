@@ -75,10 +75,10 @@ class PlayScreen:
 	
 	def get_just_inclines(self, x_left, x_right, y_top, y_bottom):
 	
-		tile_left = (x_left - 1) >> 4
-		tile_right = (x_right + 1) >> 4
-		tile_top = (y_top - 1) >> 4
-		tile_bottom = (y_bottom + 1) >> 4
+		tile_left = (x_left >> 4) - 1
+		tile_right = (x_right >> 4) + 1
+		tile_top = (y_top >> 4) - 1
+		tile_bottom = (y_bottom >> 4) + 1
 		
 		return self.level_info.get_inclines_in_rectangle(tile_left, tile_right, tile_top, tile_bottom)
 	
@@ -131,7 +131,7 @@ class PlayScreen:
 					new_x = wall.get_right_wall_x() + 1
 			
 			# player may have possibly jumped through an incline
-			if new_x != sprite.x and not sprite.on_ground:
+			if not sprite.on_ground and new_x != sprite.x:
 				
 				inclines = []
 				
@@ -336,7 +336,7 @@ class PlayScreen:
 		else:
 			platforms = self.get_ceilings(x, upper_y, lower_y)
 		
-		for platform in platforms: 
+		for platform in platforms:
 			if platform.is_x_in_range(x):
 				if going_down:
 					platform_y = platform.get_y_at_x(x)
