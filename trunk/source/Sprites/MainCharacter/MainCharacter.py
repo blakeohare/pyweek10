@@ -7,6 +7,7 @@ class MainCharacter(Sprite):
 		self.height = 30
 		self.flashing_counter = 0
 		self.special_state = None
+		self.confined_to_scene = True
 		
 	def draw(self, surface, is_moving, counter, camera_offset):
 		

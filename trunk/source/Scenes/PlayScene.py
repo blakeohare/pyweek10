@@ -18,11 +18,18 @@ class PlayScreen:
 		start_loc = self.level_info.get_start_location(start_location)
 		
 		self.player = MainCharacter(start_loc[0] * 16, start_loc[1] * 16)
-		
-		
-		self.sprites = [self.player]
 		self.enemies = [EnemyBat(200, 30)]
-		self.sprites += self.enemies
+		self.mumblefoo = None
+	
+	def get_sprites(self):
+		
+		sprites = []
+		if self.mumblefoo != None:
+			sprites.append(self.mumblefoo)
+		sprites.append(self.player)
+		sprites += self.enemies
+		
+		return sprites
 	
 	def get_camera_offset(self):
 		width = self.level_info.get_width()
@@ -99,7 +106,7 @@ class PlayScreen:
 	def Update(self):
 		self.counter += 1
 		
-		for sprite in self.sprites:
+		for sprite in self.get_sprites():
 			
 			sprite.update(self)
 			
@@ -108,6 +115,9 @@ class PlayScreen:
 			
 			sprite.dx = sprite.vx
 			new_x = int(sprite.x + sprite.dx)
+			
+			if sprite.confined_to_scene:
+				new_x = max(2, min(self.level_info.get_width() * 16 - 2, new_x))
 			
 			if sprite.dx > 0: #going right
 				wall = self.find_leftmost_wall_in_path(sprite.x, new_x, sprite.get_head_bonk_top(), sprite.get_bottom())
@@ -236,13 +246,18 @@ class PlayScreen:
 							sprite.on_ground = False
 							sprite.platform = None
 		
+		if self.mumblefoo != None and self.mumblefoo.lifetime > 6:
+			if self.is_collision(self.mumblefoo, self.player):
+				self.mumblefoo = None
+				# TODO: play noise
+				
 		if self.player.flashing_counter <= 0:
 			for sprite in self.enemies:
 				if self.is_collision(sprite, self.player):
 					# You dropped the mumblefoo!
 					self.player.flashing_counter = 60
-
-		
+					self.mumblefoo = SoulJar(self.player.x, self.player.y, self.counter)
+					
 		
 		# Check for victory
 		victory_x = self.level_info.get_victory_x() * 16
@@ -253,16 +268,17 @@ class PlayScreen:
 			self.next = MapScene(int(self.level_id.split('_')[0]))
 		
 		# Check for door entry
-		door = self.level_info.get_door_dest(int(self.player.x / 16), int(self.player.y / 16))
-		if door != None and self.player.special_state == None:
-			self.player.special_state = SpecialStateDoorEntry(door, self.player)
+		if self.mumblefoo == None:
+			door = self.level_info.get_door_dest(int(self.player.x / 16), int(self.player.y / 16))
+			if door != None and self.player.special_state == None:
+				self.player.special_state = SpecialStateDoorEntry(door, self.player)
 		
 		if self.player.special_state == None and self.player.y > self.level_info.get_height() * 16 + 30:
 			self.player.special_state = SpecialStateDying(self.player)
 	
 	def is_collision(self, spriteA, spriteB):
-		ra = spriteA.get_collision_radius() - 2
-		rb = spriteB.get_collision_radius() - 2
+		ra = spriteA.get_collision_radius() - 8
+		rb = spriteB.get_collision_radius() - 8
 		
 		dx = spriteA.x - spriteB.x
 		dy = spriteA.y - spriteB.y
@@ -372,6 +388,6 @@ class PlayScreen:
 						if img != None:
 							screen.blit(img, (x - cx, y - cy))
 				
-		for sprite in self.sprites:
+		for sprite in self.get_sprites():
 			sprite.draw(screen, self.player.vx != 0, self.counter, camera)
 		

@@ -14,6 +14,7 @@ class Sprite:
 		self.left_facing = False
 		self.moves_through_walls = False
 		self.immune_to_gravity = False
+		self.confined_to_scene = False
 	
 	def get_collision_radius(self):
 		return (self.width + self.height) / 2.0
