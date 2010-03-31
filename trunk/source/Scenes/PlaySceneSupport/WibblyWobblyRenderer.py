@@ -12,7 +12,7 @@ class WibblyWobblyRenderer:
 		self.color_fade_surface = pygame.Surface((256, 224))
 		
 	def get_max_severity(self):
-		return 500
+		return 300
 	
 	def render_color_fade(self, screen, counter, severity):
 		redness = ensure_range(int(255 * abs((counter % 30) - 15.0) / 15.0), 0, 255)
