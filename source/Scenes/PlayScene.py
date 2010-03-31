@@ -354,8 +354,15 @@ class PlayScreen:
 			screen.blit(bg, (bg_offset, 0))
 			screen.blit(bg, (bg_offset - bg.get_width(), 0))
 		
-		for row in range(self.level_info.get_height()):
-			for col in range(self.level_info.get_width()):
+		col_start = max(0, int(cx / 16 - 1))
+		col_end = min(self.level_info.get_width() - 1, col_start + 18)
+		
+		row_start = max(0, int(cy / 16 - 1))
+		row_end = min(self.level_info.get_height() - 1, row_start + 16)
+		
+		
+		for row in range(row_start, row_end + 1):
+			for col in range(col_start, col_end + 1):
 				x = col * 16
 				y = row * 16
 				tile = self.level_info.get_tile(col, row)
