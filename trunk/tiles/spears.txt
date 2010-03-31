@@ -73,3 +73,15 @@ s26	Misc/ladder	ladder	ladder
 s27	Misc/rope	rope	ladder
 s28	Misc/stairs [top]	StairsA	incline_up
 s29	Misc/stairs [bottom]	StairsB	passable
+s30	Cave/background	CaveBackground	passable
+s31	Cave/dirt platform [left]	CaveFloorTL	platform
+s32	Cave/dirt platform [middle]	CaveFloorTM	platform
+s33	Cave/dirt platform [right]	CaveFloorTR	platform
+s34	Cave/dirt column [left]	CaveFloorBL	passable
+s35	Cave/dirt column [middle]	CaveFloorBM	passable
+s36	Cave/dirt column [right]	CaveFloorBR	passable
+s37	Cave/rock	rock	passable
+s38	Cave/stalagmite tip	Stalagmite1	passable
+s39	Cave/stalagmite base	Stalagmite2	passable
+s40	Cave/stalactite base	Stalactite2	passable
+s41	Cave/stalactite tip	Stalactite1	passable
