@@ -55,3 +55,21 @@ s8	ice/ice platform [right]	IcyTR	platform
 s9	ice/ice column [left]	IcyBL	passable
 s10	ice/ice column [middle]	IcyBM	passable
 s11	ice/ice column [right]	IcyBR	passable
+s12	nature/bush [left]	BushL	passable
+s13	nature/bush [middle]	BushM	passable
+s14	nature/bush [right]	BushR	passable
+s15	nature/stump [left]	stump1	passable
+s16	nature/stump [right]	stump2	passable
+s17	nature/vine	Vine	ladder
+s18	nature/tree [top left]	tree1	passable
+s19	nature/tree [top right]	tree2	passable
+s20	nature/tree [middle top left]	tree3	passable
+s21	nature/tree [middle top right]	tree4	passable
+s22	nature/tree [middle bottom left]	tree5	passable
+s23	nature/tree [middle bottom right]	tree6	passable
+s24	nature/tree [bottom left]	tree7	passable
+s25	nature/tree [bottom right]	tree8	passable
+s26	Misc/ladder	ladder	ladder
+s27	Misc/rope	rope	ladder
+s28	Misc/stairs [top]	StairsA	incline_up
+s29	Misc/stairs [bottom]	StairsB	passable
