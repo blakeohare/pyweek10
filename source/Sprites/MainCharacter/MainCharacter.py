@@ -3,9 +3,15 @@ class MainCharacter(Sprite):
 	
 	def __init__(self, x, y):
 		Sprite.__init__(self, x, y)
+		self.width = 14
+		self.height = 30
+		self.flashing_counter = 0
 		self.special_state = None
 		
 	def draw(self, surface, is_moving, counter, camera_offset):
+		
+		if self.flashing_counter > 0 and (self.flashing_counter & 1) == 1:
+			return
 		
 		direction = ('right', 'left')[self.left_facing]
 		
@@ -28,6 +34,7 @@ class MainCharacter(Sprite):
 		surface.blit(img, (x, y))
 	
 	def update(self, playScene):
+		self.flashing_counter -= 1
 		if self.special_state != None:
 			self.special_state.update(self, playScene)
 			if self.special_state.expires <= 0:

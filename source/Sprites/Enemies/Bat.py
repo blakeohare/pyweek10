@@ -4,6 +4,8 @@ class EnemyBat(Sprite):
 	def __init__(self, x, y):
 		self.lifetime = 0
 		Sprite.__init__(self, x, y)
+		self.width = 15
+		self.height = 15
 		self.left_facing = True
 		self.immune_to_gravity = True
 		
