@@ -17,21 +17,31 @@ def read_file(path):
 def get_files(folder):
 	text = ''
 	static = ''
+	files = []
+	folders = []
+	
 	for file in os.listdir(folder):
 		path = folder + os.sep + file
 		header = "\n\n########################\n## " + path + "\n" + "########################\n"
 		static_header = "\n\n########################\n## " + path + " (static)\n" + "########################\n"
 		if not (path in exclude):
 			if os.path.isdir(path):
-				folder_code = get_files(path)
-				text += folder_code[0]
-				static += folder_code[1]
+				folders.append(path)
 			elif path.endswith('.py'):
-				t = read_file(path)
-				parts = t.split('#STATIC')
-				text += header + parts[0] + "\n"
-				if len(parts) > 1:
-					static += static_header + parts[1]
+				files.append(path)
+				
+	for file in files:
+		t = read_file(file)
+		parts = t.split('#STATIC')
+		text += header + parts[0] + "\n"
+		if len(parts) > 1:
+			static += static_header + parts[1]
+			
+	for folder in folders:
+		folder_code = get_files(folder)
+		text += folder_code[0]
+		static += folder_code[1]
+		
 		
 	return (text, static)
 
