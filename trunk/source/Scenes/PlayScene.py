@@ -20,6 +20,8 @@ class PlayScreen:
 		self.player = MainCharacter(start_loc[0] * 16, start_loc[1] * 16)
 		self.enemies = [EnemyBat(200, 30)]
 		self.mumblefoo = None
+		self.wibblywobbly = WibblyWobblyRenderer()
+		self.wibblywobbly_counter = 0
 	
 	def get_sprites(self):
 		
@@ -259,22 +261,30 @@ class PlayScreen:
 					self.mumblefoo = SoulJar(self.player.x, self.player.y, self.counter)
 					
 		
-		# Check for victory
-		victory_x = self.level_info.get_victory_x() * 16
-		if victory_x > 0 and self.player.x >= victory_x:
-			#TODO: automated victory sequence
-			games.active_game().save_value('finished_world' + self.level_id, 1)
-			games.active_game().save_to_file()
-			self.next = MapScene(int(self.level_id.split('_')[0]))
-		
-		# Check for door entry
 		if self.mumblefoo == None:
+			self.wibblywobbly_counter = max(0, self.wibblywobbly_counter - 5)
+			
+			# Check for door entry
 			door = self.level_info.get_door_dest(int(self.player.x / 16), int(self.player.y / 16))
 			if door != None and self.player.special_state == None:
 				self.player.special_state = SpecialStateDoorEntry(door, self.player)
+			
+			# Check for victory
+			victory_x = self.level_info.get_victory_x() * 16
+			if victory_x > 0 and self.player.x >= victory_x:
+				#TODO: automated victory sequence
+				games.active_game().save_value('finished_world' + self.level_id, 1)
+				games.active_game().save_to_file()
+				self.next = MapScene(int(self.level_id.split('_')[0]))
+			
+		else:
+			self.wibblywobbly_counter += 1
+			if self.player.special_state == None and self.wibblywobbly_counter > self.wibblywobbly.get_max_severity():
+				self.player.special_state = SpecialStateDying(self.player)
 		
 		if self.player.special_state == None and self.player.y > self.level_info.get_height() * 16 + 30:
 			self.player.special_state = SpecialStateDying(self.player)
+		
 	
 	def is_collision(self, spriteA, spriteB):
 		ra = spriteA.get_collision_radius() - 8
@@ -387,7 +397,12 @@ class PlayScreen:
 					for img in imgs:
 						if img != None:
 							screen.blit(img, (x - cx, y - cy))
-				
+		
+		if self.wibblywobbly_counter > 0:
+			self.wibblywobbly.render_color_fade(screen, self.render_counter, self.wibblywobbly_counter)
+		
 		for sprite in self.get_sprites():
 			sprite.draw(screen, self.player.vx != 0, self.counter, camera)
 		
+		if self.wibblywobbly_counter > 0:
+			self.wibblywobbly.render(screen, self.render_counter, self.wibblywobbly_counter)
