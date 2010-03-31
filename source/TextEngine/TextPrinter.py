@@ -83,7 +83,6 @@ class TextPrinter:
 	
 	def get_image_for_char(self, char):
 		if not (char in self.images.keys()):
-			print char
 			char = '?'
 		return self.images[char]
 	
