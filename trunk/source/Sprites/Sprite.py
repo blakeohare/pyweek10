@@ -7,13 +7,16 @@ class Sprite:
 		self.vx = 0
 		self.dx = 0
 		self.dy = 0
-		self.width = 14
-		self.height = 30
+		self.width = 1
+		self.height = 1
 		self.on_ground = False
 		self.platform = None
 		self.left_facing = False
 		self.moves_through_walls = False
 		self.immune_to_gravity = False
+	
+	def get_collision_radius(self):
+		return (self.width + self.height) / 2.0
 	
 	def get_top_left(self):
 		return (self.get_left(), self.get_top())

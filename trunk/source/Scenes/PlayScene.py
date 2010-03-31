@@ -21,7 +21,8 @@ class PlayScreen:
 		
 		
 		self.sprites = [self.player]
-		self.sprites.append(EnemyBat(200, 30))
+		self.enemies = [EnemyBat(200, 30)]
+		self.sprites += self.enemies
 	
 	def get_camera_offset(self):
 		width = self.level_info.get_width()
@@ -234,7 +235,15 @@ class PlayScreen:
 							#the sprite has fallen off the edge
 							sprite.on_ground = False
 							sprite.platform = None
-							
+		
+		if self.player.flashing_counter <= 0:
+			for sprite in self.enemies:
+				if self.is_collision(sprite, self.player):
+					# You dropped the mumblefoo!
+					self.player.flashing_counter = 60
+
+		
+		
 		# Check for victory
 		victory_x = self.level_info.get_victory_x() * 16
 		if victory_x > 0 and self.player.x >= victory_x:
@@ -250,7 +259,18 @@ class PlayScreen:
 		
 		if self.player.special_state == None and self.player.y > self.level_info.get_height() * 16 + 30:
 			self.player.special_state = SpecialStateDying(self.player)
-			
+	
+	def is_collision(self, spriteA, spriteB):
+		ra = spriteA.get_collision_radius() - 2
+		rb = spriteB.get_collision_radius() - 2
+		
+		dx = spriteA.x - spriteB.x
+		dy = spriteA.y - spriteB.y
+		
+		if (dx ** 2) + (dy ** 2) < (ra + rb) ** 2:
+			return True
+		return False
+	
 	def set_sprite_on_platform(self, sprite, platform):
 		sprite.y = int(platform.get_y_at_x(sprite.x) - sprite.height + sprite.height / 2) # odd math to keep consistent rounding
 	
