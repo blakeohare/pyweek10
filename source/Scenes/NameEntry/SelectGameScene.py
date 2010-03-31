@@ -45,8 +45,12 @@ class SelectGameScene:
 						self.next = NameEntryScene(game)
 					else:
 						games.set_active_game(self.cursor_index + 1)
-						mapScene = MapScene(1) # TODO: actually read last level completed from file
-						self.next = TransitionScene(self, mapScene, 'fadeout', 30)
+						game = games.active_game()
+						if game.get_value('intro_shown') == 1:
+							nextScene = MapScene(1) # TODO: actually read last level completed from file
+						else:
+							nextScene = CutSceneScene('demo', MapScene(1))
+						self.next = TransitionScene(self, nextScene, 'fadeout', 30)
 				elif self.mode == 'erase':
 					games.erase_game(self.cursor_index + 1)
 					self.mode = 'selection'

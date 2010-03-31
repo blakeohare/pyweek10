@@ -1,5 +1,6 @@
 class MapScene:
 	def __init__(self, world_num):
+		games.active_game().save_value('intro_shown', 1)
 		self.counter = 0
 		self.next = self
 		self.world_num = world_num
