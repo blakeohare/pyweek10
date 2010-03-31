@@ -20,9 +20,7 @@ class Platform:
 	def get_y_at_x(self, x):
 		if self.type == 'incline':
 			percentage = (x - self.left + 0.0) / self.width
-			value = int(self.y_right * percentage + self.y_left * (1 - percentage))
-			print value
-			return value
+			return int(self.y_right * percentage + self.y_left * (1 - percentage))
 		print self.type, x
 		return self.y_left
 	
