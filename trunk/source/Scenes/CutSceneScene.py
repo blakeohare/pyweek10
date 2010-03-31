@@ -58,14 +58,14 @@ class CutSceneScene:
 			if len(text) > self.text_counter:
 				text = text[:self.text_counter]
 			elif int((self.counter / 10) % 2) == 0:
-				text += '.'
+				text += '~'
 			txtList = text.split('\\n')
-			yOffset = 190
+			yOffset = 150
 			i = 0
 			for txt in txtList:
 				t = get_text(frame.text)
 				
-				screen.blit(get_text(txt), (10, yOffset + 10 * i))
+				screen.blit(get_text(txt), (10, yOffset + 18 * i))
 				i += 1
 		
 

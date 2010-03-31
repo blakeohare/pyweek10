@@ -1,6 +1,12 @@
 class TextPrinter:
 	
-	def __init__(self):
+	def __init__(self, font='large'):
+		
+		folder = 'text'
+		if font != None:
+			folder += '_' + font
+		
+		
 		alphabet = 'abcdefghijklmnopqrstuvwxyz'
 		self.space_width = 8
 		
@@ -10,17 +16,17 @@ class TextPrinter:
 		self.text_cache = {}
 		
 		for char in alphabet:
-			self.images[char] = images.Get('text/lower/' + char + '.png')
+			self.images[char] = images.Get(folder + '/lower/' + char + '.png')
 		
 		alphabet = alphabet.upper()
 		
 		for char in alphabet:
-			self.images[char] = images.Get('text/upper/' + char + '.png')
+			self.images[char] = images.Get(folder + '/upper/' + char + '.png')
 		
 		nums = '0123456789'
 		
 		for char in nums:
-			self.images[char] = images.Get('text/number/' + char + '.png')
+			self.images[char] = images.Get(folder + '/number/' + char + '.png')
 		
 		punctuation = [
 			('apostrophe', "'"),
@@ -30,16 +36,21 @@ class TextPrinter:
 			('comma', ','),
 			('exclaim', '!'),
 			('hyphen', '-'),
+			('underscore', '_'),
 			('open_paren', '('),
 			('open_quote', '"'),
-			#TODO: close quote
+			('slash', '/'),
 			('period', '.'),
+			('prompt', '~'),
 			('ques', '?')]
+		
+		self.images['\\'] = self.images[' ']
 		
 		for char_key in punctuation:
 			file = char_key[0]
 			char = char_key[1]
-			self.images[char] = images.Get('text/punctuation/' + file + '.png')
+			if os.path.exists(os.path.join('images',folder,'punctuation', file + '.png')):
+				self.images[char] = images.Get(folder + '/punctuation/' + file + '.png')
 			
 	def get_rendered_text(self, string):
 		
@@ -72,6 +83,7 @@ class TextPrinter:
 	
 	def get_image_for_char(self, char):
 		if not (char in self.images.keys()):
+			print char
 			char = '?'
 		return self.images[char]
 	
