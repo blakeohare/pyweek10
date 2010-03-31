@@ -1,6 +1,7 @@
 class CutSceneScene:
-	def __init__(self, name):
+	def __init__(self, name, nextScene):
 		self.next = self
+		self.nextScene = nextScene
 		self.counter = 0
 		self.script = SceneStateMachine(name)
 		self.scene = None
@@ -40,7 +41,10 @@ class CutSceneScene:
 				
 	def Render(self, screen):
 		if not self.scene:
-			print("TODO: should transition out of the cut scene scene now")
+			if self.oldScreen != None:
+				screen.blit(self.oldScreen, (0, 0))
+			if self.next == self:
+				self.next = TransitionScene(self, self.nextScene, 'fadeout', 30)
 			return
 		
 		frame = self.scene
