@@ -60,7 +60,7 @@ class CutSceneScene:
 			elif int((self.counter / 10) % 2) == 0:
 				text += '~'
 			txtList = text.split('\\n')
-			yOffset = 150
+			yOffset = 170
 			i = 0
 			for txt in txtList:
 				t = get_text(frame.text)

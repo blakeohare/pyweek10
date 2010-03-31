@@ -1,13 +1,14 @@
 [frame]
 [coords: 0,0]
 [image: cutscenes/intro/frame-1.jpg]
+[image: cutscenes/intro/grid.png]
 [text:Hi! My name is $Wizard. Some\nwizards have a reputation for\nbeing...]
+[music:opening_fanfare.mp3]
 
 [frame]
 [coords: 0,0]
 [image: cutscenes/intro/frame-1.jpg]
 [text:well to be honest I have a bit\nof a reputation for clumsiness]
-[music: adamhurst-clip.mp3]
 
 
 [frame]
