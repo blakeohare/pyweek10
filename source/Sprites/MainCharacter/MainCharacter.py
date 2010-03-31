@@ -18,7 +18,11 @@ class MainCharacter(Sprite):
 		if self.special_state != None:
 			img = self.special_state.draw(surface, self, is_moving, counter)
 		else:
-			if is_moving:
+			if self.vy > 0:
+				file = direction + 'jump2'
+			elif self.vy < 0:
+				file = direction + 'jump1'
+			elif is_moving:
 				file = direction + 'walk' + str(int(int(counter / 3) % 3))
 			else:
 				file = direction + 'stand'

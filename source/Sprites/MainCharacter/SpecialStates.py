@@ -1,19 +1,27 @@
 
 class SpecialStateDoorEntry:
 	def __init__(self, door, player):
-		self.expires = 10
+		self.expires = 60
 		self.player = player
+		self.lifetime = 0
 		self.door = door
 		self.direction = ('right', 'left')[player.left_facing]
 		self.block_update = True
 	
 	def draw(self, surface, main_char, is_moving, counter):
-		file = 'sprites/ClumsyWizard/' + self.direction + 'stand.png'
+		num = 1
+		if self.lifetime > 3:
+			num = 2
+		if self.lifetime > 6:
+			num = 3
+			
+		file = 'sprites/ClumsyWizard/' + self.direction + 'turn' + str(num) + '.png'
 		return images.Get(file)
 		
 	def update(self, main_char, playScene):
+		self.lifetime += 1
 		self.expires -= 1
-		if self.expires <= 0:
+		if self.lifetime == 7:
 			playScene.next = TransitionScene(playScene, PlayScreen(playScene.level_id, self.door[0], self.door[1]), 'fadeout', 20)
 			
 class SpecialStateDying:
