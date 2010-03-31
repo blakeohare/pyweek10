@@ -8,7 +8,7 @@ class TileTemplate:
 		self.anim_delay = max(anim_delay, 1)
 		self.physics = physics
 		self.platform_prototypes = {}
-		self.types = 'jumpthrough inclines blocking solid'.split(' ')
+		self.types = 'jumpthrough incline blocking solid'.split(' ')
 		
 		for type in self.types:
 			self.platform_prototypes[type] = []

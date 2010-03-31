@@ -29,7 +29,6 @@ class PlayScreen:
 		y = self.player.y - 112
 		x = max(min(x, width * 16 - 256), 0)
 		y = max(min(y, height * 16 - 224), 0)
-		#print (x,y)
 		return (x, y)
 	
 	def get_walls(self, x_left, x_right, y_top, y_bottom):

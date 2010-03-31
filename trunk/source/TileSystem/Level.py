@@ -56,7 +56,7 @@ class Level:
 				landing += p['solid']
 				landing += p['jumpthrough']
 				landing += p['blocking']
-				landing += p['inclines']
+				landing += p['incline']
 				y += 1
 			x += 1
 		return landing
@@ -125,7 +125,7 @@ class Level:
 			y = y_start
 			while y <= y_end:
 				p = tiles[y * width + x].get_platforms()
-				landing += p['inclines']
+				landing += p['incline']
 				y += 1
 			x += 1
 		
