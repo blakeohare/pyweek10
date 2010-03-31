@@ -79,8 +79,8 @@ class NameEntryScene:
 		x_left = 20
 		y_top = 50
 		
-		new_x = x_left + x * 15
-		new_y = y_top + y * 15
+		new_x = x_left + x * 18
+		new_y = y_top + y * 18
 		
 		if (x > 5):
 			new_x += 10
