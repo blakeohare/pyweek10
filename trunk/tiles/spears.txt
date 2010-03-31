@@ -99,3 +99,23 @@ s52	nature/right grass incline [left]	GrassInclineB3	passable
 s53	nature/right grass incline [bottom right]	GrassInclineB4	passable
 s54	nature/right grass incline [bottom middle]	GrassInclineB5	passable
 s55	nature/right grass incline [bottom left]	GrassInclineB6	passable
+s56	nature/.5 Grass Incline [Middle A]	lgrass1	shallow_incline_up_lower
+s57	nature/.5 Grass Incline [Middle B]	lgrass2	shallow_incline_up_upper
+s58	nature/.5 Grass Incline [Left]	lgrass3	passable
+s59	nature/.5 Grass Incline [Right]	lgrass4	passable
+s60	nature/.5 Grass Incline [Bottom A]	lgrass5	passable
+s61	nature/.5 Incline Dirt [Left A]	lgrass6	passable
+s62	nature/.5 Incline Dirt [Left B]	lgrass7	passable
+s63	nature/.5 Incline Dirt [Right A]	lgrass8	passable
+s64	nature/.5 Incline Dirt [Right B]	lgrass9	passable
+s65	nature/-.5 Grass Incline [Middle A]	rgrass1	shallow_incline_up_lower
+s66	nature/-.5 Grass Incline [Middle B]	rgrass2	shallow_incline_up_upper
+s67	nature/-.5 Grass Incline [Right]	rgrass3	passable
+s68	nature/-.5 Grass Incline [Left]	rgrass4	passable
+s69	nature/-.5 Grass Incline [Bottom A]	rgrass5	passable
+s70	nature/-.5 Incline Dirt [Right A]	rgrass6	passable
+s71	nature/-.5 Incline Dirt [Right B]	rgrass7	passable
+s72	nature/-.5 Incline Dirt [Left A]	rgrass8	passable
+s73	nature/-.5 Incline Dirt [Left B]	rgrass9	passable
+s74	nature/.5 Grass Incline [Bottom B]	lgrass10	passable
+s75	nature/-.5 Grass Incline [Bottom B]	rgrass10	passable
