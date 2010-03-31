@@ -12,6 +12,8 @@ class Sprite:
 		self.on_ground = False
 		self.platform = None
 		self.left_facing = False
+		self.moves_through_walls = False
+		self.immune_to_gravity = False
 	
 	def get_top_left(self):
 		return (self.get_left(), self.get_top())

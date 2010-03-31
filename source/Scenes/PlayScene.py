@@ -21,6 +21,7 @@ class PlayScreen:
 		
 		
 		self.sprites = [self.player]
+		self.sprites.append(EnemyBat(200, 30))
 	
 	def get_camera_offset(self):
 		width = self.level_info.get_width()
@@ -152,7 +153,7 @@ class PlayScreen:
 			sprite.x = new_x
 			
 			
-			if not sprite.on_ground:
+			if not sprite.on_ground and not sprite.immune_to_gravity:
 				sprite.vy += self.g
 			else:
 				sprite.vy = 0
@@ -344,6 +345,6 @@ class PlayScreen:
 						if img != None:
 							screen.blit(img, (x - cx, y - cy))
 				
-		
-		self.player.draw(screen, self.player.vx != 0, self.counter, camera)
+		for sprite in self.sprites:
+			sprite.draw(screen, self.player.vx != 0, self.counter, camera)
 		
