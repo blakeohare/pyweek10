@@ -84,7 +84,10 @@ class PlayScreen:
 	
 	def ProcessInput(self, events):
 		for event in events:
-			if event.key == 'B':
+			if event.key == 'start' and event.down:
+				self.next = TransitionScene(self, PauseScene(self), 'fade', 10)
+				jukebox.MakeQuiet()
+			elif event.key == 'B':
 				# jump
 				if event.down and self.player.on_ground:
 					self.player.vy = -15

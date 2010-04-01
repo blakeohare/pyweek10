@@ -70,6 +70,12 @@ class JukeBox:
 		self.now_playing = None
 		pygame.mixer.music.fadeout(100)
 	
+	def MakeQuiet(self):
+		pygame.mixer.music.set_volume(0.5)
+	
+	def MakeLoud(self):
+		pygame.mixer.music.set_volume(1.0)
+	
 	# specific songs
 	def PlayTitle(self):
 		self._play_song_once('opening_fanfare')
