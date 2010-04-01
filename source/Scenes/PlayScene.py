@@ -275,7 +275,13 @@ class PlayScreen:
 				#TODO: automated victory sequence
 				games.active_game().save_value('finished_world' + self.level_id, 1)
 				games.active_game().save_to_file()
-				self.next = MapScene(int(self.level_id.split('_')[0]))
+				parts = self.level_id.split('_')
+				world = int(parts[0])
+				level_from = int(parts[1][0])
+				level_to = str(level_from + 1)
+				level_from = str(level_from)
+				if level_to == '6': level_to = 'next'
+				self.next = MapScene(world, level_from, level_to)
 			
 		else:
 			self.wibblywobbly_counter += 1

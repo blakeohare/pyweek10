@@ -1,14 +1,17 @@
 class MapScene:
-	def __init__(self, world_num):
+	def __init__(self, world_num, level, level_to=None):
 		games.active_game().save_value('intro_shown', 1)
 		self.counter = 0
 		self.next = self
 		self.world_num = world_num
-		self.location = ''
+		self.location = level
 		self.nodes = self._read_map_file()
 		#TODO: set initial location from save game
 		self.bg_image = None
-		self.destination = self.location
+		if level_to != None:
+			self.destination = level_to
+		else:
+			self.destination = self.location
 		self.move_counter = 0
 		
 	def Update(self):
@@ -20,6 +23,12 @@ class MapScene:
 			if self.move_counter >= 15:
 				self.move_counter = 0
 				self.location = self.destination
+		
+				if self.location == 'prev':
+					self.next = MapScene(self.world_num - 1, 'next', '5')
+				elif self.location == 'next':
+					self.next = MapScene(self.world_num + 1, 'prev', '1')
+					
 		
 	
 	def Render(self, screen):
@@ -63,6 +72,7 @@ class MapScene:
 		color = (255, 255, 255)
 		complete_color = (0, 128, 0)
 		incomplete_color = (255, 0, 0)
+		print(nodes)
 		for start in nodes.keys():
 			start_x = nodes[start]['x']
 			start_y = nodes[start]['y']

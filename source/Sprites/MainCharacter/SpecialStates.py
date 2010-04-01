@@ -41,6 +41,9 @@ class SpecialStateDying:
 			camera = playScene.get_camera_offset()
 			x = self.x - camera[0]
 			y = self.y - camera[1]
-			playScene.next = TransitionScene(playScene, MapScene(int(playScene.level_id.split('_')[0])), 'circle_in', 59, (x, y))
+			parts = playScene.level_id.split('_')
+			world = int(parts[0])
+			level = parts[1][0] #TODO: make this robust if we ever have more than 9 levels in each
+			playScene.next = TransitionScene(playScene, MapScene(world, level), 'circle_in', 59, (x, y))
 
 			
