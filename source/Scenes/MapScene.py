@@ -23,12 +23,14 @@ class MapScene:
 			if self.move_counter >= 15:
 				self.move_counter = 0
 				self.location = self.destination
-		
+				
+				screenchange = None
 				if self.location == 'prev':
-					self.next = MapScene(self.world_num - 1, 'next', '5')
+					screenchange = MapScene(self.world_num - 1, 'next', '5')
 				elif self.location == 'next':
-					self.next = MapScene(self.world_num + 1, 'prev', '1')
-					
+					screenchange = MapScene(self.world_num + 1, 'prev', '1')
+				if screenchange != None:
+					self.next = TransitionScene(self, screenchange, 'fadeout', 30)
 		
 	
 	def Render(self, screen):
@@ -60,7 +62,9 @@ class MapScene:
 								self.destination = connection[0]
 							break
 				elif event.down and event.key in ('start', 'B', 'A'):
-					self.next = PlayScreen(str(self.world_num) + '_' + self.location, 'a') # TODO: actually initialize this to a level splash screen
+					nextScene = PlaySceneInfoScene(self.world_num, self.location)
+					self.next = TransitionScene(self, nextScene, 'fadeout', 30)
+		
 	
 	def generate_map(self):
 		original = images.Get('maps/world_' + str(self.world_num) + '.png')
@@ -72,7 +76,6 @@ class MapScene:
 		color = (255, 255, 255)
 		complete_color = (0, 128, 0)
 		incomplete_color = (255, 0, 0)
-		print(nodes)
 		for start in nodes.keys():
 			start_x = nodes[start]['x']
 			start_y = nodes[start]['y']
@@ -96,7 +99,7 @@ class MapScene:
 	
 	def _read_map_file(self):
 		c = open(os.path.join('levels', 'world_map', 'world_' + str(self.world_num) + '.txt'), 'rt')
-		lines = c.read().split('\n')
+		lines = trim(c.read()).split('\n')
 		c.close()
 		nodes = {}
 		connections = False
