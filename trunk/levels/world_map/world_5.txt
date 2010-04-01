@@ -1,12 +1,12 @@
+prev	60,-30
 1	61,31
 2	126,50
 3	72,80
 4	120,101
 5	182,82
-next	37,250
 #connections
+prev	1	down
 1	2	right
 2	3	down
 3	4	right
 4	5	right
-5	next	down
