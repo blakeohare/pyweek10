@@ -28,6 +28,7 @@ while scene != None:
 	start = time.time()
 	
 	events = []
+	_enemyEdit.Clear()
 	for event in pygame.event.get():
 		if event.type == MUSICEND:
 			soundtrack.HandleEvent(event)
@@ -49,6 +50,7 @@ while scene != None:
 				output_screen = pygame.display.set_mode((800, 600))
 		else:
 			events.append(event)
+		_enemyEdit.Update(event)
 	
 	if scene == None:
 		break

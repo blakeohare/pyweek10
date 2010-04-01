@@ -23,6 +23,7 @@ class LevelLibrary:
 		doors = []
 		background = None
 		background_scroll = 0
+		enemies = []
 		for line in lines:
 			line = trim(line)
 			if len(line) > 0:
@@ -50,7 +51,16 @@ class LevelLibrary:
 							coords = parts[0].split(',')
 							dest = parts[1].split(',')
 							doors.append((int(coords[0]), int(coords[1]), dest[0], dest[1]))
+				elif item == 'enemies':
+					if line != '':
+						for enemy in line.split(' '):
+							parts = enemy.split(',')
+							enemy_type = parts[0]
+							x = int(parts[1])
+							y = int(parts[2])
+							enemies.append((enemy_type, x, y))
 		
+		values['enemies'] = enemies
 		values['doors'] = doors
 		values['start_locations'] = {}
 		values['background'] = background
