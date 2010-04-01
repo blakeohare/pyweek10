@@ -108,6 +108,9 @@ class PlayScreen:
 	def Update(self):
 		self.counter += 1
 		
+		if self.counter == 1:
+			jukebox.PlayLevelMusic('overworld1')
+		
 		for sprite in self.get_sprites():
 			
 			sprite.update(self)
@@ -280,17 +283,22 @@ class PlayScreen:
 				level_from = int(parts[1][0])
 				level_to = str(level_from + 1)
 				level_from = str(level_from)
-				if level_to == '6': level_to = 'next'
+				if level_to == '6':
+					level_to = 'next'
 				self.next = MapScene(world, level_from, level_to)
 			
 		else:
 			self.wibblywobbly_counter += 1
 			if self.player.special_state == None and self.wibblywobbly_counter > self.wibblywobbly.get_max_severity():
-				self.player.special_state = SpecialStateDying(self.player)
+				self.kill_player()
 		
 		if self.player.special_state == None and self.player.y > self.level_info.get_height() * 16 + 30:
-			self.player.special_state = SpecialStateDying(self.player)
+			self.kill_player()
 		
+	
+	def kill_player(self):
+		self.player.special_state = SpecialStateDying(self.player)
+		jukebox.PlayDeath()
 	
 	def is_collision(self, spriteA, spriteB):
 		ra = spriteA.get_collision_radius() - 8
