@@ -174,6 +174,7 @@ class PlayScreen:
 			
 			if not sprite.on_ground and not sprite.immune_to_gravity:
 				sprite.vy += self.g
+				sprite.vy = min(sprite.vy, 13)
 			else:
 				sprite.vy = 0
 				
