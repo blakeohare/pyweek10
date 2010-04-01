@@ -13,6 +13,7 @@ class MapScene:
 		else:
 			self.destination = self.location
 		self.move_counter = 0
+		self.facing_left = False
 		
 	def Update(self):
 		self.counter += 1
@@ -43,7 +44,15 @@ class MapScene:
 		
 		screen.blit(self.bg_image, (0, 0))
 		
-		character = images.Get('sprites/EvilWizardDude.png') #TODO: change this from the wizard
+		walking = self.location != self.destination
+		direction = ('right','left')[self.facing_left]
+		img = 'sprites/ClumsyWizard/' + direction
+		if walking:
+			img += 'walk' + str(int(int(self.counter / 3) % 3)) + '.png'
+		else:
+			img += 'stand.png'
+		
+		character = images.Get(img)
 		start_node = self.nodes[self.location]
 		end_node = self.nodes[self.destination]
 		start_x = start_node['x']
@@ -52,7 +61,7 @@ class MapScene:
 		end_y = end_node['y']
 		x = int(start_x * (15 - self.move_counter) / 15.0 + end_x * self.move_counter / 15.0 - character.get_width() / 2)
 		y = int(start_y * (15 - self.move_counter) / 15.0 + end_y * self.move_counter / 15.0 - character.get_height() / 2)
-		screen.blit(character, (x, y))
+		screen.blit(character, (x, y - 10))
 	
 	def ProcessInput(self, events):
 		for event in events:
@@ -63,6 +72,7 @@ class MapScene:
 						if connection[1] == event.key:
 							if node['completed'] or self.nodes[connection[0]]['completed']:
 								self.destination = connection[0]
+								self.facing_left = self.nodes[self.location]['x'] > self.nodes[self.destination]['x']
 							break
 				elif event.down and event.key in ('start', 'B', 'A'):
 					nextScene = PlaySceneInfoScene(self.world_num, self.location)
