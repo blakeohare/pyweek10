@@ -20,11 +20,13 @@ class PlayScreen:
 		self.target_vx = 0
 		
 		self.player = MainCharacter(start_loc[0] * 16, start_loc[1] * 16)
-		self.enemies = [EnemyBat(200, 30)]
+		self.enemies = self.level_info.get_enemies()
 		self.mumblefoo = None
 		self.wibblywobbly = WibblyWobblyRenderer()
 		self.wibblywobbly_counter = 0
 	
+		self.allow_enemy_edit = True #TODO: change this to false right before release
+		self.enemy_edit_mode = False
 	def get_sprites(self):
 		
 		sprites = []
@@ -118,6 +120,41 @@ class PlayScreen:
 	
 	def Update(self):
 		self.counter += 1
+		
+		if self.allow_enemy_edit:
+			if _enemyEdit.ModeToggled():
+				self.enemy_edit_mode = not self.enemy_edit_mode
+				if not self.enemy_edit_mode:
+					
+					filename = 'levels' + os.sep + 'levels' + os.sep + self.level_id + self.screen_id + '.txt'
+					c = open(filename, 'rt')
+					lines = trim(c.read()).split('\n')
+					output = ''
+					for line in lines:
+						parts = line.split(':')
+						if not parts[0] == 'enemies':
+							output += line + '\r\n'
+					
+					enemies = []
+					for enemy in self.level_info.level_template.values['enemies']:
+						enemies.append(enemy[0] + ',' + str(enemy[1]) + ',' + str(enemy[2]))
+					if len(enemies) > 0:
+						output += 'enemies:' + ' '.join(enemies) + '\r\n'
+					c = open(filename, 'wt')
+					c.write(trim(output))
+					c.close()
+					
+					
+			
+			if self.enemy_edit_mode:
+				num = _enemyEdit.NumPressed()
+				if num >= 0:
+					if num == 1:
+						self.level_info.level_template.values['enemies'].append(('bat', int(self.player.x / 16), int(self.player.y / 16)))
+						self.enemies = self.level_info.get_enemies()
+						
+
+		
 		
 		if self.counter == 1:
 			jukebox.PlayLevelMusic('overworld1')
@@ -267,14 +304,14 @@ class PlayScreen:
 			if self.is_collision(self.mumblefoo, self.player):
 				self.mumblefoo = None
 				# TODO: play noise
-				
-		if self.player.flashing_counter <= 0:
-			for sprite in self.enemies:
-				if self.is_collision(sprite, self.player):
-					# You dropped the mumblefoo!
-					self.player.flashing_counter = 60
-					self.mumblefoo = SoulJar(self.player.x, self.player.y, self.counter)
-					
+		
+		if not self.enemy_edit_mode:
+			if self.player.flashing_counter <= 0:
+				for sprite in self.enemies:
+					if self.is_collision(sprite, self.player):
+						# You dropped the mumblefoo!
+						self.player.flashing_counter = 60
+						self.mumblefoo = SoulJar(self.player.x, self.player.y, self.counter)
 		
 		if self.mumblefoo == None:
 			self.wibblywobbly_counter = max(0, self.wibblywobbly_counter - 5)
@@ -432,3 +469,33 @@ class PlayScreen:
 		
 		if self.wibblywobbly_counter > 0:
 			self.wibblywobbly.render(screen, self.render_counter, self.wibblywobbly_counter)
+
+		if self.enemy_edit_mode:
+			label = get_text("(enemy insertion mode)")
+			screen.blit(label, (0, 0))
+			
+			
+
+class EnemyEditInput:
+	def __init__(self):
+		self.num_pressed = -1
+		self.toggle_mode = False
+	
+	def Clear(self):
+		self.num_pressed = -1
+		self.toggle_mode = False
+		
+	
+	def Update(self, event):
+		if event.type == KEYUP:
+			if event.key in (K_1, K_2, K_3, K_4, K_5, K_6, K_7, K_8, K_9, K_0):
+				self.num_pressed = event.key - K_0
+			if event.key == K_e:
+				self.toggle_mode = True
+	def ModeToggled(self):
+		return self.toggle_mode
+	def NumPressed(self):
+		return self.num_pressed
+		
+#STATIC
+_enemyEdit = EnemyEditInput()

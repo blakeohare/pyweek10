@@ -12,6 +12,20 @@ class Level:
 	def get_height(self):
 		return self.level_template.get_height()
 	
+	def get_enemies(self):
+		enemies = []
+		for enemy in self.level_template.values['enemies']:
+			sprite = None
+			if enemy[0] == 'bat':
+				sprite = EnemyBat(enemy[1] * 16, enemy[2] * 16)
+			
+			if sprite != None:
+				sprite.x += int(sprite.width / 2)
+				sprite.y -= int(sprite.height / 2)
+				enemies.append(sprite)
+		return enemies
+				
+	
 	def get_door_dest(self, x, y):
 		for door in self.level_template.values['doors']:
 			if door[0] == x and door[1] == y:
