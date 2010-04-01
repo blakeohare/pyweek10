@@ -124,3 +124,11 @@ s77	Misc/thin platform [middle]	thinplatformM	platform
 s78	Misc/thin platform [right]	thinplatformR	platform
 s79	Misc/Waterfall	waterfall1|waterfall2|waterfall3|waterfall4	passable
 s80	Misc/waterfall [bottom]	waterfallb1|waterfallb2|waterfallb3|waterfallb4	passable
+s81	Castle/Castle Wall [Left]	castleleft	passable
+s82	Castle/Castle Wall	castlemiddle	passable
+s83	Castle/Castle Wall [Right]	casttleright	passable
+s84	Castle/Castle Top [Left]	castletopleft	passable
+s85	Castle/Castle Top	castletopmiddle	passable
+s86	Castle/Castle Top [Right]	castletopright	passable
+s87	Castle/Castle Window [Top]	castlewindowtop	passable
+s88	Castle/Castle Window [Bottom]	castlewindowbottom	passable
