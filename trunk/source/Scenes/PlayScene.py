@@ -17,6 +17,8 @@ class PlayScreen:
 		
 		start_loc = self.level_info.get_start_location(start_location)
 		
+		self.target_vx = 0
+		
 		self.player = MainCharacter(start_loc[0] * 16, start_loc[1] * 16)
 		self.enemies = [EnemyBat(200, 30)]
 		self.mumblefoo = None
@@ -100,13 +102,19 @@ class PlayScreen:
 		
 		if input.is_key_pressed('left'):
 			self.player.left_facing = True
-			self.player.vx = (-3, -5)[running]
+			self.target_vx = (-3, -5)[running]
 		elif input.is_key_pressed('right'):
 			self.player.left_facing = False
-			self.player.vx = (3, 5)[running]
+			self.target_vx = (3, 5)[running]
 		else:
-			self.player.vx = 0
-			#TODO: screeching halt
+			self.target_vx = 0
+		
+		screechiness = 0.6 #TODO: make this dynamic for low-friction ice levels
+		if self.target_vx != self.player.vx:
+			if self.target_vx > self.player.vx:
+				self.player.vx = min(self.target_vx, self.player.vx + screechiness)
+			elif self.target_vx < self.player.vx:
+				self.player.vx = max(self.target_vx, self.player.vx - screechiness)
 	
 	def Update(self):
 		self.counter += 1
