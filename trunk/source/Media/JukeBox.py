@@ -29,7 +29,7 @@ class JukeBox:
 			for tries in range(5): # >:( sometimes I really hate PyGame
 				pygame.mixer.music.play(self.next_song_loops)
 				
-				time.sleep(0.03)
+				time.sleep(0.01)
 				
 				if pygame.mixer.get_busy():
 					break

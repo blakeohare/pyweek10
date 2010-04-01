@@ -1,7 +1,7 @@
 class TransitionScene:
 	def __init__(self, from_scene, to_scene, type, duration, params=None):
 		self.from_scene = from_scene
-		to_scene.next = to_scene
+		if to_scene != None: to_scene.next = to_scene
 		self.to_scene = to_scene
 		self.type = type
 		self.duration = duration
@@ -16,8 +16,8 @@ class TransitionScene:
 			self.next = self.to_scene
 	
 	def ProcessInput(self, events):
-		self.from_scene.ProcessInput(events)
-		self.to_scene.ProcessInput(events)
+		if self.from_scene != None: self.from_scene.ProcessInput(events)
+		if self.to_scene != None: self.to_scene.ProcessInput(events)
 	
 	def Render(self, screen):
 		if self.type == 'fadeout':
@@ -30,7 +30,15 @@ class TransitionScene:
 			opacity = ensure_range(int(opacity), 0, 255)
 			self.temp_screen.set_alpha(opacity)
 			screen.blit(self.temp_screen, (0, 0))
-			
+		
+		elif self.type == 'fade_and_end':
+			self.from_scene.Render(self.temp_screen)
+			opacity = 255 * (1 - 2.0 * self.counter / self.duration)
+			opacity = ensure_range(int(opacity), 0, 255)
+			self.temp_screen.set_alpha(opacity)
+			screen.blit(self.temp_screen, (0, 0))
+		
+		
 		elif self.type == 'fade':
 			to_opacity = 255 * (self.counter / self.duration)
 			to_opacity = ensure_range(int(to_opacity), 0, 255)
