@@ -119,3 +119,8 @@ s72	nature/-.5 Incline Dirt [Left A]	rgrass8	passable
 s73	nature/-.5 Incline Dirt [Left B]	rgrass9	passable
 s74	nature/.5 Grass Incline [Bottom B]	lgrass10	passable
 s75	nature/-.5 Grass Incline [Bottom B]	rgrass10	passable
+s76	Misc/thin platform [Left]	thinplatformL	platform
+s77	Misc/thin platform [middle]	thinplatformM	platform
+s78	Misc/thin platform [right]	thinplatformR	platform
+s79	Misc/Waterfall	waterfall1|waterfall2|waterfall3|waterfall4	passable
+s80	Misc/waterfall [bottom]	waterfallb1|waterfallb2|waterfallb3|waterfallb4	passable
