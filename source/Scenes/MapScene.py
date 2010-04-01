@@ -17,6 +17,9 @@ class MapScene:
 	def Update(self):
 		self.counter += 1
 		
+		if self.counter == 1:
+			jukebox.PlayMapMusic()
+		
 		if self.destination != self.location:
 			self.move_counter += 1
 			
@@ -64,6 +67,7 @@ class MapScene:
 				elif event.down and event.key in ('start', 'B', 'A'):
 					nextScene = PlaySceneInfoScene(self.world_num, self.location)
 					self.next = TransitionScene(self, nextScene, 'fadeout', 30)
+					jukebox.FadeOut(2)
 		
 	
 	def generate_map(self):

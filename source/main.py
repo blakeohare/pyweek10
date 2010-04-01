@@ -53,6 +53,8 @@ while scene != None:
 	if scene == None:
 		break
 	
+	jukebox.Update()
+	
 	scene.ProcessInput(input.get_input(events))
 	
 	scene.Update()

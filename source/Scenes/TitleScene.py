@@ -29,3 +29,5 @@ class TitleScene:
 	
 	def Update(self):
 		self.counter += 1
+		if self.counter == 1:
+			jukebox.PlayTitle()

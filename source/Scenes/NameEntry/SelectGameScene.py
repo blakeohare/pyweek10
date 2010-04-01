@@ -49,6 +49,7 @@ class SelectGameScene:
 						if game.get_value('intro_shown') == 1:
 							nextScene = MapScene(1, '1') # TODO: actually read last level completed from file
 						else:
+							jukebox.FadeOut(0.2)
 							nextScene = CutSceneScene('demo', MapScene(1, '1'))
 						self.next = TransitionScene(self, nextScene, 'fadeout', 30)
 				elif self.mode == 'erase':
@@ -116,4 +117,6 @@ class SelectGameScene:
 		
 	def Update(self):
 		self.counter += 1
+		if self.counter == 1:
+			jukebox.Stop()
 		
