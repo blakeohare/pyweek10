@@ -1,8 +1,9 @@
 
 class NameEntryScene:
 	
-	def __init__(self, game):
+	def __init__(self, game, game_slot_index):
 		self.next = self
+		self.game_slot_index = game_slot_index
 		self.counter = 0
 		self.cursor_x = 0
 		self.cursor_y = 0
@@ -37,13 +38,13 @@ class NameEntryScene:
 									self.game.save_value('name', name)
 									self.game.save_value('saved', 1)
 									self.game.save_to_file()
-									self.next = SelectGameScene()
+									self.next = SelectGameScene(self.game_slot_index)
 								else:
 									# TODO: play error sound
 									pass
 							else:
 								if self.text_entry == '':
-									self.next = SelectGameScene()
+									self.next = SelectGameScene(self.game_slot_index)
 								else:
 									self.text_entry = self.text_entry[:-1]
 						else:	

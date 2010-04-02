@@ -22,13 +22,15 @@ class TransitionScene:
 	def Render(self, screen):
 		if self.type == 'fadeout':
 			if self.counter < self.duration / 2.0:
-				self.from_scene.Render(self.temp_screen)
 				opacity = 255 * (1 - 2.0 * self.counter / self.duration)
+				opacity = ensure_range(int(opacity), 0, 255)
+				self.temp_screen.set_alpha(opacity)
+				self.from_scene.Render(self.temp_screen)
 			else:
-				self.to_scene.Render(self.temp_screen)
 				opacity = 255 * (1 - 2.0 * (self.duration - self.counter) / self.duration)
-			opacity = ensure_range(int(opacity), 0, 255)
-			self.temp_screen.set_alpha(opacity)
+				opacity = ensure_range(int(opacity), 0, 255)
+				self.temp_screen.set_alpha(opacity)
+				self.to_scene.Render(self.temp_screen)
 			screen.blit(self.temp_screen, (0, 0))
 		
 		elif self.type == 'fade_and_end':
@@ -40,8 +42,11 @@ class TransitionScene:
 		
 		
 		elif self.type == 'fade':
-			to_opacity = 255 * (self.counter / self.duration)
+			screen.fill((0,0,0))
+			self.temp_screen.fill((0,0,0))
+			to_opacity = 255 * (self.counter / (self.duration + 0.0))
 			to_opacity = ensure_range(int(to_opacity), 0, 255)
+			
 			self.from_scene.Render(screen)
 			self.temp_screen.set_alpha(to_opacity)
 			self.to_scene.Render(self.temp_screen)

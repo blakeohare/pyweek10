@@ -17,6 +17,8 @@ class PlayScreen:
 		
 		start_loc = self.level_info.get_start_location(start_location)
 		
+		self.renderInventory = True
+		
 		self.target_vx = 0
 		
 		self.player = MainCharacter(start_loc[0] * 16, start_loc[1] * 16)
@@ -632,16 +634,15 @@ class PlayScreen:
 			screen.blit(label, (0, 0))
 	
 	def render_status(self, screen):
-		
-		left = 256 - 10 - 100
-		top = 5
-		
-		pygame.draw.rect(screen, (0, 0, 0), Rect(left - 1, top - 1, 102, 8))
-		wand_width = wandStatus.GetMagic()
-		colors = wandStatus.GetColors()
-		pygame.draw.rect(screen, colors[0], Rect(left, top, wand_width, 5))
-		pygame.draw.rect(screen, colors[1], Rect(left, top + 2, wand_width, 3))
-		pygame.draw.rect(screen, colors[2], Rect(left, top + 4, wand_width, 2))
+		if self.renderInventory:
+			left = 256 - 10 - 100
+			top = 5
+			pygame.draw.rect(screen, (0, 0, 0), Rect(left - 1, top - 1, 102, 8))
+			wand_width = wandStatus.GetMagic()
+			colors = wandStatus.GetColors()
+			pygame.draw.rect(screen, colors[0], Rect(left, top, wand_width, 5))
+			pygame.draw.rect(screen, colors[1], Rect(left, top + 2, wand_width, 3))
+			pygame.draw.rect(screen, colors[2], Rect(left, top + 4, wand_width, 2))
 		
 		
 			
