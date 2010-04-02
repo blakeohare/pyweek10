@@ -49,6 +49,7 @@ class CutSceneScene:
 					self.SetScene(self.script.Next())
 				
 	def Render(self, screen):
+		screen.fill((0,0,0))
 		if not self.scene:
 			if self.oldScreen != None:
 				screen.blit(self.oldScreen, (0, 0))

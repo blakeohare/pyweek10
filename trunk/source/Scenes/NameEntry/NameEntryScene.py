@@ -57,13 +57,15 @@ class NameEntryScene:
 		screen.fill((0,0,0))
 		_selectGameBG.Render(screen)
 		
+		screen.blit(get_text("Name Entry:"), (20, 10))
+		
 		cursor_coords = self._get_coords(self.cursor_x, self.cursor_y)
 		
 		name = self.text_entry
 		if int(self.counter / 15) % 2 == 1:
 			name += '_'
 		
-		screen.blit(get_text(name), (10, 10))
+		screen.blit(get_text(name), (20, 30))
 		
 		pygame.draw.circle(screen, (120, 120, 120), (cursor_coords[0] + 4, cursor_coords[1] + 4), 7)
 		
@@ -88,7 +90,7 @@ class NameEntryScene:
 		
 	def _get_coords(self, x, y):
 		x_left = 20
-		y_top = 50
+		y_top = 70
 		
 		new_x = x_left + x * 18
 		new_y = y_top + y * 18
