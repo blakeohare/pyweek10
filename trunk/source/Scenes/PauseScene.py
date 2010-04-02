@@ -112,9 +112,9 @@ class WandStatus:
 		if self.wand_selected == 0:
 			return ((130, 0, 130), (110, 0, 110), (90, 0, 90))
 		if self.wand_selected == 1:
-			return ((0, 128, 0), (0, 64, 255), (0, 0, 220))
+			return ((0, 128, 255), (0, 64, 255), (0, 0, 220))
 		if self.wand_selected == 2:
-			return ((255, 255, 30), (255, 160, 0), (240, 0, 0))
+			return ((255, 160, 30), (255, 80, 0), (240, 0, 0))
 		if self.wand_selected == 3:
 			return ((255, 255, 0), (200, 200, 0), (150, 150, 0))
 		return ((0, 200, 0), (0, 150, 0), (0, 110, 0))
