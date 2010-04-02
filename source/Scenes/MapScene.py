@@ -44,6 +44,20 @@ class MapScene:
 		
 		screen.blit(self.bg_image, (0, 0))
 		
+		flux = abs((self.counter % 30.0) - 15) / 15.0
+		half = int(128 * flux)
+		full = int(255 * flux)
+		
+		complete_color = (half, half, 127 + half)
+		incomplete_color = (full, 0, 0)
+		for node in self.nodes.values():
+			color = incomplete_color
+			if node['completed'] == 1:
+				color = complete_color
+			pygame.draw.circle(screen, (0, 0, 0), (node['x'], node['y']), 8)
+			pygame.draw.circle(screen, color, (node['x'], node['y']), 6)
+			
+			
 		walking = self.location != self.destination
 		direction = ('right','left')[self.facing_left]
 		img = 'sprites/ClumsyWizard/' + direction
@@ -87,9 +101,7 @@ class MapScene:
 		
 		nodes = self.nodes
 		
-		color = (255, 255, 255)
-		complete_color = (0, 128, 0)
-		incomplete_color = (255, 0, 0)
+		color = (93, 72, 55)
 		for start in nodes.keys():
 			start_x = nodes[start]['x']
 			start_y = nodes[start]['y']
@@ -101,14 +113,7 @@ class MapScene:
 				for i in range(50):
 					x = int(start_x * i / 50.0 + end_x * (50 - i) / 50.0)
 					y = int(start_y * i / 50.0 + end_y * (50 - i) / 50.0)
-					pygame.draw.circle(background, color, (x, y), 5)
-		for node in nodes.values():
-			color = incomplete_color
-			if node['completed'] == 1:
-				color = complete_color
-			pygame.draw.circle(background, (0, 0, 0), (node['x'], node['y']), 9)
-			pygame.draw.circle(background, color, (node['x'], node['y']), 7)
-			
+					pygame.draw.circle(background, color, (x, y), 2)
 		return background
 	
 	def _read_map_file(self):
