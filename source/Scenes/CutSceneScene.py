@@ -9,6 +9,7 @@ class CutSceneScene:
 		self.sceneStartTime = None
 		
 		self.SetScene(self.script.Next())
+		soundtrack.Init()
 
 	def SetScene(self, scn):
 		self.sceneStartTime = time.time()
@@ -44,6 +45,7 @@ class CutSceneScene:
 			if self.oldScreen != None:
 				screen.blit(self.oldScreen, (0, 0))
 			if self.next == self:
+				soundtrack.FullHalt()
 				self.next = TransitionScene(self, self.nextScene, 'fadeout', 30)
 			return
 		

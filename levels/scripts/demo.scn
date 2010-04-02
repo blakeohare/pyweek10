@@ -1,7 +1,6 @@
 [frame]
 [coords: 0,0]
 [image: cutscenes/intro/frame-1.jpg]
-[image: cutscenes/intro/grid.png]
 [text:Hi! My name is $Wizard. Some\nwizards have a reputation for\nbeing...]
 [music:opening_fanfare.mp3]
 
