@@ -103,7 +103,7 @@ class PlayScreen:
 				elif self.player.vy < 0:
 					self.player.vy = 0
 			elif event.key == 'Y' and event.down:
-				if self.wand_cooldown <= 0 and len(self.bullets) < 5:
+				if self.wand_cooldown <= 0 and len(self.bullets) < 5 and wandStatus.DepleteMagic():
 					self.wand_cooldown = 5
 					self.bullets.append(Bullet(self.player.left_facing, self.player.x, self.player.y, wandStatus.SelectedWand()))
 		
@@ -495,12 +495,25 @@ class PlayScreen:
 		if self.wibblywobbly_counter > 0:
 			self.wibblywobbly.render(screen, self.render_counter, self.wibblywobbly_counter)
 
-		
+		self.render_status(screen)
 		
 		if self.enemy_edit_mode:
 			label = get_text("(enemy insertion mode)")
 			screen.blit(label, (0, 0))
-			
+	
+	def render_status(self, screen):
+		
+		left = 256 - 10 - 100
+		top = 5
+		
+		pygame.draw.rect(screen, (0, 0, 0), Rect(left - 1, top - 1, 102, 7))
+		wand_width = wandStatus.GetMagic()
+		colors = wandStatus.GetColors()
+		pygame.draw.rect(screen, colors[0], Rect(left, top, wand_width, 5))
+		pygame.draw.rect(screen, colors[1], Rect(left, top + 2, wand_width, 3))
+		pygame.draw.rect(screen, colors[2], Rect(left, top + 4, wand_width, 1))
+		
+		
 			
 
 class EnemyEditInput:
