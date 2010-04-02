@@ -35,9 +35,4 @@
 [text:Now just hold still...\nThis won't hurt too much...\n*Pop*]
 [music:fadeout]
 
-[frame]
-[coords: 0,0]
-[image: cutscenes/endgame/frame-6.png]
-[text:The end. Thank you for playing.]
-
 [end]
