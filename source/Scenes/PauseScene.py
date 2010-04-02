@@ -8,12 +8,15 @@ class PauseScene:
 		self.darken.set_alpha(120)
 		self.cursor_y = 0
 		self.saved = False
+		#TODO: remove this if this has nothing to do with the broken fade
+		self.temporary_screen = pygame.Surface((256, 224), SRCALPHA)
 		
 	def ProcessInput(self, events):
 		for event in events:
 			if event.down:
 				if event.key == 'start':
 					if self.cursor_y == 0:
+						#TODO: figure out why this fade isn't working anymore
 						self.next = TransitionScene(self, self.prev, 'fade', 10)
 						jukebox.MakeLoud()
 					elif self.cursor_y == 1:
@@ -37,12 +40,13 @@ class PauseScene:
 		self.counter += 1
 	
 	def Render(self, screen):
-		self.prev.Render(screen)
-		screen.blit(self.darken, (0,0))
+		
+		self.prev.Render(self.temporary_screen)
+		self.temporary_screen.blit(self.darken, (0,0))
 		text = get_text("Paused")
 		x = 128 - int(text.get_width() / 2)
 		y = 20
-		screen.blit(text, (x, y))
+		self.temporary_screen.blit(text, (x, y))
 		
 		wands = [
 			'basic',
@@ -63,30 +67,31 @@ class PauseScene:
 			x = 20 + 45 * i
 			y = 90
 			if selected == i:
-				pygame.draw.rect(screen, cursor_color, Rect(x, y, 36, 36))
+				pygame.draw.rect(self.temporary_screen, cursor_color, Rect(x, y, 36, 36))
 			if wandStatus.IsKnown(i):
 				img = images.Get('wands/magic_' + wands[i] + '.png')
 			else:
 				img = images.Get('wands/magic_unknown.png')
-			screen.blit(img, (x + 2, y + 2))
+			self.temporary_screen.blit(img, (x + 2, y + 2))
 		
 		
 		y = 150
 		x =  90
 		
 		text = get_text('Choose Wand Magic:')
-		screen.blit(text, (20, 60))
+		self.temporary_screen.blit(text, (20, 60))
 		
 		
 		i = 0
 		for option in ['Resume', ('Save', 'Saved Successfully!')[self.saved], 'Quit']:
 			text = get_text(option)
-			screen.blit(text, (x, y))
+			self.temporary_screen.blit(text, (x, y))
 			if self.cursor_y == i:
-				screen.blit(images.Get('title_cursor.png'), (x - 15, y + 1))
+				self.temporary_screen.blit(images.Get('title_cursor.png'), (x - 15, y + 1))
 			y += 18
 			i += 1
-			
+		
+		screen.blit(self.temporary_screen, (0, 0))
 			
 
 class WandStatus:
@@ -94,7 +99,26 @@ class WandStatus:
 		self.wand_selected = 0
 		self.magic_level = 100
 
-		
+	def GetMagic(self):
+		return self.magic_level
+	
+	def DepleteMagic(self):
+		if self.magic_level > 0:
+			self.magic_level -= 1
+			return True
+		return False
+	
+	def GetColors(self):
+		if self.wand_selected == 0:
+			return ((130, 0, 130), (110, 0, 110), (90, 0, 90))
+		if self.wand_selected == 1:
+			return ((0, 128, 0), (0, 64, 255), (0, 0, 220))
+		if self.wand_selected == 2:
+			return ((255, 255, 30), (255, 160, 0), (240, 0, 0))
+		if self.wand_selected == 3:
+			return ((255, 255, 0), (200, 200, 0), (150, 150, 0))
+		return ((0, 200, 0), (0, 150, 0), (0, 110, 0))
+	
 	def SelectedWand(self):
 		return self.wand_selected
 	
