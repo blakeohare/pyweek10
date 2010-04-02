@@ -379,9 +379,15 @@ class PlayScreen:
 			if self.player.flashing_counter <= 0:
 				for sprite in self.enemies:
 					if self.is_collision(sprite, self.player):
-						# You dropped the mumblefoo!
+						if self.mumblefoo == None:
+							# You dropped the mumblefoo!
+							self.mumblefoo = SoulJar(self.player.x, self.player.y, self.counter)
+						self.vy = -4
 						self.player.flashing_counter = 60
-						self.mumblefoo = SoulJar(self.player.x, self.player.y, self.counter)
+						if self.player.left_facing:
+							self.vx = 5
+						else:
+							self.vx = -5
 		
 		if self.mumblefoo == None:
 			self.wibblywobbly_counter = max(0, self.wibblywobbly_counter - 5)
