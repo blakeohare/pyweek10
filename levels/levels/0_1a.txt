@@ -1,0 +1,6 @@
+start_locations:A,4,11
+default_start:A
+background_scroll_rate:-1
+background_image:clouds
+tiles:0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 s84 s85 s85 s85 s86 0 0 s18 s19 s18 s19 0 0 0 0 0 s81,0 s82,0 s82,0 s82,0 s83,0 0 0 s20 s21 s20 s21 0 0 0 0 0 s81,0 s82,0 s82,s87 s82 s83,0 0 0 s22 s23 s22 s23 0 0 0 0 s12,0 s81 s82,0 s82,s88 s82 s83,0 s13 s14 s24 s25 s24 s25 s12 s13 s14 0 s1 s1 s1 s1 s1 s1 s1 s1 s1 s1 s1 s1 s1 s1 s1 s1 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4
+width:16
