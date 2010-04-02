@@ -37,8 +37,16 @@ class CutSceneScene:
 
 	def ProcessInput(self, events):
 		for event in events:
-			if event.down and event.key == 'start':
-				self.SetScene(self.script.Next())
+			if event.down and event.key in ('start', 'A', 'B', 'Y'):
+				jump = False
+				if self.scene:
+					frame = self.scene
+					if frame.text:
+						if len(frame.text) > self.text_counter:
+							self.text_counter += 1000
+							jump = True
+				if not jump:
+					self.SetScene(self.script.Next())
 				
 	def Render(self, screen):
 		if not self.scene:
@@ -50,11 +58,15 @@ class CutSceneScene:
 			return
 		
 		frame = self.scene
-		if self.oldScreen:
-			self.oldScreen.blit(images.Get(frame.image), (frame.coords))
-			screen.blit(self.oldScreen, ((0,0)))
-		else:
-			screen.blit(images.Get(frame.image), (frame.coords))
+		#I'm not sure what this is doing, but it's putting the first character
+		#of the first frame underneath any text following it since the oldScreen
+		#cache seems to occur after the first character is blitted
+		# after
+		#if self.oldScreen:
+		#	self.oldScreen.blit(images.Get(frame.image), (frame.coords))
+		#	screen.blit(self.oldScreen, ((0,0)))
+		#else:
+		screen.blit(images.Get(frame.image), (frame.coords))
 
 		# save the image without the text
 		self.oldScreen = screen.copy()
