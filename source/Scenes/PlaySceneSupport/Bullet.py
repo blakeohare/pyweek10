@@ -10,7 +10,7 @@ class Bullet:
 		self.lifetime = 0
 		
 	def draw(self, screen, camera_x, camera_y):
-		file = 'wands/shoot_' + self.name + str(int((self.lifetime / 2) % 3)) + '.png'
+		file = 'wands/'+(('', 'left/')[self.going_left])+'shoot_' + self.name + str(int((self.lifetime / 2) % 3)) + '.png'
 		img = images.Get(file)
 		x = self.x - camera_x - int(img.get_width() / 2)
 		y = self.y - camera_y - int(img.get_height() / 2)
