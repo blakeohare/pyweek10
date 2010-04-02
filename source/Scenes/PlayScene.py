@@ -89,6 +89,11 @@ class PlayScreen:
 		
 		return self.level_info.get_inclines_in_rectangle(tile_left, tile_right, tile_top, tile_bottom)
 	
+	def IsPlatformOn(self, pixel_x, pixel_y):
+		x = int(pixel_x / 16)
+		y = int(pixel_y / 16)
+		return len(self.level_info.get_landing_platforms_in_rectangle(x, x, y, y)) > 0
+	
 	def ProcessInput(self, events):
 		for event in events:
 			if event.key == 'start' and event.down:
@@ -170,8 +175,13 @@ class PlayScreen:
 			if self.enemy_edit_mode:
 				num = _enemyEdit.NumPressed()
 				if num >= 0:
+					insert = None
 					if num == 1:
-						self.level_info.level_template.values['enemies'].append(('bat', int(self.player.x / 16), int(self.player.y / 16)))
+						insert = 'bat'
+					elif num == 2:
+						insert = 'skeleton'
+					if insert != None:
+						self.level_info.level_template.values['enemies'].append((insert, int(self.player.x / 16), int(self.player.y / 16) + 1))
 						self.enemies = self.level_info.get_enemies()
 						
 
@@ -300,7 +310,7 @@ class PlayScreen:
 									if abs(left_platform.y_right - platform.y_left) <= 1:
 										sprite.platform = left_platform
 										break
-								
+	
 						else:
 							# walked off right
 							right = platform.left + platform.width
@@ -364,21 +374,30 @@ class PlayScreen:
 		if self.player.special_state == None and self.player.y > self.level_info.get_height() * 16 + 30:
 			self.kill_player()
 		
+	def get_left_stiched_platform(self, platform):
+		for stiched in self.get_landing_surfaces(platform.left - 1, platform.y_left - 3, platform.y_left + 3):
+			if abs(platform.y_left - stiched.y_right) <= 1 and abs(platform.left - stiched.left - stiched.width) <= 1:
+				return stiched
+		return None
+	
+		
+	def get_right_stiched_platform(self, platform):
+		for stiched in self.get_landing_surfaces(platform.left + platform.width + 1, platform.y_right - 3, platform.y_right + 3):
+			if abs(platform.y_right - stiched.y_left) <= 1 and abs(platform.left + platform.width - stiched.left) <= 1:
+				return stiched
+		return None
 	
 	def kill_player(self):
 		self.player.special_state = SpecialStateDying(self.player)
 		jukebox.PlayDeath()
 	
 	def is_collision(self, spriteA, spriteB):
-		ra = spriteA.get_collision_radius() - 8
-		rb = spriteB.get_collision_radius() - 8
 		
-		dx = spriteA.x - spriteB.x
-		dy = spriteA.y - spriteB.y
-		
-		if (dx ** 2) + (dy ** 2) < (ra + rb) ** 2:
-			return True
-		return False
+		return spriteA.is_collision_with_rect(
+			spriteB.get_left(),
+			spriteB.get_right(),
+			spriteB.get_top(),
+			spriteB.get_bottom())
 	
 	def set_sprite_on_platform(self, sprite, platform):
 		sprite.y = int(platform.get_y_at_x(sprite.x) - sprite.height + sprite.height / 2) # odd math to keep consistent rounding

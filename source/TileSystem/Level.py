@@ -16,12 +16,16 @@ class Level:
 		enemies = []
 		for enemy in self.level_template.values['enemies']:
 			sprite = None
+			x = enemy[1] * 16
+			y = enemy[2] * 16
 			if enemy[0] == 'bat':
-				sprite = EnemyBat(enemy[1] * 16, enemy[2] * 16)
-			
+				sprite = EnemyBat(x, y)
+			elif enemy[0] == 'skeleton':
+				sprite = EnemySkeleton(x, y)
+				
 			if sprite != None:
 				sprite.x += int(sprite.width / 2)
-				sprite.y -= int(sprite.height / 2)
+				sprite.y -= (int(sprite.height / 2) + 1)
 				enemies.append(sprite)
 		return enemies
 				
