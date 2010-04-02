@@ -158,3 +158,12 @@ s111	Desert/shallow slope down [upper]	sandshallowR2	shallow_incline_down_upper
 s112	Desert/shallow slope down [bottom]	sandshallowR3	passable
 s113	Desert/cactus [top]	cactustop	passable
 s114	Desert/cactus [bottom]	cactusbottom	passable
+s115	Ruins/Bricks [pristine]	bricks_pristine	passable
+s116	Ruins/Bricks [broken]	bricks_broken1	passable
+s117	Ruins/Bricks [broken 2]	bricks_broken2	passable
+s118	Ruins/Block	squareblock	unpassable
+s119	Ruins/Column [base]	columnbase	passable
+s120	Ruins/Column [middle]	columnmiddle	passable
+s121	Ruins/Column [top]	columntop	passable
+s122	Ruins/Column [broken]	columnbroken	passable
+s123	ice/ice block	iceblock	unpassable
