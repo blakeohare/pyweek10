@@ -57,11 +57,13 @@ class SpecialStateVictory:
 		self.mapScene = mapScene
 		
 	def draw(self, surface, main_char, is_moving, counter):
-		sequence = ['rightstand','rightwalk0','rightturn1','rightturn2','rightturn3','leftturn3','leftturn2','leftturn1','leftwalk0','leftstand']
+		sequence = ['rightstand','rightwalk0','rightturn1','rightturn2','rightturn3','leftturn3','leftturn2','leftturn1','leftwalk0','leftstand', 'wave1']
 		if self.lifetime > 10 and self.lifetime <= 29:
 			index = int((self.lifetime - 10) / 2)
-		else:
+		elif self.lifetime <= 10:
 			index = 0
+		else:
+			index = -1
 			
 		return images.Get('sprites/ClumsyWizard/' + sequence[index] + '.png')
 	

@@ -46,11 +46,11 @@ Lines of Python code:
 4031""".split('---')
 		self.page_counter = 0
 		self.temp_screen = pygame.Surface((256, 224))
+		self.wave_counter = 0
 	
 	def Update(self):
 		self.counter += 1
 		opacity = 0
-		
 		if self.counter > 30:
 			self.page_counter += 1
 			page_duration = 90
@@ -64,7 +64,9 @@ Lines of Python code:
 					opacity = int(255 * self.page_counter / 30.0 )
 				elif self.page_counter > 30 + page_duration:
 					opacity = 255 - int(255 * (self.page_counter - 30 - page_duration) / 30.0)
-					
+			else:
+				self.wave_counter += 1
+				
 			if self.page_counter >= 30 + 30 + page_duration:
 				opacity = 0
 				self.pages = self.pages[1:]
@@ -74,7 +76,9 @@ Lines of Python code:
 		
 	def ProcessInput(self, events):
 		for event in events:
-			pass
+			if self.wave_counter > 60:
+				if event.key == 'start' and event.up:
+					self.next = TitleScene()
 	
 	def Render(self, screen):
 		
@@ -89,6 +93,12 @@ Lines of Python code:
 				x = int((256 - text.get_width()) / 2.0)
 				self.temp_screen.blit(text, (x, y))
 				y += 18
+		elif self.wave_counter > 0:
+			opacity = min(255, int(255 * self.wave_counter / 30.0))
+			self.temp_screen.set_alpha(opacity)
+			img = 'wave' + str(int(int(self.counter / 3) % 2) + 1) + '.png'
+			self.temp_screen.blit(images.Get('sprites/ClumsyWizard/' + img), (200, 180))
+			self.temp_screen.blit(get_text("The End"), (120, 100))
 		screen.blit(self.temp_screen, (0, 0))
 		
 	
