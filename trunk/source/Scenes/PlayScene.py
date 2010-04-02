@@ -35,6 +35,8 @@ class PlayScreen:
 		self.camera_x = camera_offset[0] + 0.0
 		self.camera_y = camera_offset[1] + 0.0
 		
+		self.wand_charge = 0
+		
 		self.text_triggers = {
 		'timer' : [],
 		'soul_pickup' : None
@@ -144,8 +146,18 @@ class PlayScreen:
 				if self.wand_cooldown <= 0 and len(self.bullets) < 5 and wandStatus.DepleteMagic():
 					self.wand_cooldown = 5
 					self.bullets.append(Bullet(self.player.left_facing, self.player.x, self.player.y, wandStatus.SelectedWand()))
+			elif event.key == 'Y' and event.up and self.wand_charge > 10:
+				if wandStatus.SelectedWand() == 4:
+					charge = max(0, min(2, int((self.wand_charge - 10) / 30.0)))
+					self.bullets.append(Bullet(self.player.left_facing, self.player.x, self.player.y, wandStatus.SelectedWand(), charge))
+					self.wand_charge = 0
 		
 		running = input.is_key_pressed('A')
+		
+		if input.is_key_pressed('Y'):
+			self.wand_charge += 1
+		else:
+			self.wand_charge = 0
 		
 		if input.is_key_pressed('left'):
 			self.player.left_facing = True
