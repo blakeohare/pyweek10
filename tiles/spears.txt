@@ -132,3 +132,11 @@ s85	Castle/Castle Top	castletopmiddle	passable
 s86	Castle/Castle Top [Right]	castletopright	passable
 s87	Castle/Castle Window [Top]	castlewindowtop	passable
 s88	Castle/Castle Window [Bottom]	castlewindowbottom	passable
+s89	Cave/hot platform [left]	hotrockTL	platform
+s90	Cave/hot platform [Middle]	hotrockTM	platform
+s91	Cave/hot platform [right]	hotrockTR	platform
+s92	Cave/hot rocks [left]	hotrockBL	passable
+s93	Cave/hot rocks [middle]	hotrockBM	passable
+s94	Cave/hot rocks [right]	hotrockBR	passable
+s95	Cave/lava [top]	lava1|lava2|lava3|lava4	spikes
+s96	Cave/lava [bottom]	lava	spikes
