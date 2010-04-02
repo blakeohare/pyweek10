@@ -1,12 +1,12 @@
-1	61,31
-2	126,50
-3	72,80
-4	120,101
-5	182,82
-next	37,250
+1	75,76
+2	149,79
+3	114,122
+4	90,177
+5	173,165
+next	280,165
 #connections
 1	2	right
 2	3	down
-3	4	right
+3	4	down
 4	5	right
-5	next	down
+5	next	right
