@@ -35,6 +35,7 @@ class TextPrinter:
 			('colon', ':'),
 			('comma', ','),
 			('exclaim', '!'),
+			('hash', '#'),
 			('hyphen', '-'),
 			('underscore', '_'),
 			('open_paren', '('),
