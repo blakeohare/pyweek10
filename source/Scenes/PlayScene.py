@@ -451,7 +451,12 @@ class PlayScreen:
 				
 				jukebox.PlayVictory()
 				
-				self.player.special_state = SpecialStateVictory(self.player, MapScene(world, level_from, level_to))
+				if self.level_id == '5_5':
+					nextScene = CutSceneScene('demo', CreditsScene())
+				else:
+					nextScene = MapScene(world, level_from, level_to)
+				
+				self.player.special_state = SpecialStateVictory(self.player, nextScene)
 			
 		else:
 			self.wibblywobbly_counter += 1
