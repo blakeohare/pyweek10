@@ -34,7 +34,26 @@ class PlayScreen:
 		camera_offset = self.get_real_camera_offset()
 		self.camera_x = camera_offset[0] + 0.0
 		self.camera_y = camera_offset[1] + 0.0
-	
+		
+		self.text_triggers = {
+		'timer' : [],
+		'soul_pickup' : None
+		}
+		if self.level_id == '0_1':
+			self.text_triggers['timer'] = [
+					(10, "Wow, I never realized how \n much misplacing a soul would \n make me dizzy. It seems one \n of the larger chunks fell into \n the bushes over there.", None)
+					]
+			self.text_triggers['soul_pickup'] = ("Phew, if I didn't pick that up \n sooner it may have been \n game over for me. \n I better be careful not to \n drop this again!", TransitionScene(self, MapScene(1, '1'), 'fadeout', 30))
+			
+			
+			self.mumblefoo = SoulJar(230, 224 - 50, 0)
+			self.wibblywobbly_counter = 60
+			self.mumblefoo.vx = 0
+			self.mumblefoo.vy = 0
+		
+		
+		
+		
 	def get_sprites(self):
 		
 		sprites = []
@@ -386,6 +405,8 @@ class PlayScreen:
 			if self.is_collision(self.mumblefoo, self.player):
 				self.mumblefoo = None
 				# TODO: play noise
+				if self.text_triggers['soul_pickup'] != None:
+					self.text_triggers['timer'].append((self.counter + 40, self.text_triggers['soul_pickup'][0], self.text_triggers['soul_pickup'][1]))
 		
 		if not self.enemy_edit_mode:
 			if self.player.flashing_counter <= 0:
@@ -421,6 +442,11 @@ class PlayScreen:
 				level_from = str(level_from)
 				if level_to == '6':
 					level_to = 'next'
+				if world == 0:
+					level_from = '1'
+					level_to = '1'
+					world = 1
+				
 				self.next = MapScene(world, level_from, level_to)
 			
 		else:
@@ -430,6 +456,10 @@ class PlayScreen:
 		
 		if self.player.special_state == None and self.player.y > self.level_info.get_height() * 16 + 30:
 			self.kill_player()
+		
+		for text_trigger in self.text_triggers['timer']:
+			if self.counter == text_trigger[0]:
+				self.next = TextOverlayScene(text_trigger[1], self, text_trigger[2])
 		
 	def get_left_stiched_platform(self, platform):
 		for stiched in self.get_landing_surfaces(platform.left - 1, platform.y_left - 3, platform.y_left + 3):
@@ -529,7 +559,9 @@ class PlayScreen:
 		
 		bg = self.level_info.get_background_image()
 		if bg != None:
-			bg_percent = (0.0 + cx) / (self.level_info.get_width() * 16 - 256)
+			scroll_width = (self.level_info.get_width() * 16 - 256)
+			if scroll_width == 0: scroll_width = 1
+			bg_percent = (0.0 + cx) / scroll_width
 			bg_width = bg.get_width()
 			
 			bg_offset = -1 * bg_percent * (bg_width - 256)

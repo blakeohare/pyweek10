@@ -30,8 +30,8 @@ while scene != None:
 	events = []
 	_enemyEdit.Clear()
 	for event in pygame.event.get():
-		if event.type == MUSICEND:
-			soundtrack.HandleEvent(event)
+		#if event.type == MUSICEND:
+		#	soundtrack.HandleEvent(event)
 		if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
 			scene = None
 		elif event.type == KEYDOWN and event.key == K_f:
