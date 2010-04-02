@@ -15,6 +15,7 @@ class Sprite:
 		self.moves_through_walls = False
 		self.immune_to_gravity = False
 		self.confined_to_scene = False
+		self.killed = False
 	
 	def get_collision_radius(self):
 		return (self.width + self.height) / 2.0
@@ -54,7 +55,10 @@ class Sprite:
 		if self.get_bottom() - tolerance < top:
 			return False
 		return True
-			
+	
+	def GetPowerUp(self):
+		return None #TODO: this		
+	
 	def platform_below_vx_location(self, playScene):
 		x = self.x + (2 * self.vx)
 		
