@@ -156,3 +156,5 @@ s109	Desert/shallow slope up [bottom]	sandshallowL3	passable
 s110	Desert/shallow slope down [lower]	sandshallowR1	shallow_incline_down_lower
 s111	Desert/shallow slope down [upper]	sandshallowR2	shallow_incline_down_upper
 s112	Desert/shallow slope down [bottom]	sandshallowR3	passable
+s113	Desert/cactus [top]	cactustop	passable
+s114	Desert/cactus [bottom]	cactusbottom	passable
