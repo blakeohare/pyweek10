@@ -82,8 +82,8 @@ s35	Cave/dirt column [middle]	CaveFloorBM	passable
 s36	Cave/dirt column [right]	CaveFloorBR	passable
 s37	Cave/rock	rock	passable
 s38	Cave/stalagmite tip	Stalagmite1	spikes
-s39	Cave/stalagmite base	Stalagmite2	unpassable
-s40	Cave/stalactite base	Stalactite2	unpassable
+s39	Cave/stalagmite base	Stalagmite2	spikes
+s40	Cave/stalactite base	Stalactite2	spikes
 s41	Cave/stalactite tip	Stalactite1	spikes
 s42	Misc/left stairs [top]	Stairs2A	incline_down
 s43	Misc/left stairs [bottom]	Stairs2B	passable
@@ -140,3 +140,19 @@ s93	Cave/hot rocks [middle]	hotrockBM	passable
 s94	Cave/hot rocks [right]	hotrockBR	passable
 s95	Cave/lava [top]	lava1|lava2|lava3|lava4	spikes
 s96	Cave/lava [bottom]	lava	spikes
+s97	Desert/sand platform [left]	sandTL	platform
+s98	Desert/sand platform [middle]	sandTM	platform
+s99	Desert/sand platform [right]	sandTR	platform
+s100	Desert/sand column [left]	sandBL	passable
+s101	Desert/sand column [middle]	sandBM	passable
+s102	Desert/sand column [right]	sandBR	passable
+s103	Desert/steep slope up [top]	sandsteepL1	incline_up
+s104	Desert/steep slope up [bottom]	sandsteepL2	passable
+s105	Desert/steep slope down [top]	sandsteepR1	incline_down
+s106	Desert/steep slope down [bottom]	sandsteepR2	passable
+s107	Desert/shallow slope up [lower]	sandshallowL1	shallow_incline_up_lower
+s108	Desert/shallow slope up [upper]	sandshallowL2	shallow_incline_up_upper
+s109	Desert/shallow slope up [bottom]	sandshallowL3	passable
+s110	Desert/shallow slope down [lower]	sandshallowR1	shallow_incline_down_lower
+s111	Desert/shallow slope down [upper]	sandshallowR2	shallow_incline_down_upper
+s112	Desert/shallow slope down [bottom]	sandshallowR3	passable
