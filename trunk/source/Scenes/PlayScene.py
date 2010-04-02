@@ -41,7 +41,7 @@ class PlayScreen:
 		}
 		if self.level_id == '0_1':
 			self.text_triggers['timer'] = [
-					(10, "Wow, I never realized how \n much misplacing a soul would \n make me dizzy. It seems one \n of the larger chunks fell into \n the bushes over there.", None)
+					(10, "Wow, I never realized how \n much misplacing a soul could \n make my mind and body go all \n wibbly wobbly. It seems one \n of the larger chunks fell into \n the bushes over there.", None)
 					]
 			self.text_triggers['soul_pickup'] = ("Phew, if I didn't pick that up \n sooner it may have been \n game over for me. \n I better be careful not to \n drop this again!", TransitionScene(self, MapScene(1, '1'), 'fadeout', 30))
 			
@@ -403,6 +403,8 @@ class PlayScreen:
 		
 		if self.mumblefoo != None and self.mumblefoo.lifetime > 6:
 			if self.is_collision(self.mumblefoo, self.player):
+			
+				self.wibblywobbly_counter = min(self.wibblywobbly_counter, self.wibblywobbly.get_max_severity())
 				self.mumblefoo = None
 				# TODO: play noise
 				if self.text_triggers['soul_pickup'] != None:
@@ -452,7 +454,8 @@ class PlayScreen:
 		else:
 			self.wibblywobbly_counter += 1
 			if self.player.special_state == None and self.wibblywobbly_counter > self.wibblywobbly.get_max_severity():
-				self.kill_player()
+				if self.level_id != '0_1':
+					self.kill_player()
 		
 		if self.player.special_state == None and self.player.y > self.level_info.get_height() * 16 + 30:
 			self.kill_player()
