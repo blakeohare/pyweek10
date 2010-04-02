@@ -1,0 +1,45 @@
+[frame]
+[coords: 0,0]
+[image: cutscenes/intro/frame-1.png]
+[text:Hi! My name is Richard. Like many\nwizards I a reputation for being...]
+[music:opening_fanfare.mp3]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/intro/frame-1.png]
+[text:Well, to be honest, I have a bit\nof a reputation for clumsiness]
+
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/intro/frame-2.png]
+[text:Ah, my latest research project.\nI thought I was so close to\nmaking the Amazing Mumblefoo.]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/intro/frame-2.png]
+[text:Of course what I really ended\nup doing...]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/intro/frame-3.png]
+[text:Was pushing my soul out of my\nbody and sending it flying out\ninto the world.]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/intro/frame-4.png]
+[text:Now I must go and find the\npieces that flew off and visit\nmy teacher, Blake.]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/intro/frame-4.png]
+[text:Hopefully he can help me fix this\num... minor research mistake]
+
+[frame]
+[coords: 0,0]
+[text: ]
+[image: cutscenes/intro/frame-4.png]
+[music:fadeout]
+[transition:timed:2000]
+
+[end]
