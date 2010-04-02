@@ -47,7 +47,13 @@ class SelectGameScene:
 						games.set_active_game(self.cursor_index + 1)
 						game = games.active_game()
 						if game.get_value('intro_shown') == 1:
-							nextScene = MapScene(1, '1') # TODO: actually read last level completed from file
+							last_loc = game.get_value('last_location')
+							if last_loc == None:
+								last_loc = '1_1'
+							last_loc = last_loc.split('_')
+							world = int(last_loc[0])
+							level = last_loc[1]
+							nextScene = MapScene(world, level)
 						else:
 							jukebox.FadeOut(0.2)
 							nextScene = CutSceneScene('demo', MapScene(1, '1'))
