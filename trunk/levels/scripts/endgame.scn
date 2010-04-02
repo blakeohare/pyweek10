@@ -1,0 +1,43 @@
+[frame]
+[coords: 0,0]
+[image: cutscenes/endgame/frame-1.png]
+[text:Though I did not know why he attakced\nI was finally able to best my mentor.]
+[music:opening_fanfare.mp3]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/endgame/frame-2.png]
+[text:Blake: Goodness, thank you.  I had fallen\nunder the control of this soul shard of\nconcertrated negative energy]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/endgame/frame-2.png]
+[text:It can only be safely controlled by\nits owner...]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/endgame/frame-3.png]
+[text:I found it while I was walking through\nthe woods and it called me, catching\nme unaware...]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/endgame/frame-3.png]
+[text:It was too late by the time I\nrealized what it was.  Richard! Were you\nmaking an Amazing Mumblefoo again?!]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/endgame/frame-4.png]
+[text:You'd better take this back before it\ncauses some real harm.]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/endgame/frame-5.png]
+[text:Now just hold still...\nThis won't hurt too much...\n*Pop*]
+[music:fadeout]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/endgame/frame-6.png]
+[text:The end. Thank you for playing.]
+
+[end]
