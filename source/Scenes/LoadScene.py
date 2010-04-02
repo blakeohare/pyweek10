@@ -13,5 +13,5 @@ class LoadScene:
 	def Update(self):
 		self.counter += 1
 		
-		if self.counter > 2: #don't check this in
-			self.next = TitleScene()
+		if self.counter > 60:
+			self.next = TransitionScene(self, TitleScene(), 'fadeout', 30)
