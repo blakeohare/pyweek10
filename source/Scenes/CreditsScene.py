@@ -43,7 +43,7 @@ The letter Y
 playing this far!
 ---0
 Lines of Python code:
-3947""".split('---')
+4031""".split('---')
 		self.page_counter = 0
 		self.temp_screen = pygame.Surface((256, 224))
 	
