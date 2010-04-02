@@ -83,6 +83,9 @@ class JukeBox:
 	def PlayDeath(self):
 		self._play_song_once('death')
 	
+	def PlayVictory(self):
+		self._play_song_once('fanfare')
+		
 	def PlayMapMusic(self):
 		self._play_song_looping('maploop')
 	

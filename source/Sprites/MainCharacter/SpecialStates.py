@@ -46,4 +46,22 @@ class SpecialStateDying:
 			level = parts[1][0] #TODO: make this robust if we ever have more than 9 levels in each
 			playScene.next = TransitionScene(playScene, MapScene(world, level), 'circle_in', 59, (x, y))
 
-			
+class SpecialStateVictory:
+	def __init__(self, player, mapScene):
+		self.expires = 100
+		self.player = player
+		self.x = player.x
+		self.y = player.y
+		self.block_update = True
+		self.mapScene = mapScene
+		
+	def draw(self, surface, main_char, is_moving, counter):
+		return images.Get('sprites/ClumsyWizard/rightstand.png')
+	
+	def update(self, main_char, playScene):
+		self.expires -= 1
+		if self.expires == 60:
+			camera = playScene.get_camera_offset()
+			x = self.x - camera[0]
+			y = self.y - camera[1]
+			playScene.next = TransitionScene(playScene, self.mapScene, 'circle_in', 50, (x, y))
