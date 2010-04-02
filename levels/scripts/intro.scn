@@ -37,7 +37,7 @@
 
 [frame]
 [coords: 0,0]
-[text: ]
+[text: ...]
 [image: cutscenes/intro/frame-4.png]
 [music:fadeout]
 [transition:timed:2000]
