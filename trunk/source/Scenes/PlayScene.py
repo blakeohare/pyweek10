@@ -153,6 +153,8 @@ class PlayScreen:
 					charge = max(0, min(2, int((self.wand_charge - 10) / 30.0)))
 					self.bullets.append(Bullet(self.player.left_facing, self.player.x, self.player.y, wandStatus.SelectedWand(), charge))
 					self.wand_charge = 0
+			elif event.key == 'L' and event.up: #TODO: remove this before shipping
+				self.level_info.Refresh()
 		
 		running = input.is_key_pressed('A')
 		

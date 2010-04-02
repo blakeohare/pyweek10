@@ -44,7 +44,8 @@ class CompositeTile:
 			'shallow_incline_up_lower' : 7,
 			'shallow_incline_down_upper' : 8,
 			'shallow_incline_down_lower' : 9,
-			'spikes' : 10
+			'spikes' : 10,
+			'ladder' : 11
 			}
 		
 		physics = tile_templates[0]

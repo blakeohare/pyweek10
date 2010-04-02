@@ -2,6 +2,7 @@
 class Level:
 	def __init__(self, level_template):
 		self.level_template = level_template
+		self.random_start = 0
 	
 	def get_tile(self, col, row):
 		return self.level_template.get_tile(col, row)
@@ -11,6 +12,12 @@ class Level:
 	
 	def get_height(self):
 		return self.level_template.get_height()
+	
+	def Refresh(self):
+		levels.load_level(self.level_template._remove_me)
+		self.level_template = levels.levels[self.level_template._remove_me]
+		#levels.load_level(self.level_template._remove_me)
+		#levels.levels[self.level_template._remove_me] = self.level_template
 	
 	def get_enemies(self):
 		enemies = []
