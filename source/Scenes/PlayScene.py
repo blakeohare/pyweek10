@@ -27,6 +27,9 @@ class PlayScreen:
 	
 		self.allow_enemy_edit = True #TODO: change this to false right before release
 		self.enemy_edit_mode = False
+		self.wand_cooldown = 0
+		self.bullets = []
+	
 	def get_sprites(self):
 		
 		sprites = []
@@ -99,6 +102,10 @@ class PlayScreen:
 					self.player.platform = None
 				elif self.player.vy < 0:
 					self.player.vy = 0
+			elif event.key == 'Y' and event.down:
+				if self.wand_cooldown <= 0 and len(self.bullets) < 5:
+					self.wand_cooldown = 5
+					self.bullets.append(Bullet(self.player.left_facing, self.player.x, self.player.y, wandStatus.SelectedWand()))
 		
 		running = input.is_key_pressed('A')
 		
@@ -111,6 +118,9 @@ class PlayScreen:
 		else:
 			self.target_vx = 0
 		
+		if self.wand_cooldown > 0:
+			self.target_vx = 0
+		
 		screechiness = 0.6 #TODO: make this dynamic for low-friction ice levels
 		if self.target_vx != self.player.vx:
 			if self.target_vx > self.player.vx:
@@ -120,6 +130,17 @@ class PlayScreen:
 	
 	def Update(self):
 		self.counter += 1
+		
+		self.wand_cooldown -= 1
+		
+		new_bullets = []
+		camera_x = self.get_camera_offset()[0]
+		
+		for bullet in self.bullets:
+			bullet.update()
+			if not bullet.is_off_screen(camera_x, camera_x + 256):
+				new_bullets.append(bullet)
+		self.bullets = new_bullets
 		
 		if self.allow_enemy_edit:
 			if _enemyEdit.ModeToggled():
@@ -449,7 +470,6 @@ class PlayScreen:
 		row_start = max(0, int(cy / 16 - 1))
 		row_end = min(self.level_info.get_height() - 1, row_start + 16)
 		
-		
 		for row in range(row_start, row_end + 1):
 			for col in range(col_start, col_end + 1):
 				x = col * 16
@@ -464,12 +484,19 @@ class PlayScreen:
 		if self.wibblywobbly_counter > 0:
 			self.wibblywobbly.render_color_fade(screen, self.render_counter, self.wibblywobbly_counter)
 		
+		self.player.wand_cooldown= self.wand_cooldown
+		
 		for sprite in self.get_sprites():
 			sprite.draw(screen, self.player.vx != 0, self.counter, camera)
+		
+		for bullet in self.bullets:
+			bullet.draw(screen, cx, cy)
 		
 		if self.wibblywobbly_counter > 0:
 			self.wibblywobbly.render(screen, self.render_counter, self.wibblywobbly_counter)
 
+		
+		
 		if self.enemy_edit_mode:
 			label = get_text("(enemy insertion mode)")
 			screen.blit(label, (0, 0))

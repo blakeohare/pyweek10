@@ -8,6 +8,7 @@ class MainCharacter(Sprite):
 		self.flashing_counter = 0
 		self.special_state = None
 		self.confined_to_scene = True
+		self.wand_cooldown = 0
 		
 	def draw(self, surface, is_moving, counter, camera_offset):
 		
@@ -18,6 +19,8 @@ class MainCharacter(Sprite):
 		
 		if self.special_state != None:
 			img = self.special_state.draw(surface, self, is_moving, counter)
+		elif self.wand_cooldown > 0:
+			img = images.Get('sprites/ClumsyWizard/' + direction + 'throw' + ('1','2')[self.wand_cooldown > 2] + '.png')
 		else:
 			if self.vy > 0:
 				file = direction + 'jump2'
