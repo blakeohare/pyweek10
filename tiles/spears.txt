@@ -177,3 +177,4 @@ s130	Water/Seaweed 1 [Middle]	seaweedmiddle1	passable
 s131	Water/Seaweed 2 [Middle]	seaweedmiddle2	passable
 s132	Water/Seaweed 1 [Bottom]	seaweedbottom1	passable
 s133	Water/Seaweed 2 [Bottom]	seaweedbottom2	passable
+s134	Water/Conch	conch	passable
