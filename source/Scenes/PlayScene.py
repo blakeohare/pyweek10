@@ -347,7 +347,6 @@ class PlayScreen:
 			if victory_x > 0 and self.player.x >= victory_x:
 				#TODO: automated victory sequence
 				games.active_game().save_value('finished_world' + self.level_id, 1)
-				games.active_game().save_to_file()
 				parts = self.level_id.split('_')
 				world = int(parts[0])
 				level_from = int(parts[1][0])

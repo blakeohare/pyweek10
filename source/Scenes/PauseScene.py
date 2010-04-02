@@ -20,6 +20,7 @@ class PauseScene:
 						self.next = TransitionScene(self, self.prev, 'fade', 10)
 						jukebox.MakeLoud()
 					elif self.cursor_y == 1:
+						games.active_game().save_value('last_location', self.prev.level_id)
 						games.active_game().save_to_file()
 						self.saved = True
 					elif self.cursor_y == 2:
@@ -123,11 +124,12 @@ class WandStatus:
 		return self.wand_selected
 	
 	def ShiftWand(self, direction):
-		self.SelectWand(self.wand_selected + direction)
+		if not self.SelectWand(self.wand_selected + direction):
+			self.SelectWand(self.wand_selected - direction)
 	
 	def SelectWand(self, wand_index):
-	
 		self.wand_selected = max(0, min(4, wand_index))
+		return self.IsKnown(self.wand_selected)
 		
 	def IsKnown(self, wand_index):
 		if wand_index == 0:
