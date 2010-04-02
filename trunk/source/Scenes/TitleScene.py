@@ -15,8 +15,6 @@ class TitleScene:
 						self.next = ConfigureControlsScene()
 					else:
 						self.next = TransitionScene(self, None, 'fade_and_end', 30)
-				elif event.key == 'L':
-					self.next = CutSceneScene('demo')
 					
 				elif event.key == 'up':
 					self.index = max(0, self.index - 1)

@@ -2,8 +2,12 @@ class Soundtrack:
 	def __init__(self):
 		self.playQueue = None
 		self.paused = False
-		
+	
+	def Init(self):	
 		pygame.mixer.music.set_endevent(MUSICEND)
+
+	def FullHalt(self):
+		pygame.mixer.music.set_endevent()
 		
 	def HandleEvent(self, event):
 		pq = self.playQueue
