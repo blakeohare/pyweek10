@@ -171,3 +171,9 @@ s124	Ruins/Fallen Column	fallencolumn2	passable
 s125	Ruins/Fallen Column [broken]	fallencolumn1	passable
 s126	Ruins/Fallen Column [broken 2]	fallencolumn3	passable
 s127	Ruins/Column [broken 2]	columnbroken2	passable
+s128	Water/Seaweed 1 [Top]	seaweedtop1	passable
+s129	Water/Seaweed 2 [Top]	seaweedtop2	passable
+s130	Water/Seaweed 1 [Middle]	seaweedmiddle1	passable
+s131	Water/Seaweed 2 [Middle]	seaweedmiddle2	passable
+s132	Water/Seaweed 1 [Bottom]	seaweedbottom1	passable
+s133	Water/Seaweed 2 [Bottom]	seaweedbottom2	passable
