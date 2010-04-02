@@ -31,6 +31,9 @@ class PlayScreen:
 		self.enemy_edit_mode = False
 		self.wand_cooldown = 0
 		self.bullets = []
+		camera_offset = self.get_real_camera_offset()
+		self.camera_x = camera_offset[0] + 0.0
+		self.camera_y = camera_offset[1] + 0.0
 	
 	def get_sprites(self):
 		
@@ -42,7 +45,7 @@ class PlayScreen:
 		
 		return sprites
 	
-	def get_camera_offset(self):
+	def get_real_camera_offset(self):
 		width = self.level_info.get_width()
 		height = self.level_info.get_height()
 		x = self.player.x - 128
@@ -50,6 +53,15 @@ class PlayScreen:
 		x = max(min(x, width * 16 - 256), 0)
 		y = max(min(y, height * 16 - 224), 0)
 		return (x, y)
+	
+	def get_camera_offset(self):
+		return (int(self.camera_x), int(self.camera_y))
+	
+	def update_camera(self):
+		new = self.get_real_camera_offset()
+		self.camera_x = (self.camera_x * 0.7 + new[0] * 0.3)
+		self.camera_y = (self.camera_y * 0.7 + new[1] * 0.3)
+		
 	
 	def get_walls(self, x_left, x_right, y_top, y_bottom):
 		tile_left = (x_left - 1) >> 4
@@ -510,6 +522,7 @@ class PlayScreen:
 		
 		self.render_counter += 1
 		
+		self.update_camera()
 		camera = self.get_camera_offset()
 		cx = camera[0]
 		cy = camera[1]
