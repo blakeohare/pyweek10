@@ -4,13 +4,13 @@ class JoystickConfig:
 		self.next = self
 		self.counter = 0
 		self.joystick = joystick #JoystickInputSource instance
-		self.keys = 'up left right down start A B Y X L R'.split(' ')
+		self.keys = 'up right down left start A B Y L R'.split(' ')
 		self.descriptions = {
 			'up' : "Press the button for UP",
 			'down' : "Press the button for DOWN",
 			'left' : "Press the button for LEFT",
 			'right' : "Press the button for RIGHT",
-			'start' : "Press the button for START",
+			'start' : "Press the button for START/PAUSE",
 			'A' : "Press the button for RUN",
 			'B' : "Press the button for JUMP",
 			'Y' : "Press the button for ATTACK",
