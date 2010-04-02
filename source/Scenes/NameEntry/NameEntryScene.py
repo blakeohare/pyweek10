@@ -22,27 +22,33 @@ class NameEntryScene:
 					self.cursor_x = max(0, self.cursor_x - 1)
 				elif event.key == 'right' and self.cursor_y < 5:
 					self.cursor_x = min(7, self.cursor_x + 1)
-				elif event.key in ('start', 'A'):
+				elif event.key == 'right' and self.cursor_y == 5 and self.cursor_x < 3:
+					self.cursor_x = 3
+				elif event.key == 'left' and self.cursor_y == 5 and self.cursor_x >= 3:
+					self.cursor_x = 2
+				elif event.key in ('start', 'B','Y','A'):
 					
 					if len(self.text_entry) < 10:
 						char = self.current_character()
 						name = self.text_entry
 						if char == None:
-							if len(name) > 0:
-								self.game.save_value('name', name)
-								self.game.save_value('saved', 1)
-								self.game.save_to_file()
-								self.next = SelectGameScene()
+							if self.cursor_x >= 3:
+								if len(name) > 0:
+									self.game.save_value('name', name)
+									self.game.save_value('saved', 1)
+									self.game.save_to_file()
+									self.next = SelectGameScene()
+								else:
+									# TODO: play error sound
+									pass
 							else:
-								# TODO: play error sound
-								pass
+								if self.text_entry == '':
+									self.next = SelectGameScene()
+								else:
+									self.text_entry = self.text_entry[:-1]
 						else:	
 							self.text_entry += char
-					
-					
-				elif event.key in ('Y', 'B'):
-					self.text_entry = self.text_entry[:-1]
-		
+				
 					
 		
 	def Render(self, screen):
@@ -73,7 +79,8 @@ class NameEntryScene:
 				number = numbers[index]
 				screen.blit(get_text(number), self._get_coords(x + 6, y))
 		
-		screen.blit(get_text("END"), self._get_coords(0, 5))
+		screen.blit(get_text("End"), self._get_coords(3, 5))
+		screen.blit(get_text("Back"), self._get_coords(0, 5))
 		
 	def _get_coords(self, x, y):
 		x_left = 20
@@ -86,7 +93,10 @@ class NameEntryScene:
 			new_x += 10
 		
 		if y == 5:
-			new_x = x_left + 50
+			if x >= 3:
+				new_x = x_left + 60
+			else:
+				new_x = x_left
 		
 		return (new_x, new_y)
 	
