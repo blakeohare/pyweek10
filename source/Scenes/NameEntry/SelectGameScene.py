@@ -1,10 +1,12 @@
 
+
+
 class SelectGameScene:
 	
-	def __init__(self):
+	def __init__(self, starting_slot_index=0):
 		self.next = self
 		self.counter = 0
-		self.cursor_index = 0
+		self.cursor_index = starting_slot_index
 		self.mode = 'selection' # 'copy' or 'erase' or paste
 		self.text_entry = ''
 		self.copy_from = 0
@@ -42,7 +44,7 @@ class SelectGameScene:
 				if self.mode == 'selection':
 					game = games.get_saved_game(self.cursor_index + 1)
 					if game.get_value('saved') == 0:
-						self.next = NameEntryScene(game)
+						self.next = NameEntryScene(game, self.cursor_index)
 					else:
 						games.set_active_game(self.cursor_index + 1)
 						game = games.active_game()
@@ -74,6 +76,8 @@ class SelectGameScene:
 				
 	
 	def Render(self, screen):
+		screen.fill((0,0,0))
+		_selectGameBG.Render(screen)
 		
 		screen.blit(get_text('SELECT GAME'), (10, 10))
 		
@@ -89,7 +93,7 @@ class SelectGameScene:
 			
 			screen.blit(slot_label, (x_offset, y))
 			if is_empty:
-				name = get_text('(EMPTY)')
+				name = get_text('(Empty)')
 			else:
 				name = get_text(name)
 			screen.blit(name, (x_offset + slot_label.get_width(), y))
@@ -126,3 +130,20 @@ class SelectGameScene:
 		if self.counter == 1:
 			jukebox.Stop()
 		
+class SelectGameBackground:
+	def __init__(self):
+		self.bg = pygame.Surface((256, 224))
+		self.fake_playscreen = None
+		self.bg.set_alpha(50)
+	
+	def Render(self, screen):
+		if self.fake_playscreen == None:
+			self.fake_playscreen = PlayScreen('1_1','a')
+			self.fake_playscreen.renderInventory = False
+			player = self.fake_playscreen.player
+			player.y = -100
+		self.fake_playscreen.Render(self.bg)
+		return screen.blit(self.bg, (0, 0))
+#STATIC
+
+_selectGameBG = SelectGameBackground()
