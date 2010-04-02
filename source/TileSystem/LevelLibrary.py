@@ -84,6 +84,7 @@ class LevelLibrary:
 				y += 1
 		
 		self.levels[level_key] = LevelTemplate(tiles, width, values)
+		self.levels[level_key]._remove_me = level_key #TODO: remove me
 		
 #STATIC
 levels = LevelLibrary()
