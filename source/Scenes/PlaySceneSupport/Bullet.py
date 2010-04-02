@@ -19,9 +19,9 @@ class Bullet:
 	def update(self):
 		self.lifetime += 1
 		if self.going_left:
-			self.x -= 6
+			self.x -= 8
 		else:
-			self.x += 6
+			self.x += 8
 	
 	def is_off_screen(self, left, right):
 		return self.x < left - 20 or self.x > right + 20
