@@ -1,14 +1,14 @@
-prev	60,-30
-1	61,31
-2	126,50
-3	72,80
-4	120,101
-5	182,82
-next	37,250
+prev	-20,51
+1	51,51
+2	147,59
+3	137,106
+4	149,144
+5	199,182
+next	205,250
 #connections
-prev	1	down
+prev	1	right
 1	2	right
 2	3	down
-3	4	right
-4	5	right
+3	4	down
+4	5	down
 5	next	down
