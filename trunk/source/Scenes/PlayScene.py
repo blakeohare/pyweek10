@@ -434,7 +434,7 @@ class PlayScreen:
 			
 			# Check for victory
 			victory_x = self.level_info.get_victory_x() * 16
-			if victory_x > 0 and self.player.x >= victory_x:
+			if victory_x > 0 and self.player.x >= victory_x and self.player.special_state == None:
 				#TODO: automated victory sequence
 				games.active_game().save_value('finished_world' + self.level_id, 1)
 				parts = self.level_id.split('_')
@@ -449,7 +449,9 @@ class PlayScreen:
 					level_to = '1'
 					world = 1
 				
-				self.next = MapScene(world, level_from, level_to)
+				jukebox.PlayVictory()
+				
+				self.player.special_state = SpecialStateVictory(self.player, MapScene(world, level_from, level_to))
 			
 		else:
 			self.wibblywobbly_counter += 1
