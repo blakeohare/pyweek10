@@ -110,10 +110,12 @@ class MapScene:
 				end_x = nodes[end[0]]['x']
 				end_y = nodes[end[0]]['y']
 				
-				for i in range(50):
-					x = int(start_x * i / 50.0 + end_x * (50 - i) / 50.0)
-					y = int(start_y * i / 50.0 + end_y * (50 - i) / 50.0)
-					pygame.draw.circle(background, color, (x, y), 2)
+				pygame.draw.aaline(background, color, (start_x, start_y), (end_x, end_y), 2)
+				
+				#for i in range(50):
+				#	x = int(start_x * i / 50.0 + end_x * (50 - i) / 50.0)
+				#	y = int(start_y * i / 50.0 + end_y * (50 - i) / 50.0)
+				#	pygame.draw.circle(background, color, (x, y), 2)
 		return background
 	
 	def _read_map_file(self):
