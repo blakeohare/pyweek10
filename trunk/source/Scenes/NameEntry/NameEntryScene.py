@@ -54,6 +54,9 @@ class NameEntryScene:
 		
 	def Render(self, screen):
 		
+		screen.fill((0,0,0))
+		_selectGameBG.Render(screen)
+		
 		cursor_coords = self._get_coords(self.cursor_x, self.cursor_y)
 		
 		name = self.text_entry
