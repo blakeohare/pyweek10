@@ -48,6 +48,7 @@ class SpecialStateDying:
 
 class SpecialStateVictory:
 	def __init__(self, player, mapScene):
+		self.lifetime = 0
 		self.expires = 100
 		self.player = player
 		self.x = player.x
@@ -56,10 +57,17 @@ class SpecialStateVictory:
 		self.mapScene = mapScene
 		
 	def draw(self, surface, main_char, is_moving, counter):
-		return images.Get('sprites/ClumsyWizard/rightstand.png')
+		sequence = ['rightstand','rightwalk0','rightturn1','rightturn2','rightturn3','leftturn3','leftturn2','leftturn1','leftwalk0','leftstand']
+		if self.lifetime > 10 and self.lifetime <= 29:
+			index = int((self.lifetime - 10) / 2)
+		else:
+			index = 0
+			
+		return images.Get('sprites/ClumsyWizard/' + sequence[index] + '.png')
 	
 	def update(self, main_char, playScene):
 		self.expires -= 1
+		self.lifetime += 1
 		if self.expires == 60:
 			camera = playScene.get_camera_offset()
 			x = self.x - camera[0]
