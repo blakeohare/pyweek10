@@ -56,7 +56,7 @@ class SelectGameScene:
 							nextScene = MapScene(world, level)
 						else:
 							jukebox.FadeOut(0.2)
-							nextScene = CutSceneScene('demo', MapScene(1, '1'))
+							nextScene = CutSceneScene('demo', PlayScreen('0_1', 'a'))
 						self.next = TransitionScene(self, nextScene, 'fadeout', 30)
 				elif self.mode == 'erase':
 					games.erase_game(self.cursor_index + 1)
