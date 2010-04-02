@@ -167,3 +167,6 @@ s120	Ruins/Column [middle]	columnmiddle	passable
 s121	Ruins/Column [top]	columntop	passable
 s122	Ruins/Column [broken]	columnbroken	passable
 s123	ice/ice block	iceblock	unpassable
+s124	Ruins/Fallen Column	fallencolumn2	passable
+s125	Ruins/Fallen Column [broken]	fallencolumn1	passable
+s126	Ruins/Fallen Column [broken 2]	fallencolumn3	passable
