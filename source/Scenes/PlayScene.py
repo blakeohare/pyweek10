@@ -21,6 +21,8 @@ class PlayScreen:
 		
 		self.player = MainCharacter(start_loc[0] * 16, start_loc[1] * 16)
 		self.enemies = self.level_info.get_enemies()
+		self.powerups = []
+		
 		self.mumblefoo = None
 		self.wibblywobbly = WibblyWobblyRenderer()
 		self.wibblywobbly_counter = 0
@@ -138,12 +140,17 @@ class PlayScreen:
 		
 		self.wand_cooldown -= 1
 		
-		new_bullets = []
-		camera_x = self.get_camera_offset()[0]
+		camera = self.get_camera_offset()
+		camera_x = camera[0]
+		camera_y = camera[1]
 		
+		new_bullets = []
 		for bullet in self.bullets:
 			bullet.update()
-			if not bullet.is_off_screen(camera_x, camera_x + 256):
+			if bullet.is_off_screen(camera_x, camera_x + 256):
+				bullet.void_this()
+			
+			if not bullet.expired:
 				new_bullets.append(bullet)
 		self.bullets = new_bullets
 		
@@ -191,6 +198,15 @@ class PlayScreen:
 			jukebox.PlayLevelMusic('overworld1')
 		
 		for sprite in self.get_sprites():
+			
+			if sprite.get_right() < camera_x - 48:
+				continue
+			if sprite.get_left() > camera_x + 256 + 48:
+				continue
+			if sprite.get_bottom() < camera_y - 48:
+				continue
+			if sprite.get_top() > camera_y + 224 + 48:
+				continue
 			
 			sprite.update(self)
 			
@@ -330,6 +346,29 @@ class PlayScreen:
 							#the sprite has fallen off the edge
 							sprite.on_ground = False
 							sprite.platform = None
+			
+			if sprite != self.player:
+				for bullet in self.bullets:
+					if sprite.is_collision_with_rect(bullet.x - 6, bullet.x + 6, bullet.y - 4, bullet.y + 4):
+						bullet.void_this()
+						sprite.killed = True #TODO: HP. bullet.magic is the wand_index
+					
+		new_sprites = []
+		for enemy in self.enemies:
+			if not enemy.killed:
+				new_sprites.append(enemy)
+			else:
+				powerup = enemy.GetPowerUp()
+				if powerup != None:
+					self.powerups.append(powerup)
+		self.enemies = new_sprites
+		
+		new_sprites = []
+		for powerup in self.powerups:
+			if not powerup.taken:
+				new_sprites.append(powerup)
+		self.powerups = new_sprites
+		
 		
 		if self.mumblefoo != None and self.mumblefoo.lifetime > 6:
 			if self.is_collision(self.mumblefoo, self.player):
