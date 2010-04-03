@@ -29,6 +29,7 @@ class TileLibrary:
 			else:
 				image_files = image_files.split('|')
 			physics = parts[3]
+			physics = physics.replace('spikes', 'kill')
 			images = []
 			tile = TileTemplate(image_files, anim_delay, physics)
 			self.tiles[key] = tile
