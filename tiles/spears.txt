@@ -182,3 +182,4 @@ s135	Ice/Snow	snow1|snow2|snow3|snow4	passable
 s136	Ice/Snowman [top]	snowmantop	passable
 s137	Ice/Snowman [bottom]	snowmanbottom	passable
 s138	Misc/Rain	rain1|rain2|rain3|rain4	passable
+s139	nature/vine [top]	vinetop	ladder
