@@ -587,9 +587,13 @@ class PlayScreen:
 		if self.player.special_state == None and self.player.y > self.level_info.get_height() * 16 + 30:
 			self.kill_player()
 		
+		new_text_triggers = []
 		for text_trigger in self.text_triggers['timer']:
-			if self.counter == text_trigger[0]:
+			if self.counter >= text_trigger[0] and self.next == self:
 				self.next = TextOverlayScene(text_trigger[1], self, text_trigger[2])
+			else:
+				new_text_triggers.append(text_trigger)
+		self.text_triggers['timer'] = new_text_triggers
 		
 	def get_left_stiched_platform(self, platform):
 		for stiched in self.get_landing_surfaces(platform.left - 1, platform.y_left - 3, platform.y_left + 3):
