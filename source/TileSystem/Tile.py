@@ -78,7 +78,6 @@ class CompositeTile:
 		final_physics = ''
 		for physics in raw_physics.split('|'):
 			if physics == 'water':
-				#print 'WORKS HERE------------------'
 				self.water_modifier = True
 			elif physics == 'ladder':
 				self.ladder_modifier = True
