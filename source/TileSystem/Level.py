@@ -37,6 +37,8 @@ class Level:
 				sprite = EnemyBlob(x, y, 'blue')
 			elif enemy[0] == 'redblob':
 				sprite = EnemyBlob(x, y, 'red')
+			elif enemy[0] == 'jellyfish':
+				sprite = EnemyJellyFish(x, y)
 			if sprite != None:
 				sprite.x += int(sprite.width / 2)
 				sprite.y -= (int(sprite.height / 2) + 1)
