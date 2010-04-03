@@ -3,3 +3,5 @@ width:8
 default_start:Start
 start_locations:Start,1,8
 doors:6,4|c,Start 6,8|b,Start
+background_scroll_rate:2
+background_image:stormy1

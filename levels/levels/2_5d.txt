@@ -2,3 +2,5 @@ tiles:s118 s118 s118 s118 s118 s118 s118 s118 s118 s118 s118 s118 s118 s118 s118
 width:32
 default_start:Start
 start_locations:Start,1,12
+background_scroll_rate:2
+background_image:stormy1
