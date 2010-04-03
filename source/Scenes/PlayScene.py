@@ -136,8 +136,13 @@ class PlayScreen:
 		x = int(self.player.x / 16)
 		y = int(self.player.y / 16)
 		current_tile = self.level_info.get_tile(x, y)
+		below_tile = self.level_info.get_tile(x, y + 1)
+		above_tile = self.level_info.get_tile(x, y - 1)
+		
 		in_water = current_tile.is_water()
 		on_ladder = current_tile.is_ladder()
+		ladder_above = above_tile.is_ladder()
+		ladder_below = below_tile.is_ladder()
 		on_death_tile = current_tile.is_kill()
 		on_ouch_tile = current_tile.is_ouch()
 		
@@ -147,11 +152,12 @@ class PlayScreen:
 				jukebox.MakeQuiet()
 			elif event.key == 'B':
 				# jump
-				if event.down and (self.player.on_ground or in_water):
+				if event.down and (self.player.on_ground or in_water or self.player.holding_ladder):
 					if in_water:
 						self.player.vy = -4
 					else:
 						self.player.vy = -15
+					self.player.holding_ladder = False
 					self.player.on_ground = False
 					self.player.platform = None
 				elif self.player.vy < 0:
@@ -272,15 +278,23 @@ class PlayScreen:
 				continue
 			if sprite.get_top() > camera_y + 224 + 48:
 				continue
-				
+			
 			x = int(sprite.x / 16.0)
 			y = int(sprite.y / 16.0)
 			
 			current_tile = self.level_info.get_tile(x, y)
 			in_water = current_tile.is_water()
 			on_ladder = (self.player == sprite) and current_tile.is_ladder()
+			ladder_above = (self.player == sprite) and self.level_info.get_tile(x, y - 1).is_ladder()
+			ladder_below = (self.player == sprite) and self.level_info.get_tile(x, y + 1).is_ladder()
+			residually_on_ladder = self.level_info.get_tile(x, int(sprite.get_bottom() / 16.0)).is_ladder()
 			on_death_tile = current_tile.is_kill()
 			on_ouch_tile = current_tile.is_ouch()
+			
+			#was_holding_ladder = self.player.holding_ladder and ladder_below
+			self.player.holding_ladder = self.player.holding_ladder and (ladder_above or on_ladder or residually_on_ladder)
+			#crawled_off_top = was_holding_ladder and not self.player.holding_ladder
+			
 			
 			sprite.update(self)
 			
@@ -339,7 +353,7 @@ class PlayScreen:
 			
 			
 			if not sprite.on_ground and not sprite.immune_to_gravity:
-				if sprite == self.player and on_ladder:
+				if sprite == self.player and self.player.holding_ladder:
 					g = 0 #TODO: ability to let go of ladder
 				elif in_water:
 					g = self.water_g
@@ -352,6 +366,35 @@ class PlayScreen:
 				sprite.vy = 0
 				
 			sprite.dy = int(sprite.vy)
+			
+			if sprite == self.player:
+			
+				sprite.ladder_climb = input.is_key_pressed('up') or input.is_key_pressed('down')
+				
+				if self.player.holding_ladder:
+					if input.is_key_pressed('up'):
+						#sprite.ladder_climb = True
+						sprite.dy -= 1
+					elif input.is_key_pressed('down'):
+						sprite.dy += 1
+						#sprite.ladder_climb = True
+				else:
+					if ladder_below and input.is_key_pressed('down'):
+							sprite.y += 4
+							sprite.on_ground = False
+							sprite.platform = None
+							sprite.holding_ladder = True
+							sprite.vx = 0
+							sprite.dx = 0
+					elif on_ladder and input.is_key_pressed('up'):
+						
+						sprite.vx = 0
+						sprite.dx = 0
+						self.player.holding_ladder = True
+						sprite.platform = None
+						sprite.on_ground = False
+						sprite.dy = -1
+						
 			
 			new_y = sprite.y + sprite.dy
 			
