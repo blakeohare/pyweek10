@@ -292,10 +292,8 @@ class PlayScreen:
 			on_death_tile = current_tile.is_kill()
 			on_ouch_tile = current_tile.is_ouch()
 			
-			#was_holding_ladder = self.player.holding_ladder and ladder_below
-			self.player.holding_ladder = self.player.holding_ladder and (ladder_above or on_ladder or residually_on_ladder)
-			#crawled_off_top = was_holding_ladder and not self.player.holding_ladder
-			
+			if sprite == self.player:
+				self.player.holding_ladder = self.player.holding_ladder and (ladder_above or on_ladder or residually_on_ladder)
 				
 			sprite.update(self)
 			
@@ -363,7 +361,7 @@ class PlayScreen:
 			
 			if not sprite.on_ground and not sprite.immune_to_gravity:
 				if sprite == self.player and self.player.holding_ladder:
-					g = 0 #TODO: ability to let go of ladder
+					g = 0
 				elif in_water:
 					g = self.water_g
 				else:
@@ -382,11 +380,9 @@ class PlayScreen:
 				
 				if self.player.holding_ladder:
 					if input.is_key_pressed('up'):
-						#sprite.ladder_climb = True
 						sprite.dy -= 1
 					elif input.is_key_pressed('down'):
 						sprite.dy += 1
-						#sprite.ladder_climb = True
 				else:
 					if ladder_below and input.is_key_pressed('down'):
 						sprite.y += 4
