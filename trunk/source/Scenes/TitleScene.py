@@ -24,7 +24,7 @@ class TitleScene:
 	def Render(self, screen):
 		screen.blit(images.Get('title.png'), (0, 0))
 		screen.blit(get_text('Start'), (60, 150))
-		screen.blit(get_text('Configure Controls'), (60, 170))
+		screen.blit(get_text('Keyboard Controls/Joystick'), (60, 170))
 		screen.blit(get_text('Exit'), (60, 190))
 		screen.blit(images.Get('title_cursor.png'), (48, 152 + self.index * 20))
 	
