@@ -270,6 +270,12 @@ class PlayScreen:
 						insert = 'jellyfish'
 					elif num == 8:
 						insert = 'orc'
+					elif num == 10:
+						insert = 'earththingy'
+					elif num == 11:
+						insert = 'frostthingy'
+					elif num == 12:
+						insert = 'flarethingy'
 					if insert != None:
 						self.level_info.level_template.values['enemies'].append((insert, int(self.player.x / 16), int(self.player.y / 16) + 1))
 						self.enemies = self.level_info.get_enemies()
@@ -754,7 +760,13 @@ class EnemyEditInput:
 	
 	def Update(self, event):
 		if event.type == KEYUP:
-			if event.key in (K_1, K_2, K_3, K_4, K_5, K_6, K_7, K_8, K_9, K_0):
+			if event.key == K_0:
+				self.num_pressed = 10
+			elif event.key == K_p:
+				self.num_pressed = 11
+			elif event.key == K_EQUALS:
+				self.num_pressed = 12
+			elif event.key in (K_1, K_2, K_3, K_4, K_5, K_6, K_7, K_8, K_9, K_0):
 				self.num_pressed = event.key - K_0
 			if event.key == K_e:
 				self.toggle_mode = True

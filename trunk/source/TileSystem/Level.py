@@ -41,6 +41,12 @@ class Level:
 				sprite = EnemyJellyFish(x, y)
 			elif enemy[0] == 'orc':
 				sprite = EnemyOrc(x, y)
+			elif enemy[0] == 'earththingy':
+				sprite = EnemyThingy(x, y, 'earth')
+			elif enemy[0] == 'frostthingy':
+				sprite = EnemyThingy(x, y, 'frost')
+			elif enemy[0] == 'flarethingy':
+				sprite = EnemyThingy(x, y, 'flare')
 			if sprite != None:
 				sprite.x += int(sprite.width / 2)
 				sprite.y -= (int(sprite.height / 2) + 1)
