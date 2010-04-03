@@ -2,7 +2,7 @@
 [coords: 0,0]
 [image: cutscenes/intro/frame-1.png]
 [text:Hi! My name is Richard. Like many\nwizards I a reputation for being...]
-[music:opening_fanfare.mp3]
+[music:intro.mp3]
 
 [frame]
 [coords: 0,0]
@@ -19,11 +19,13 @@
 [coords: 0,0]
 [image: cutscenes/intro/frame-2.png]
 [text:Of course what I really ended\nup doing...]
+[music:fadeout]
 
 [frame]
 [coords: 0,0]
 [image: cutscenes/intro/frame-3.png]
 [text:Was pushing my soul out of my\nbody and sending it flying out\ninto the world.]
+[music:death.mp3,silent]
 
 [frame]
 [coords: 0,0]
@@ -37,9 +39,8 @@
 
 [frame]
 [coords: 0,0]
-[text: ...]
 [image: cutscenes/intro/frame-4.png]
 [music:fadeout]
-[transition:timed:2000]
+[transition:timed:500]
 
 [end]
