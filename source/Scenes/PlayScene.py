@@ -263,23 +263,22 @@ class PlayScreen:
 					if insert != None:
 						self.level_info.level_template.values['enemies'].append((insert, int(self.player.x / 16), int(self.player.y / 16) + 1))
 						self.enemies = self.level_info.get_enemies()
-						
-
-		
+					
 		
 		if self.counter == 1:
 			jukebox.PlayLevelMusic('overworld1')
 		
 		for sprite in self.get_sprites():
 			
-			if sprite.get_right() < camera_x - 48:
-				continue
-			if sprite.get_left() > camera_x + 256 + 48:
-				continue
-			if sprite.get_bottom() < camera_y - 48:
-				continue
-			if sprite.get_top() > camera_y + 224 + 48:
-				continue
+			if sprite != self.player:
+				if sprite.get_right() < camera_x - 48:
+					continue
+				if sprite.get_left() > camera_x + 256 + 48:
+					continue
+				if sprite.get_bottom() < camera_y - 48:
+					continue
+				if sprite.get_top() > camera_y + 224 + 48:
+					continue
 			
 			x = int(sprite.x / 16.0)
 			y = int(sprite.y / 16.0)
@@ -297,7 +296,7 @@ class PlayScreen:
 			self.player.holding_ladder = self.player.holding_ladder and (ladder_above or on_ladder or residually_on_ladder)
 			#crawled_off_top = was_holding_ladder and not self.player.holding_ladder
 			
-			
+				
 			sprite.update(self)
 			
 			if self.player.special_state != None and self.player.special_state.block_update:
@@ -504,7 +503,6 @@ class PlayScreen:
 			if not powerup.taken:
 				new_sprites.append(powerup)
 		self.powerups = new_sprites
-		
 		
 		if self.mumblefoo != None and self.mumblefoo.lifetime > 6:
 			if self.is_collision(self.mumblefoo, self.player):
