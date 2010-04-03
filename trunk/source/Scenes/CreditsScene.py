@@ -17,6 +17,7 @@ Devin McGinty
 Mr. I Kan Reed
 ---0
 Level Design:
+Mr. I Kan Reed
 Brett S.
 Blake O'Hare
 ---0
@@ -27,7 +28,7 @@ Story:
 Mr. Falun
 Brett S.
 Blake O'Hare
----50
+---60
 Special Thanks to:
 #pygame on irc.freenode.com
 www.pyweek.org
@@ -43,7 +44,7 @@ The letter Y
 playing this far!
 ---0
 Lines of Python code:
-4031""".split('---')
+4775""".split('---')
 		self.page_counter = 0
 		self.temp_screen = pygame.Surface((256, 224))
 		self.wave_counter = 0
@@ -98,7 +99,10 @@ Lines of Python code:
 			self.temp_screen.set_alpha(opacity)
 			img = 'wave' + str(int(int(self.counter / 3) % 2) + 1) + '.png'
 			self.temp_screen.blit(images.Get('sprites/ClumsyWizard/' + img), (200, 180))
-			self.temp_screen.blit(get_text("The End"), (120, 100))
+			theend = get_text("The End")
+			x = 128 - (theend.get_width() / 2.0)
+			
+			self.temp_screen.blit(theend, (x, 100))
 		screen.blit(self.temp_screen, (0, 0))
 		
 	
