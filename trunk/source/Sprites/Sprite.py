@@ -19,6 +19,7 @@ class Sprite:
 		self.killed = False
 		self.walked_into_wall = False
 		self.is_soul_jar = False
+		self.is_powerup = False
 	
 	def get_collision_radius(self):
 		return (self.width + self.height) / 2.0
@@ -59,8 +60,16 @@ class Sprite:
 			return False
 		return True
 	
-	def GetPowerUp(self):
-		return None #TODO: this		
+	def GetPowerUp(self, counter):
+		c = int(counter % 100)
+		if c <= 2:
+			return Powerup(self.x, self.y, 'big_recharge')	
+		#elif c <= 4:
+			#return Powerup(self.x, self.y, 'invincibility')
+		elif c <= 50:
+			return Powerup(self.x, self.y, 'little_recharge')
+		
+		return None
 	
 	def platform_below_vx_location(self, playScene):
 		x = self.x + (2 * self.vx)

@@ -55,7 +55,8 @@ class PlayScreen:
 			self.mumblefoo.vx = 0
 			self.mumblefoo.vy = 0
 		
-		
+		if self.level_id == '1_1' and self.screen_id == 'a':
+			self.powerups.append(Powerup(self.player.x + 30, self.player.y, 'mumblefoo_piece1'))
 		
 		
 	def get_sprites(self):
@@ -64,6 +65,7 @@ class PlayScreen:
 		if self.mumblefoo != None:
 			sprites.append(self.mumblefoo)
 		sprites.append(self.player)
+		sprites += self.powerups
 		sprites += self.enemies
 		
 		return sprites
@@ -498,26 +500,35 @@ class PlayScreen:
 							sprite.platform = None
 			
 			if sprite != self.player:
-				for bullet in self.bullets:
-					if sprite.is_collision_with_rect(bullet.x - 6, bullet.x + 6, bullet.y - 4, bullet.y + 4):
-						bullet.void_this()
-						sprite.killed = True #TODO: HP. bullet.magic is the wand_index
-					
+				if sprite.is_powerup:
+					pass
+				else:
+					for bullet in self.bullets:
+						if sprite.is_collision_with_rect(bullet.x - 6, bullet.x + 6, bullet.y - 4, bullet.y + 4):
+							bullet.void_this()
+							sprite.killed = True #TODO: HP. bullet.magic is the wand_index
+		
+		
+		
 		new_sprites = []
+		
+		for powerup in self.powerups:
+			if powerup.is_collision_with_rect(self.player.get_left(), self.player.get_right(), self.player.get_top(), self.player.get_bottom()):
+				powerup.collected(self)
+			else:
+				new_sprites.append(powerup)
+		self.powerups = new_sprites
+		
+		new_sprites = []
+		
 		for enemy in self.enemies:
 			if not enemy.killed:
 				new_sprites.append(enemy)
 			else:
-				powerup = enemy.GetPowerUp()
+				powerup = enemy.GetPowerUp(self.counter)
 				if powerup != None:
 					self.powerups.append(powerup)
 		self.enemies = new_sprites
-		
-		new_sprites = []
-		for powerup in self.powerups:
-			if not powerup.taken:
-				new_sprites.append(powerup)
-		self.powerups = new_sprites
 		
 		if self.mumblefoo != None and self.mumblefoo.lifetime > 6:
 			if self.is_collision(self.mumblefoo, self.player):

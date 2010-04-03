@@ -13,6 +13,9 @@ class WandStatus:
 			return True
 		return False
 	
+	def RechargeMagic(self, is_big):
+		self.magic_level = min(self.magic_level + (5, 20)[is_big], 100)
+	
 	def GetColors(self):
 		if self.wand_selected == 0:
 			return ((130, 0, 130), (110, 0, 110), (90, 0, 90))
