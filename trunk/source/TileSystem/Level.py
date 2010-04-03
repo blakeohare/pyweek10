@@ -29,7 +29,9 @@ class Level:
 				sprite = EnemyBat(x, y)
 			elif enemy[0] == 'skeleton':
 				sprite = EnemySkeleton(x, y)
-				
+			elif enemy[0] == 'burrower':
+				sprite = EnemyBurrow(x, y)
+			
 			if sprite != None:
 				sprite.x += int(sprite.width / 2)
 				sprite.y -= (int(sprite.height / 2) + 1)
