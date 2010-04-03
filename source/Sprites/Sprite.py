@@ -16,6 +16,7 @@ class Sprite:
 		self.immune_to_gravity = False
 		self.confined_to_scene = False
 		self.killed = False
+		self.walked_into_wall = False
 	
 	def get_collision_radius(self):
 		return (self.width + self.height) / 2.0
@@ -76,5 +77,4 @@ class Sprite:
 		return False
 		
 	def wall_at_vx_location(self, playScene):
-		#TODO: this
-		return False
+		return self.walked_into_wall
