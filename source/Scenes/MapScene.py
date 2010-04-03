@@ -142,7 +142,7 @@ class MapScene:
 						'x' : x,
 						'y' : y,
 						'connections' : [],
-						'completed' : (games.active_game().get_value('finished_world' + str(self.world_num) + '_' + id) == 1)
+						'completed' : (id == 'prev') or (games.active_game().get_value('finished_world' + str(self.world_num) + '_' + id) == 1)
 					}
 			else:
 				parts = line.split('\t')
