@@ -566,7 +566,7 @@ class PlayScreen:
 				
 				jukebox.PlayVictory()
 				
-				if self.level_id == '5_5':
+				if self.level_id == '3_5':
 					nextScene = CutSceneScene('endgame', CreditsScene())
 				else:
 					nextScene = MapScene(world, level_from, level_to)
