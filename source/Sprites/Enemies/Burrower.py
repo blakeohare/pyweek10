@@ -7,8 +7,8 @@ class EnemyBurrow(Sprite):
 		self.width = 20
 		self.height = 15
 		self.left_facing = True
-		self.state = 'burrowed'
-		self.state_counter = 0
+		self.state_counter = int((7 * x / 16.0) % 60)
+		self.state = ('burrowed','out')[int((x / 16.0) % 2) == 0]
 		
 	def draw(self, surface, is_moving, counter, camera_offset):
 		
