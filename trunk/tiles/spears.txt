@@ -171,12 +171,12 @@ s124	Ruins/Fallen Column	fallencolumn2	passable
 s125	Ruins/Fallen Column [broken]	fallencolumn1	passable
 s126	Ruins/Fallen Column [broken 2]	fallencolumn3	passable
 s127	Ruins/Column [broken 2]	columnbroken2	passable
-s128	Water/Seaweed 1 [Top]	seaweedtop1	passable
-s129	Water/Seaweed 2 [Top]	seaweedtop2	passable
-s130	Water/Seaweed 1 [Middle]	seaweedmiddle1	passable
-s131	Water/Seaweed 2 [Middle]	seaweedmiddle2	passable
-s132	Water/Seaweed 1 [Bottom]	seaweedbottom1	passable
-s133	Water/Seaweed 2 [Bottom]	seaweedbottom2	passable
+s128	Water/Seaweed 1 [Top]	seaweedtop1|seaweedtop3|seaweedtop2|seaweedtop3	passable	8
+s129	Water/Seaweed 2 [Top]	seaweedtop2|seaweedtop3|seaweedtop1|seaweedtop3	passable	8
+s130	Water/Seaweed 1 [Middle]	seaweedmiddle1|seaweedmiddle3|seaweedmiddle2|seaweedmiddle3	passable	8
+s131	Water/Seaweed 2 [Middle]	seaweedmiddle2|seaweedmiddle3|seaweedmiddle1|seaweedmiddle3	passable	8
+s132	Water/Seaweed 1 [Bottom]	seaweedbottom1|seaweedbottom3|seaweedbottom2|seaweedbottom3	passable	8
+s133	Water/Seaweed 2 [Bottom]	seaweedbottom2|seaweedbottom3|seaweedbottom1|seaweedbottom3	passable	8
 s134	Water/Conch	conch	passable
 s135	Ice/Snow	snow1|snow2|snow3|snow4	passable
 s136	Ice/Snowman [top]	snowmantop	passable
