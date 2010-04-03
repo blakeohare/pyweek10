@@ -1,13 +1,25 @@
 [frame]
 [coords: 0,0]
 [image: cutscenes/endgame/frame-1.png]
+[transition:timed:1]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/endgame/frame-1.png]
 [text:Though I did not know why he attakced\nI was finally able to best my mentor.]
-[music:opening_fanfare.mp3]
+[music:cave.mp3,silent]
+
+[frame]
+[coords: 0,0]
+[image: cutscenes/endgame/frame-1.png]
+[music:fadeout]
+[transition:timed:1]
 
 [frame]
 [coords: 0,0]
 [image: cutscenes/endgame/frame-2.png]
-[text:Blake: Goodness, thank you.  I had fallen\nunder the control of this soul shard of\nconcertrated negative energy]
+[music:notsure.mp3]
+[text:Blake: Goodness, thank you.  I had fallen\nunder the control of this soul shard of\nconcentrated negative energy]
 
 [frame]
 [coords: 0,0]
@@ -21,7 +33,8 @@
 
 [frame]
 [coords: 0,0]
-[image: cutscenes/endgame/frame-3.png]
+[image: cutscenes/endgame/frame-4.png]
+[music:notsure.mp3]
 [text:It was too late by the time I\nrealized what it was.  Richard! Were you\nmaking an Amazing Mumblefoo again?!]
 
 [frame]
@@ -33,6 +46,5 @@
 [coords: 0,0]
 [image: cutscenes/endgame/frame-5.png]
 [text:Now just hold still...\nThis won't hurt too much...\n*Pop*]
-[music:fadeout]
 
 [end]

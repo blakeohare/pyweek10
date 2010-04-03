@@ -30,7 +30,10 @@ class CutSceneScene:
 			
 			tracks = music.split(',')
 			for t in tracks:
-				bg.AddTrack(t.strip())
+				if t == 'silent':
+					bg.SetLoopLast(False)
+				else:
+					bg.AddTrack(t.strip())
 			
 			soundtrack.SetQueue(bg)
 			soundtrack.Play()
