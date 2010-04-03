@@ -4,13 +4,15 @@ class Tile:
 		self.y = y
 		self.template = tile_template
 		self.platforms = None
-	
+		self.no_left_walls = False
+		self.no_right_walls = False
+		
 	def get_images(self, counter):
 		return [self.template.get_image(counter)]
 	
 	def get_platforms(self):
 		if self.platforms == None:
-			self.platforms = self.template.get_platforms(self.x, self.y)
+			self.platforms = self.template.get_platforms(self.x, self.y, self.no_left_walls, self.no_right_walls)
 		return self.platforms
 	
 	def is_water(self):
@@ -25,6 +27,18 @@ class Tile:
 	def is_kill(self):
 		return self.template.kill_modifier
 	
+	def remove_walls(self, left):
+		if left:
+			self.no_left_walls = True
+		else:
+			self.no_right_walls = True
+	
+	def has_up_inclines(self):
+		return self.template.has_up_inclines
+	
+	def has_down_inclines(self):
+		return self.template.has_down_inclines
+	
 class CompositeTile:
 	def __init__(self, x, y, tile_templates):
 		self.physics_template = self.get_dominant_physics(tile_templates)
@@ -32,6 +46,14 @@ class CompositeTile:
 		self.platforms = None
 		self.x = x
 		self.y = y
+		self.no_left_walls = False
+		self.no_right_walls = False
+	
+	def remove_walls(self, left):
+		if left:
+			self.no_left_walls = True
+		else:
+			self.no_right_walls = True
 	
 	def get_images(self, counter):
 		images = []
@@ -41,7 +63,7 @@ class CompositeTile:
 	
 	def get_platforms(self):
 		if self.platforms == None:
-			self.platforms = self.physics_template.get_platforms(self.x, self.y)
+			self.platforms = self.physics_template.get_platforms(self.x, self.y, self.no_left_walls, self.no_right_walls)
 		return self.platforms
 	
 	def get_dominant_physics(self, tile_templates):
@@ -71,6 +93,12 @@ class CompositeTile:
 			if rank_b > rank_a:
 				physics = tile_templates[i]
 		return physics
+	
+	def has_up_inclines(self):
+		return self.physics_template.has_up_inclines
+	
+	def has_down_inclines(self):
+		return self.physics_template.has_down_inclines
 	
 	# will filter out the modifier tags and return just the physics	
 	def filter_modifiers(self, raw_physics):

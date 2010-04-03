@@ -72,16 +72,31 @@ class LevelLibrary:
 		tiles = []
 		x = 0
 		y = 0
+		
+		previous_is_up_incline = False
 		for tile_key in tile_keys:
 			keys = tile_key.split(',')
 			if len(keys) == 1:
 				tiles.append(tile_library.GetTile(x * 16, y * 16, keys[0]))
 			else:
 				tiles.append(tile_library.GetCompositeTile(x * 16, y * 16, keys))
+			
+			if len(tiles) > 1 and tiles[-1].has_down_inclines():
+				tiles[-2].remove_walls(False)
+				previous_is_up_incline = False
+			elif tiles[-1].has_up_inclines():
+				previous_is_up_incline = True
+			elif previous_is_up_incline:
+				tiles[-1].remove_walls(True)
+				previous_is_up_incline = False
+			else:
+				previous_is_up_incline = False
+			
 			x += 1
 			if x == width:
 				x = 0
 				y += 1
+		
 		
 		self.levels[level_key] = LevelTemplate(tiles, width, values)
 		self.levels[level_key]._remove_me = level_key #TODO: remove me

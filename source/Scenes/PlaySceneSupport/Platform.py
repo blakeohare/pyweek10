@@ -17,6 +17,26 @@ class Platform:
 			self.height,
 			self.jumpthrough)
 	
+	#won't work for inclines
+	def duplicate_right(self, x_offset, y_offset):
+		return Platform(self.type,
+			self.left + x_offset + 8,
+			self.y_left + y_offset,
+			int(self.width / 2),
+			self.y_right + y_offset,
+			self.height,
+			self.jumpthrough)
+			
+	#won't work for inclines
+	def duplicate_left(self, x_offset, y_offset):
+		return Platform(self.type,
+			self.left + x_offset,
+			self.y_left + y_offset,
+			int(self.width / 2),
+			self.y_right + y_offset,
+			self.height,
+			self.jumpthrough)
+			
 	def get_y_at_x(self, x):
 		if self.type == 'incline':
 			percentage = (x - self.left + 0.0) / self.width
