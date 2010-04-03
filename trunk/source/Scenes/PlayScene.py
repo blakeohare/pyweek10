@@ -268,6 +268,8 @@ class PlayScreen:
 						insert = 'redblob'
 					elif num == 7:
 						insert = 'jellyfish'
+					elif num == 8:
+						insert = 'orc'
 					if insert != None:
 						self.level_info.level_template.values['enemies'].append((insert, int(self.player.x / 16), int(self.player.y / 16) + 1))
 						self.enemies = self.level_info.get_enemies()
