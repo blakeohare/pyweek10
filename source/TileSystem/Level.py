@@ -45,7 +45,14 @@ class Level:
 				return (door[2], door[3])
 		return None
 	
-	def get_background_image(self):
+	def get_background_image(self, counter):
+		if self.level_template.values['storm']:
+			foo = int(int(counter % 2000) / 100.0)
+			if foo in (1, 3, 11, 15):
+				val = int(counter % 100)
+				if val >= 2 and val <= 13:
+					val = int(val / 2.0)
+					return images.Get('backgrounds/stormy' + str(val) + '.png')
 		return self.level_template.values['background']
 	
 	def get_background_offset(self, counter):
