@@ -184,3 +184,9 @@ s137	Ice/Snowman [bottom]	snowmanbottom	passable
 s138	Misc/Rain	rain1|rain2|rain3|rain4	passable
 s139	nature/vine [top]	vinetop	ladder
 s140	nature/vine [top 2]	vinetop2	ladder
+s141	Desert/palm tree [top left]	palm1	passable
+s142	Desert/palm tree [top right]	palm2	passable
+s143	Desert/palm tree [middle left]	palm3	passable
+s144	Desert/palm tree [middle right]	palm4	passable
+s145	Desert/palm tree [bottom left]	palm5	passable
+s146	Desert/palm tree [bottom right]	palm6	passable
