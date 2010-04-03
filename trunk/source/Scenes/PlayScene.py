@@ -382,15 +382,17 @@ class PlayScreen:
 						#sprite.ladder_climb = True
 				else:
 					if ladder_below and input.is_key_pressed('down'):
-							sprite.y += 4
-							sprite.on_ground = False
-							sprite.platform = None
-							sprite.holding_ladder = True
-							sprite.vx = 0
-							sprite.dx = 0
+						sprite.y += 4
+						sprite.on_ground = False
+						sprite.platform = None
+						sprite.holding_ladder = True
+						sprite.vx = 0
+						sprite.dx = 0
+						sprite.vy = 0
 					elif on_ladder and input.is_key_pressed('up'):
 						
 						sprite.vx = 0
+						sprite.vy = 0
 						sprite.dx = 0
 						self.player.holding_ladder = True
 						sprite.platform = None
