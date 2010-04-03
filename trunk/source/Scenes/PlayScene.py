@@ -74,8 +74,8 @@ class PlayScreen:
 				self.powerups.append(Powerup(90 + 9 * 16, 80, 'wand_2'))
 			
 			#TODO
-			if games.active_game().get_value('wand_3') != 1 and self.level_id == '1_1' and self.screen_id == 'a':
-				self.powerups.append(Powerup(110, 40, 'wand_3'))
+			if games.active_game().get_value('wand_3') != 1 and self.level_id == '2_5' and self.screen_id == 'c':
+				self.powerups.append(Powerup(152, 48, 'wand_3'))
 			
 			#TODO
 			if games.active_game().get_value('wand_4') != 1 and self.level_id == '1_1' and self.screen_id == 'a':
