@@ -249,6 +249,7 @@ class PlayScreen:
 		self.wand_cooldown -= 1
 		
 		if self.counter == 1:
+			#print 'attempting to play: ', self.level_info.level_template.values['music']
 			jukebox.PlayLevelMusic(self.level_info.level_template.values['music'])
 		
 		camera = self.get_camera_offset()
@@ -320,9 +321,6 @@ class PlayScreen:
 						self.level_info.level_template.values['enemies'].append((insert, int(self.player.x / 16), int(self.player.y / 16) + 1))
 						self.enemies = self.level_info.get_enemies()
 					
-		
-		if self.counter == 1:
-			jukebox.PlayLevelMusic('overworld1')
 		
 		for sprite in self.get_sprites():
 			

@@ -18,8 +18,10 @@ class JukeBox:
 		self.fading = False
 		self.previous_song = None
 		self.level_music = None
+		self.counter = 0
 		
 	def Update(self):
+		self.counter += 1
 		if self.fading:
 			if not pygame.mixer.music.get_busy():
 				self.fading = False
@@ -43,6 +45,8 @@ class JukeBox:
 	
 	
 	def PlaySound(self, name):
+		if name == '':
+			return
 		if name in self.sounds.keys():
 			self.sounds[name].play()
 		else:
@@ -62,9 +66,10 @@ class JukeBox:
 				self.previous_song = self.now_playing
 			else:
 				self.previous_song = None
-			self.next_song = 'media' + os.sep + 'music' + os.sep + file + '.mp3'
-			self.next_song_loops = loop
-			self.now_playing = file
+		self.next_song = 'media' + os.sep + 'music' + os.sep + file + '.mp3'
+		#print self.counter, 'next_song_is ', self.next_song
+		self.next_song_loops = loop
+		self.now_playing = file
 		
 	def FadeOut(self, seconds):
 		self.now_playing = None
@@ -98,9 +103,20 @@ class JukeBox:
 	
 	def PlayLevelMusic(self, music):
 		self.level_music = music
-		if music == 'overworld1':
+		self.previous_song = music
+		if music == 'overworld1' or music == '':
 			self._play_song_looping('windyday')
-		if music == 'water':
+		elif music == 'overworld2':
+			self._play_song_looping('overworld2')
+		elif music == 'icy':
+			self._play_song_looping('icy')
+		elif music == 'castle':
+			self._play_song_looping('darkwizard')
+		elif music == 'desert':
+			self._play_song_looping('desert')
+		elif music == 'boss':
+			self._play_song_looping('boss')
+		elif music == 'water':
 			self._play_song_looping('aquatic assault')
 		elif music == 'cavern':
 			self._play_song_looping('cave')
