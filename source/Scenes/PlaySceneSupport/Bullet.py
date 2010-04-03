@@ -28,6 +28,9 @@ class Bullet:
 		else:
 			self.x += 8
 	
+	def get_additional_damage(self):
+		return self.charge * 3
+	
 	def is_off_screen(self, left, right):
 		return self.x < left - 20 or self.x > right + 20
 	

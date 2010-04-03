@@ -21,6 +21,7 @@ class Sprite:
 		self.is_soul_jar = False
 		self.is_powerup = False
 		self.expired = False
+		self.hp = 1
 	
 	def get_collision_radius(self):
 		return (self.width + self.height) / 2.0
@@ -49,6 +50,13 @@ class Sprite:
 	def update(self, playScene):
 		pass
 
+	def hit(self, additional_damage):
+		damage = wandStatus.SelectedWand() + 1 + additional_damage
+		self.hp -= damage
+		if self.hp <= 0:
+			return True
+		return False
+	
 	def is_collision_with_rect(self, left, right, top, bottom):
 		tolerance = 2
 		if self.get_left() + tolerance > right:

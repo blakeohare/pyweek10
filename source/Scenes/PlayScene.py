@@ -63,33 +63,35 @@ class PlayScreen:
 					(1, "Curious, I don't recall his\ncastle being this gloomy. He\nmust have remodelled recently.", None)
 					]
 		
-		#TODO: scatter these about
-		if self.level_id == '1_1' and self.screen_id == 'a':
-			self.powerups.append(Powerup(70, 40, 'wand_1'))
-		
-		#TODO
-		if self.level_id == '1_1' and self.screen_id == 'a':
-			self.powerups.append(Powerup(90, 40, 'wand_2'))
-		
-		#TODO
-		if self.level_id == '1_1' and self.screen_id == 'a':
-			self.powerups.append(Powerup(110, 40, 'wand_3'))
-		
-		#TODO
-		if self.level_id == '1_1' and self.screen_id == 'a':
-			self.powerups.append(Powerup(130, 40, 'wand_4'))
-		
-		#TODO
-		if self.level_id == '1_1' and self.screen_id == 'a':
-			self.powerups.append(Powerup(150, 40, 'mumblefoo_piece1'))
-		
-		if self.level_id == '2_5' and self.screen_id == 'd':
-			self.powerups.append(Powerup(31 * 16, 10 * 16, 'mumblefoo_piece2'))
-		
-		
-		if self.level_id == '1_1' and self.screen_id == 'a':
-			self.enemies.append(EnemyCornelius(100, 100))
-		
+		if	games.active_game() != None:
+			
+			#TODO: scatter these about
+			if games.active_game().get_value('wand_1') != 1 and self.level_id == '1_1' and self.screen_id == 'a':
+				self.powerups.append(Powerup(70, 40, 'wand_1'))
+			
+			#TODO
+			if games.active_game().get_value('wand_2') != 1 and self.level_id == '1_1' and self.screen_id == 'a':
+				self.powerups.append(Powerup(90, 40, 'wand_2'))
+			
+			#TODO
+			if games.active_game().get_value('wand_3') != 1 and self.level_id == '1_1' and self.screen_id == 'a':
+				self.powerups.append(Powerup(110, 40, 'wand_3'))
+			
+			#TODO
+			if games.active_game().get_value('wand_4') != 1 and self.level_id == '1_1' and self.screen_id == 'a':
+				self.powerups.append(Powerup(130, 40, 'wand_4'))
+			
+			#TODO
+			if self.level_id == '1_1' and self.screen_id == 'a':
+				self.powerups.append(Powerup(150, 40, 'mumblefoo_piece1'))
+			
+			if self.level_id == '2_5' and self.screen_id == 'd':
+				self.powerups.append(Powerup(31 * 16, 10 * 16, 'mumblefoo_piece2'))
+			
+			
+			if self.level_id == '3_5' and self.screen_id == 'a':
+				self.enemies.append(EnemyCornelius(220, 80))
+			
 		
 	def get_sprites(self):
 		
@@ -539,7 +541,7 @@ class PlayScreen:
 					for bullet in self.bullets:
 						if sprite.is_collision_with_rect(bullet.x - 6, bullet.x + 6, bullet.y - 4, bullet.y + 4):
 							bullet.void_this()
-							sprite.killed = True #TODO: HP. bullet.magic is the wand_index
+							sprite.killed = sprite.hit(bullet.get_additional_damage())
 		
 		
 		
