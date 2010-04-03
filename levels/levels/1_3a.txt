@@ -3,6 +3,7 @@ tiles:0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 width:60
 start_locations:Start,3,3 End,58,4
 default_start:Start
+music:aquatic assault
 enemies:blueblob,38,10 skeleton,31,11 jellyfish,22,8 redblob,7,8 jellyfish,12,15 jellyfish,10,11 jellyfish,15,9 jellyfish,20,13 jellyfish,30,13 jellyfish,38,12 jellyfish,57,11
 background_scroll_rate:0
 background_image:clouds
