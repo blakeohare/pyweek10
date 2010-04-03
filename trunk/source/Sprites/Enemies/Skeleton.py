@@ -27,5 +27,6 @@ class EnemySkeleton(Sprite):
 		
 		self.vx = (1, -1)[self.left_facing]
 		if (self.platform != None and not self.platform_below_vx_location(playScene)) or self.wall_at_vx_location(playScene):
+			self.vx *= -1
 			self.left_facing = not self.left_facing
 	
