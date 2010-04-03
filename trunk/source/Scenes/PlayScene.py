@@ -538,7 +538,7 @@ class PlayScreen:
 				self.player.special_state = SpecialStateDoorEntry(door, self.player)
 			
 			# Check for victory
-			victory_x = self.level_info.get_victory_x() * 16
+			victory_x = self.level_info.get_victory_x()
 			if victory_x > 0 and self.player.x >= victory_x and self.player.special_state == None:
 				#TODO: automated victory sequence
 				games.active_game().save_value('finished_world' + self.level_id, 1)

@@ -34,8 +34,8 @@ class LevelLibrary:
 					width = int(line)
 				elif item == 'tiles':
 					tile_keys = line.split(' ')
-				elif item == 'victoryX':
-					values['victoryX'] = int(line)
+				#elif item == 'victoryX':
+				#	values['victoryX'] = int(line)
 				elif item == 'default_start':
 					values['default_start'] = line
 				elif item == 'start_locations':
@@ -73,6 +73,8 @@ class LevelLibrary:
 		x = 0
 		y = 0
 		
+		victory_found = False
+		
 		previous_is_up_incline = False
 		for tile_key in tile_keys:
 			keys = tile_key.split(',')
@@ -80,6 +82,14 @@ class LevelLibrary:
 				tiles.append(tile_library.GetTile(x * 16, y * 16, keys[0]))
 			else:
 				tiles.append(tile_library.GetCompositeTile(x * 16, y * 16, keys))
+			
+			is_victory = False
+			
+			for key in keys:
+				if key == 'b2' and not victory_found:
+					is_victory = True
+					values['victoryX'] = x * 16 + 8
+					victory_found = True
 			
 			if len(tiles) > 1 and tiles[-1].has_down_inclines():
 				tiles[-2].remove_walls(False)

@@ -6,6 +6,9 @@ class Tile:
 		self.platforms = None
 		self.no_left_walls = False
 		self.no_right_walls = False
+	
+	def is_victory(self):
+		return self.template.is_victory()
 		
 	def get_images(self, counter):
 		return [self.template.get_image(counter)]
@@ -49,6 +52,12 @@ class CompositeTile:
 		self.no_left_walls = False
 		self.no_right_walls = False
 	
+	def is_victory(self):
+		for template in self.templates:
+			if template.is_victory():
+				return True
+		return False
+		
 	def remove_walls(self, left):
 		if left:
 			self.no_left_walls = True

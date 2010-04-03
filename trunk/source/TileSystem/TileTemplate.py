@@ -8,6 +8,7 @@ class TileTemplate:
 		self.anim_delay = max(anim_delay, 1)
 		self.physics = physics
 		self.platform_prototypes = {}
+		self.is_victory = False
 		
 		self.water_modifier = False
 		self.ladder_modifier = False
@@ -69,7 +70,9 @@ class TileTemplate:
 				print ("UNKNOWN PHYSICS: ", self.physics)
 				pass
 			
-		
+	def is_victory(self):
+		return self.is_victory
+	
 	def get_platforms(self, pixel_left, pixel_top, ignore_left_walls, ignore_right_walls):
 		platforms = {}
 		
