@@ -87,6 +87,10 @@ class PlayScreen:
 			self.powerups.append(Powerup(31 * 16, 10 * 16, 'mumblefoo_piece2'))
 		
 		
+		if self.level_id == '1_1' and self.screen_id == 'a':
+			self.enemies.append(EnemyCornelius(100, 100))
+		
+		
 	def get_sprites(self):
 		
 		sprites = []
@@ -554,7 +558,7 @@ class PlayScreen:
 			if not enemy.killed:
 				new_sprites.append(enemy)
 			else:
-				powerup = enemy.GetPowerUp(self.counter)
+				powerup = enemy.GetPowerUp(self.counter, self)
 				self.other_sprites.append(PoofCloud(enemy.x, enemy.y))
 				if powerup != None:
 					self.powerups.append(powerup)
