@@ -96,3 +96,4 @@ class Sprite:
 			self.platform != None and 
 			not self.platform_below_vx_location(playScene)
 			) or self.wall_at_vx_location(playScene)
+			
