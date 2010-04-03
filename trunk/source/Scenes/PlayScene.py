@@ -260,6 +260,13 @@ class PlayScreen:
 						insert = 'skeleton'
 					elif num == 3:
 						insert = 'burrower'
+					elif num == 4:
+						insert = 'greenblob'
+					elif num == 5:
+						insert = 'blueblob'
+					elif num == 6:
+						insert = 'redblob'
+						
 					if insert != None:
 						self.level_info.level_template.values['enemies'].append((insert, int(self.player.x / 16), int(self.player.y / 16) + 1))
 						self.enemies = self.level_info.get_enemies()

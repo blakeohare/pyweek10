@@ -79,3 +79,9 @@ class Sprite:
 		
 	def wall_at_vx_location(self, playScene):
 		return self.walked_into_wall
+	
+	def is_going_to_vx_bad(self, playScene):
+		return (
+			self.platform != None and 
+			not self.platform_below_vx_location(playScene)
+			) or self.wall_at_vx_location(playScene)
