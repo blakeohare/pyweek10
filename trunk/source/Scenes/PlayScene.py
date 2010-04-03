@@ -666,7 +666,7 @@ class PlayScreen:
 		cx = camera[0]
 		cy = camera[1]
 		
-		bg = self.level_info.get_background_image()
+		bg = self.level_info.get_background_image(self.counter)
 		if bg != None:
 			scroll_width = (self.level_info.get_width() * 16 - 256)
 			if scroll_width == 0: scroll_width = 1

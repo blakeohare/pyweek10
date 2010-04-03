@@ -24,6 +24,7 @@ class LevelLibrary:
 		background = None
 		background_scroll = 0
 		enemies = []
+		storm = False
 		for line in lines:
 			line = trim(line)
 			if len(line) > 0:
@@ -41,6 +42,8 @@ class LevelLibrary:
 				elif item == 'start_locations':
 					start_locations = line
 				elif item == 'background_image':
+					if line == 'stormy1':
+						storm = True
 					background = images.Get('backgrounds/' + line + '.png')
 				elif item == 'background_scroll_rate':
 					background_scroll = float(line)
@@ -61,6 +64,7 @@ class LevelLibrary:
 							enemies.append((enemy_type, x, y))
 		
 		values['enemies'] = enemies
+		values['storm'] = storm
 		values['doors'] = doors
 		values['start_locations'] = {}
 		values['background'] = background
