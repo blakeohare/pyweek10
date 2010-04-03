@@ -66,12 +66,12 @@ class Powerup(Sprite):
 				games.active_game().save_value('finished_world1_5', 1)
 				jukebox.PlayVictory()
 				playScene.text_triggers['timer'].append(
-				(0, "You have collected a piece \n of your soul! \n  \n  You recall seeing another \n piece fly towards the desert.", TransitionScene(self, MapScene(1, '5', 'next'), 'fadeout', 30)))
+				(0, "You have collected a piece \n of your soul! This piece\n merges with the other one. \n  You recall seeing another \n piece fly towards the desert.", TransitionScene(self, MapScene(1, '5', 'next'), 'fadeout', 30)))
 			if self.type[-1] == '2':
 				games.active_game().save_value('finished_world2_5', 1)
 				jukebox.PlayVictory()
 				playScene.text_triggers['timer'].append(
-				(0, "You have collected a piece \n of your soul!\n \n You recall the final \n piece flying somewhere over\n the mountains towards your\n Mentor's castle. Maybe he's \n already found it.", TransitionScene(self, MapScene(2, '5', 'next'), 'fadeout', 30)))
+				(0, "You have collected a piece \n of your soul! This piece\n merges with the other one. \n You recall the final \n piece flying somewhere over\n the mountains towards \n Cornelius' castle. Maybe he's \n already found it.", TransitionScene(self, MapScene(2, '5', 'next'), 'fadeout', 30)))
 					
 			self.taken = True
 		elif self.type[:4] == 'wand':
