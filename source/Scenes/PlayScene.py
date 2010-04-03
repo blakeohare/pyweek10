@@ -39,6 +39,8 @@ class PlayScreen:
 		
 		self.wand_charge = 0
 		
+		self.other_sprites = []
+		
 		self.text_triggers = {
 		'timer' : [],
 		'soul_pickup' : None
@@ -67,6 +69,7 @@ class PlayScreen:
 		sprites.append(self.player)
 		sprites += self.powerups
 		sprites += self.enemies
+		sprites += self.other_sprites
 		
 		return sprites
 	
@@ -526,9 +529,17 @@ class PlayScreen:
 				new_sprites.append(enemy)
 			else:
 				powerup = enemy.GetPowerUp(self.counter)
+				self.other_sprites.append(PoofCloud(enemy.x, enemy.y))
 				if powerup != None:
 					self.powerups.append(powerup)
 		self.enemies = new_sprites
+		
+		new_sprites = []
+		
+		for foo in self.other_sprites:
+			if not foo.expired:
+				new_sprites.append(foo)
+		self.other_sprites = new_sprites
 		
 		if self.mumblefoo != None and self.mumblefoo.lifetime > 6:
 			if self.is_collision(self.mumblefoo, self.player):
