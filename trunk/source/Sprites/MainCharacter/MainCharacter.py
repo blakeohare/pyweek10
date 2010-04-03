@@ -9,6 +9,12 @@ class MainCharacter(Sprite):
 		self.special_state = None
 		self.confined_to_scene = True
 		self.wand_cooldown = 0
+		self.holding_ladder = False
+		self.was_holding_ladder = False
+		self.prev_loc = (x, y)
+		self.ladder_climb = False
+		self.ladder_images = '1 1 1 1 2 2 2 2'.split(' ')
+		self.lifetime = 0
 		
 	def draw(self, surface, is_moving, counter, camera_offset):
 		
@@ -21,6 +27,10 @@ class MainCharacter(Sprite):
 			img = self.special_state.draw(surface, self, is_moving, counter)
 		elif self.wand_cooldown > 0:
 			img = images.Get('sprites/ClumsyWizard/' + direction + 'throw' + ('1','2')[self.wand_cooldown > 2] + '.png')
+		elif self.holding_ladder:
+			if self.ladder_climb:
+				self.ladder_images = self.ladder_images[1:] + [self.ladder_images[0]]
+			img = images.Get('sprites/ClumsyWizard/climb'+self.ladder_images[0]+'.png') #TODO: climb 2
 		else:
 			if self.vy > 0:
 				file = direction + 'jump2'
@@ -42,6 +52,9 @@ class MainCharacter(Sprite):
 		surface.blit(img, (x, y))
 	
 	def update(self, playScene):
+		self.lifetime += 1
+		self.prev_loc = (self.x, self.y)
+		
 		self.flashing_counter -= 1
 		if self.special_state != None:
 			self.special_state.update(self, playScene)
