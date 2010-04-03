@@ -5,3 +5,4 @@ start_locations:Start,2,12
 enemies:frostthingy,3,4 frostthingy,1,7 frostthingy,2,10
 background_scroll_rate:1
 background_image:clouds
+music:icy
