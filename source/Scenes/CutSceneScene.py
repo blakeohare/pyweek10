@@ -77,6 +77,7 @@ class CutSceneScene:
 		
 		if frame.text:
 			text = frame.text
+			text = text.replace('$$$$', games.active_game().get_value('name'))
 			if len(text) > self.text_counter:
 				text = text[:self.text_counter]
 			elif int((self.counter / 10) % 2) == 0:
