@@ -211,6 +211,9 @@ class PlayScreen:
 		
 		self.wand_cooldown -= 1
 		
+		if self.counter == 1:
+			jukebox.PlayLevelMusic(self.level_info.level_template.values['music'])
+		
 		camera = self.get_camera_offset()
 		camera_x = camera[0]
 		camera_y = camera[1]
@@ -522,6 +525,7 @@ class PlayScreen:
 				self.wibblywobbly_counter = min(self.wibblywobbly_counter, self.wibblywobbly.get_max_severity())
 				self.mumblefoo = None
 				# TODO: play noise
+				jukebox.MumblefooPickedUp()
 				if self.text_triggers['soul_pickup'] != None:
 					self.text_triggers['timer'].append((self.counter + 40, self.text_triggers['soul_pickup'][0], self.text_triggers['soul_pickup'][1]))
 		
@@ -531,6 +535,7 @@ class PlayScreen:
 					if self.is_collision(sprite, self.player):
 						if self.mumblefoo == None:
 							# You dropped the mumblefoo!
+							jukebox.MumblefooDropped()
 							self.mumblefoo = SoulJar(self.player.x, self.player.y, self.counter)
 						self.vy = -4
 						self.player.flashing_counter = 60

@@ -16,7 +16,8 @@ class JukeBox:
 		self.next_song_loops = 0
 		self.now_playing = None
 		self.fading = False
-	
+		self.previous_song = None
+		self.level_music = None
 		
 	def Update(self):
 		if self.fading:
@@ -58,6 +59,9 @@ class JukeBox:
 			if pygame.mixer.music.get_busy():
 				pygame.mixer.music.fadeout(100) # no abrupt cut-offs
 				self.fading = True
+				self.previous_song = self.now_playing
+			else:
+				self.previous_song = None
 			self.next_song = 'media' + os.sep + 'music' + os.sep + file + '.mp3'
 			self.next_song_loops = loop
 			self.now_playing = file
@@ -89,11 +93,28 @@ class JukeBox:
 	def PlayMapMusic(self):
 		self._play_song_looping('maploop')
 	
+	def PlayCredits(self):
+		self._play_song_looping('notsure')
+	
 	def PlayLevelMusic(self, music):
+		self.level_music = music
 		if music == 'overworld1':
 			self._play_song_looping('windyday')
+		if music == 'water':
+			self._play_song_looping('aquatic assault')
+		elif music == 'cavern':
+			self._play_song_looping('cave')
 		else:
 			print("WARNING: unrecognized song in level file")
+	
+	def MumblefooDropped(self):
+		self._play_song_looping('watchout')
+	
+	def MumblefooPickedUp(self):
+		if self.level_music != None:
+			self.PlayLevelMusic(self.level_music)
+		else:
+			self.Stop()
 		
 #STATIC
 
