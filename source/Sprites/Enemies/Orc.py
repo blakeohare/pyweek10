@@ -5,7 +5,7 @@ class EnemyOrc(Sprite):
 		self.lifetime = 0
 		Sprite.__init__(self, x, y)
 		self.width = 15
-		self.height = 34
+		self.height = 32
 		self.left_facing = True
 		
 	def draw(self, surface, is_moving, counter, camera_offset):

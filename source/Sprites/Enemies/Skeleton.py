@@ -5,7 +5,7 @@ class EnemySkeleton(Sprite):
 		self.lifetime = 0
 		Sprite.__init__(self, x, y)
 		self.width = 10
-		self.height = 25
+		self.height = 23
 		self.left_facing = True
 		
 	def draw(self, surface, is_moving, counter, camera_offset):
