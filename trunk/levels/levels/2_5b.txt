@@ -2,3 +2,5 @@ tiles:s118 s118 s118 s118 s118 s118 s118 s118 s118 s118 s118 s118 s118 s118 s118
 width:16
 start_locations:Start,2,12
 doors:14,3|c,Start 1,4|d,Start
+background_scroll_rate:2
+background_image:stormy1
