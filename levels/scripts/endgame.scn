@@ -19,7 +19,7 @@
 [coords: 0,0]
 [image: cutscenes/endgame/frame-2.png]
 [music:notsure.mp3]
-[text:Cornelius: Goodness, thank you.  I had fallen\nunder the control of this soul shard of\nconcentrated negative energy]
+[text:Cornelius: Goodness, thank you. I had \nfallen under the control of this soul \nshard of concentrated negative energy]
 
 [frame]
 [coords: 0,0]
@@ -35,7 +35,7 @@
 [coords: 0,0]
 [image: cutscenes/endgame/frame-4.png]
 [music:notsure.mp3]
-[text:It was too late by the time I\nrealized what it was.  $$$$! Were you\nmaking an Amazing Mumblefoo again?!]
+[text:It was too late by the time I realized\nwhat it was.  $$$$! Were you\nmaking an Amazing Mumblefoo again?!]
 
 [frame]
 [coords: 0,0]

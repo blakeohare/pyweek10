@@ -61,7 +61,7 @@ class Sprite:
 			return False
 		return True
 	
-	def GetPowerUp(self, counter):
+	def GetPowerUp(self, counter, playScene):
 		c = int(counter % 100)
 		if c <= 2:
 			return Powerup(self.x, self.y, 'big_recharge')	
