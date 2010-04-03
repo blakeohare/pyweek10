@@ -25,6 +25,7 @@ class LevelLibrary:
 		background_scroll = 0
 		enemies = []
 		storm = False
+		music = 'overworld1'
 		for line in lines:
 			line = trim(line)
 			if len(line) > 0:
@@ -45,6 +46,8 @@ class LevelLibrary:
 					if line == 'stormy1':
 						storm = True
 					background = images.Get('backgrounds/' + line + '.png')
+				elif item == 'music':
+					music = line
 				elif item == 'background_scroll_rate':
 					background_scroll = float(line)
 				elif item == 'doors':
@@ -69,6 +72,7 @@ class LevelLibrary:
 		values['start_locations'] = {}
 		values['background'] = background
 		values['background_scroll'] = background_scroll
+		values['music'] = music
 		for loc in start_locations.split(' '):
 			parts = loc.split(',')
 			values['start_locations'][parts[0]] = (int(parts[1]), int(parts[2]))
