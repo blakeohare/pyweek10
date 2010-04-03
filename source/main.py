@@ -21,7 +21,7 @@ for id in range(pygame.joystick.get_count()):
 
 load_joystick_config()
 
-scene = LoadScene()
+scene = TitleScene()
 
 while scene != None:
 	

@@ -258,6 +258,8 @@ class PlayScreen:
 						insert = 'bat'
 					elif num == 2:
 						insert = 'skeleton'
+					elif num == 3:
+						insert = 'burrower'
 					if insert != None:
 						self.level_info.level_template.values['enemies'].append((insert, int(self.player.x / 16), int(self.player.y / 16) + 1))
 						self.enemies = self.level_info.get_enemies()
@@ -309,18 +311,20 @@ class PlayScreen:
 			if sprite.confined_to_scene:
 				new_x = max(2, min(self.level_info.get_width() * 16 - 2, new_x))
 			
-			if sprite.dx > 0: #going right
-				wall = self.find_leftmost_wall_in_path(sprite.x, new_x, sprite.get_head_bonk_top(), sprite.get_bottom())
-				if wall != None:
-					new_x = wall.get_left_wall_x() - 1
-					sprite.vx = 0
-					sprite.walked_into_wall = True
-			elif sprite.dx < 0: #going left
-				wall = self.find_rightmost_wall_in_path(new_x, sprite.x, sprite.get_head_bonk_top(), sprite.get_bottom())
-				if wall != None:
-					sprite.vx = 0
-					new_x = wall.get_right_wall_x() + 1
-					sprite.walked_into_wall = True
+			if not sprite.moves_through_walls:
+				
+				if sprite.dx > 0: #going right
+					wall = self.find_leftmost_wall_in_path(sprite.x, new_x, sprite.get_head_bonk_top(), sprite.get_bottom())
+					if wall != None:
+						new_x = wall.get_left_wall_x() - 1
+						sprite.vx = 0
+						sprite.walked_into_wall = True
+				elif sprite.dx < 0: #going left
+					wall = self.find_rightmost_wall_in_path(new_x, sprite.x, sprite.get_head_bonk_top(), sprite.get_bottom())
+					if wall != None:
+						sprite.vx = 0
+						new_x = wall.get_right_wall_x() + 1
+						sprite.walked_into_wall = True
 			
 			# player may have possibly jumped through an incline
 			if not sprite.on_ground and new_x != sprite.x:
