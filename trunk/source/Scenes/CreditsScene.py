@@ -7,25 +7,25 @@ Programmed By:
 Blake O'Hare
 ---0
 Pixel Art:
-Spears Dracona
+Angel McLaughlin
 ---0
 CutScene Art:
-Mr. Falun
+Richard Bailey
 ---0
 Music:
 Devin McGinty
-Mr. I Kan Reed
+Adrian Cline
 ---0
 Level Design:
-Mr. I Kan Reed
+Adrian Cline
 Brett S.
 Blake O'Hare
 ---0
 Assistant Programming:
-Mr. Falun
+Richard Bailey
 ---0
 Story:
-Mr. Falun
+Richard Bailey
 Brett S.
 Blake O'Hare
 ---60
@@ -44,13 +44,15 @@ The letter Y
 playing this far!
 ---0
 Lines of Python code:
-4775""".split('---')
+4946""".split('---')
 		self.page_counter = 0
 		self.temp_screen = pygame.Surface((256, 224))
 		self.wave_counter = 0
 	
 	def Update(self):
 		self.counter += 1
+		if self.counter == 2:
+			jukebox.PlayCredits()
 		opacity = 0
 		if self.counter > 30:
 			self.page_counter += 1
