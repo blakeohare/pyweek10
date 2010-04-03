@@ -1,7 +1,8 @@
-tiles:s118 s118 s118 s118 s118 s118 s118 s118 s118 s115 s115 s115 s115 s115 s115 s118 s118 s115 s115 s115 s115 s115 s115 s118 s118 s115 s115 s115 s115 s115 s115,d2 s118 s118 s115 s115 s115 s115 s115 s115,d3 s118 s118 s115 s115 s118 s118 s118 s118 s118 s118 s115 s115 s115,s121 s115 s115 s115 s118 s118 s115 s115 s115,s120 s115 s115 s115,d2 s118 s118 s115 s115 s115,s119 s115 s115 s115,d3 s118 s118 s118 s118 s118 s118 s118 s118 s118
-width:8
-default_start:Start
-start_locations:Start,1,8
-doors:6,4|c,Start 6,8|b,Start
-background_scroll_rate:2
-background_image:stormy1
+tiles:s118 s118 s118 s118 s118 s118 s118 s118 s118 s115 s115 s115 s115 s115 s115 s118 s118 s115 s115 s115 s115 s115 s115 s118 s118 s115 s115 s115 s115 s115 s115,d2 s118 s118 s115 s115 s115 s115 s115 s115,d3 s118 s118 s115 s115 s118 s118 s118 s118 s118 s118 s115 s115 s115,s121 s115 s115 s115 s118 s118 s115 s115 s115,s120 s115 s115 s115,d2 s118 s118 s115 s115 s115,s119 s115 s115 s115,d3 s118 s118 s118 s118 s118 s118 s118 s118 s118
+width:8
+default_start:Start
+start_locations:Start,1,8
+doors:6,4|c,Start 6,8|b,Start
+background_scroll_rate:2
+background_image:stormy1
+enemies:skeleton,3,5
