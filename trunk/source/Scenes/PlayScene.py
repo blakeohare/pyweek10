@@ -535,7 +535,7 @@ class PlayScreen:
 			if sprite != self.player:
 				if sprite.is_powerup:
 					pass
-				else:
+				elif not sprite.invincible:
 					for bullet in self.bullets:
 						if sprite.is_collision_with_rect(bullet.x - 6, bullet.x + 6, bullet.y - 4, bullet.y + 4):
 							bullet.void_this()
