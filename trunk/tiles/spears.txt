@@ -49,7 +49,7 @@ s2	nature/grass platform [right]	Ground1TR	platform
 s3	nature/dirt column [left]	Ground1BL	passable
 s4	nature/dirt column [middle]	Ground1BM	passable
 s5	nature/dirt column [right]	Ground1BR	passable
-s6	ice/ice platform [left]	Icy1TL	platform
+s6	ice/ice platform [left]	IcyTL	platform
 s7	ice/ice platform [middle]	IcyTM	platform
 s8	ice/ice platform [right]	IcyTR	platform
 s9	ice/ice column [left]	IcyBL	passable
