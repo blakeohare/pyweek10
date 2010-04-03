@@ -47,7 +47,7 @@ class WandStatus:
 	def IsKnown(self, wand_index):
 		if wand_index == 0:
 			return True
-		return games.active_game().get_value('finished_world' + str(wand_index) + '_5') == 1
+		return games.active_game().get_value('wand_' + str(wand_index)) == 1
 		
 #STATIC
 wandStatus = WandStatus()

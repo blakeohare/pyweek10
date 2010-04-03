@@ -4,12 +4,14 @@
 class SelectGameScene:
 	
 	def __init__(self, starting_slot_index=0):
+		games.initialize()
 		self.next = self
 		self.counter = 0
 		self.cursor_index = starting_slot_index
 		self.mode = 'selection' # 'copy' or 'erase' or paste
 		self.text_entry = ''
 		self.copy_from = 0
+		wandStatus.wand_selected = 0
 		
 	def ProcessInput(self, events):
 		
