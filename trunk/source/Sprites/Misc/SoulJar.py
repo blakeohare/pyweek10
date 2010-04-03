@@ -8,6 +8,7 @@ class SoulJar(Sprite):
 		self.vx = 9 * (-1, 1)[int(random_number % 2)]
 		self.vy = -5
 		self.confined_to_scene = True
+		self.is_soul_jar = True
 	
 	def draw(self, surface, is_moving, counter, camera_offset):
 		
@@ -25,5 +26,5 @@ class SoulJar(Sprite):
 		self.lifetime += 1
 		if self.vx > 0:
 			self.vx = max(0, self.vx - .4)
-		else:
-			self.vs = min(0, self.vx + .4)
+		elif self.vx < 0:
+			self.vx = min(0, self.vx + .4)
