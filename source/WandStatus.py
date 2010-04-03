@@ -28,8 +28,14 @@ class WandStatus:
 		return self.wand_selected
 	
 	def ShiftWand(self, direction):
-		if not self.SelectWand(self.wand_selected + direction):
-			self.SelectWand(self.wand_selected - direction)
+		started_with = self.wand_selected
+		index = started_with
+		while index >= 0 and index <= 4:
+			if self.SelectWand(index + direction):
+				return
+			else:
+				index += direction
+		self.SelectWand(started_with)
 	
 	def SelectWand(self, wand_index):
 		self.wand_selected = max(0, min(4, wand_index))
