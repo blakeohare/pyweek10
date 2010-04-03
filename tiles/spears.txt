@@ -179,3 +179,5 @@ s132	Water/Seaweed 1 [Bottom]	seaweedbottom1	passable
 s133	Water/Seaweed 2 [Bottom]	seaweedbottom2	passable
 s134	Water/Conch	conch	passable
 s135	Ice/Snow	snow1|snow2|snow3|snow4	passable
+s136	Ice/Snowman [top]	snowmantop	passable
+s137	Ice/Snowman [bottom]	snowmanbottom	passable
