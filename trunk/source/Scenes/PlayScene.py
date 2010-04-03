@@ -65,15 +65,12 @@ class PlayScreen:
 		
 		if	games.active_game() != None:
 			
-			#TODO: scatter these about
 			if games.active_game().get_value('wand_1') != 1 and self.level_id == '1_3' and self.screen_id == 'b':
 				self.powerups.append(Powerup(88, 40, 'wand_1'))
 			
-			#TODO
 			if games.active_game().get_value('wand_2') != 1 and self.level_id == '2_1' and self.screen_id == 'b':
 				self.powerups.append(Powerup(90 + 9 * 16, 80, 'wand_2'))
 			
-			#TODO
 			if games.active_game().get_value('wand_3') != 1 and self.level_id == '2_5' and self.screen_id == 'c':
 				self.powerups.append(Powerup(152, 48, 'wand_3'))
 			
@@ -81,9 +78,8 @@ class PlayScreen:
 			if games.active_game().get_value('wand_4') != 1 and self.level_id == '1_1' and self.screen_id == 'a':
 				self.powerups.append(Powerup(130, 40, 'wand_4'))
 			
-			#TODO
-			if self.level_id == '1_1' and self.screen_id == 'a':
-				self.powerups.append(Powerup(150, 40, 'mumblefoo_piece1'))
+			if self.level_id == '1_5' and self.screen_id == 'c':
+				self.powerups.append(Powerup(14 * 16, 32, 'mumblefoo_piece1'))
 			
 			if self.level_id == '2_5' and self.screen_id == 'd':
 				self.powerups.append(Powerup(31 * 16, 10 * 16, 'mumblefoo_piece2'))
