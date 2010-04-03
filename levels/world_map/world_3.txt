@@ -4,11 +4,9 @@ prev	212,-30
 3	142,103
 4	84,80
 5	49,49
-next	-20,49
 #connections
 prev	1	down
 1	2	down
 2	3	down
 3	4	left
 4	5	left
-5	next	left
