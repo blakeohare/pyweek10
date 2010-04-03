@@ -20,6 +20,7 @@ class Sprite:
 		self.walked_into_wall = False
 		self.is_soul_jar = False
 		self.is_powerup = False
+		self.expired = False
 	
 	def get_collision_radius(self):
 		return (self.width + self.height) / 2.0
