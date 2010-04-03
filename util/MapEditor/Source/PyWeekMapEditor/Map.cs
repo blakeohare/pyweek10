@@ -257,7 +257,7 @@ namespace PyWeekMapEditor
 				{
 					front[i] = TileLibrary.GetTile(tile_ids[2]);
 					middle[i] = TileLibrary.GetTile(tile_ids[1]);
-					back[i] = TileLibrary.GetTile(tile_ids[1]);
+					back[i] = TileLibrary.GetTile(tile_ids[0]);
 				}
 				else
 				{
