@@ -4,3 +4,5 @@ width:16
 default_start:A
 enemies:skeleton,13,189 skeleton,15,189
 doors:14,196|b,A
+background_scroll_rate:1
+background_image:clouds
