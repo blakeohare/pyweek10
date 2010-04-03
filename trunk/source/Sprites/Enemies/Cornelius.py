@@ -8,6 +8,7 @@ class EnemyCornelius(Sprite):
 		self.height = 25
 		self.left_facing = True
 		self.next_jump = 30
+		self.hp = 25
 		
 	def draw(self, surface, is_moving, counter, camera_offset):
 		
