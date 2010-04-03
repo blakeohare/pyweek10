@@ -311,9 +311,11 @@ class PlayScreen:
 				wall = self.find_leftmost_wall_in_path(sprite.x, new_x, sprite.get_head_bonk_top(), sprite.get_bottom())
 				if wall != None:
 					new_x = wall.get_left_wall_x() - 1
+					sprite.vx = 0
 			elif sprite.dx < 0: #going left
 				wall = self.find_rightmost_wall_in_path(new_x, sprite.x, sprite.get_head_bonk_top(), sprite.get_bottom())
 				if wall != None:
+					sprite.vx = 0
 					new_x = wall.get_right_wall_x() + 1
 			
 			# player may have possibly jumped through an incline
