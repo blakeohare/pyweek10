@@ -3,3 +3,5 @@ b2	Misc/victory tape [upper]	misc/victory_upper	platform
 b3	Water/Overlay	Water_overlay	water
 b4	Water/Overlay Surface	Water_overlay0|water_overlay1|water_overlay2|water_overlay3	water
 b5	Cave/LavaFall	lavafall1|lavafall2|lavafall3|lavafall4	passable
+b6	Cave/Solid column [left]	CaveFloorBL	unpassable
+b7	Cave/Solid column [right]	CaveFloorBR	unpassable
