@@ -6,7 +6,7 @@ class PlayScreen:
 		
 		self.next = self
 		self.g = 1.4
-		
+		self.water_g = .2
 		self.level_id = level
 		
 		self.screen_id = screen
@@ -132,14 +132,26 @@ class PlayScreen:
 		return len(self.level_info.get_landing_platforms_in_rectangle(x, x, y, y)) > 0
 	
 	def ProcessInput(self, events):
+		
+		x = int(self.player.x / 16)
+		y = int(self.player.y / 16)
+		current_tile = self.level_info.get_tile(x, y)
+		in_water = current_tile.is_water()
+		on_ladder = current_tile.is_ladder()
+		on_death_tile = current_tile.is_kill()
+		on_ouch_tile = current_tile.is_ouch()
+		
 		for event in events:
 			if event.key == 'start' and event.down:
 				self.next = TransitionScene(self, PauseScene(self), 'fade', 10)
 				jukebox.MakeQuiet()
 			elif event.key == 'B':
 				# jump
-				if event.down and self.player.on_ground:
-					self.player.vy = -15
+				if event.down and (self.player.on_ground or in_water):
+					if in_water:
+						self.player.vy = -4
+					else:
+						self.player.vy = -15
 					self.player.on_ground = False
 					self.player.platform = None
 				elif self.player.vy < 0:
@@ -156,7 +168,7 @@ class PlayScreen:
 			elif event.key == 'L' and event.up: #TODO: remove this before shipping
 				self.level_info.Refresh()
 		
-		running = input.is_key_pressed('A')
+		running = input.is_key_pressed('A') and (not in_water)
 		
 		if input.is_key_pressed('Y'):
 			self.wand_charge += 1
@@ -171,6 +183,12 @@ class PlayScreen:
 			self.target_vx = (3, 5)[running]
 		else:
 			self.target_vx = 0
+		
+		if in_water:
+			if self.player.on_ground:
+				self.target_vx /= 3.0
+			else:
+				self.target_vx /= 1.3
 		
 		if self.wand_cooldown > 0:
 			self.target_vx = 0
@@ -254,6 +272,15 @@ class PlayScreen:
 				continue
 			if sprite.get_top() > camera_y + 224 + 48:
 				continue
+				
+			x = int(sprite.x / 16.0)
+			y = int(sprite.y / 16.0)
+			
+			current_tile = self.level_info.get_tile(x, y)
+			in_water = current_tile.is_water()
+			on_ladder = (self.player == sprite) and current_tile.is_ladder()
+			on_death_tile = current_tile.is_kill()
+			on_ouch_tile = current_tile.is_ouch()
 			
 			sprite.update(self)
 			
@@ -312,7 +339,14 @@ class PlayScreen:
 			
 			
 			if not sprite.on_ground and not sprite.immune_to_gravity:
-				sprite.vy += self.g
+				if sprite == self.player and on_ladder:
+					g = 0 #TODO: ability to let go of ladder
+				elif in_water:
+					g = self.water_g
+				else:
+					g = self.g
+				sprite.vy += g
+				
 				sprite.vy = min(sprite.vy, 13)
 			else:
 				sprite.vy = 0
