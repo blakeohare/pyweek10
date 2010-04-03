@@ -6,3 +6,4 @@ default_start:A
 background_scroll_rate:-1
 background_image:clouds
 enemies:skeleton,25,8 skeleton,31,12 skeleton,42,12 skeleton,50,9 skeleton,53,9 skeleton,62,12 skeleton,71,12 skeleton,77,12 skeleton,87,8 skeleton,125,12 skeleton,133,12 skeleton,154,12
+music:desert
