@@ -89,7 +89,7 @@ class PlayScreen:
 				self.powerups.append(Powerup(31 * 16, 10 * 16, 'mumblefoo_piece2'))
 			
 			
-			if self.level_id == '3_5' and self.screen_id == 'a':
+			if self.level_id == '3_5' and self.screen_id == 'c':
 				self.enemies.append(EnemyCornelius(220, 80))
 			
 		
