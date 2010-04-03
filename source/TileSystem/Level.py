@@ -31,7 +31,12 @@ class Level:
 				sprite = EnemySkeleton(x, y)
 			elif enemy[0] == 'burrower':
 				sprite = EnemyBurrow(x, y)
-			
+			elif enemy[0] == 'greenblob':
+				sprite = EnemyBlob(x, y, 'green')
+			elif enemy[0] == 'blueblob':
+				sprite = EnemyBlob(x, y, 'blue')
+			elif enemy[0] == 'redblob':
+				sprite = EnemyBlob(x, y, 'red')
 			if sprite != None:
 				sprite.x += int(sprite.width / 2)
 				sprite.y -= (int(sprite.height / 2) + 1)

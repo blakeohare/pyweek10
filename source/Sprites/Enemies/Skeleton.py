@@ -26,7 +26,7 @@ class EnemySkeleton(Sprite):
 		self.lifetime += 1
 		
 		self.vx = (1, -1)[self.left_facing]
-		if (self.platform != None and not self.platform_below_vx_location(playScene)) or self.wall_at_vx_location(playScene):
+		if self.is_going_to_vx_bad(playScene):
 			self.vx *= -1
 			self.left_facing = not self.left_facing
 	
