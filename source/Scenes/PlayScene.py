@@ -21,7 +21,7 @@ class PlayScreen:
 		
 		self.target_vx = 0
 		
-		self.player = MainCharacter(start_loc[0] * 16, start_loc[1] * 16)
+		self.player = MainCharacter(start_loc[0] * 16, start_loc[1] * 16 + 1)
 		self.enemies = self.level_info.get_enemies()
 		self.powerups = []
 		
