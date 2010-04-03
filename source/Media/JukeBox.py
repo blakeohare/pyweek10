@@ -94,7 +94,7 @@ class JukeBox:
 		self._play_song_looping('maploop')
 	
 	def PlayCredits(self):
-		self._play_song_looping('notsure')
+		self._play_song_looping('credits')
 	
 	def PlayLevelMusic(self, music):
 		self.level_music = music
