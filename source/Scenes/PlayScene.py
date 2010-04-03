@@ -57,8 +57,19 @@ class PlayScreen:
 			self.mumblefoo.vx = 0
 			self.mumblefoo.vy = 0
 		
+		#TODO: scatter these about
 		if self.level_id == '1_1' and self.screen_id == 'a':
-			self.powerups.append(Powerup(self.player.x + 30, self.player.y, 'mumblefoo_piece1'))
+			self.powerups.append(Powerup(70, 40, 'wand_1'))
+		if self.level_id == '1_1' and self.screen_id == 'a':
+			self.powerups.append(Powerup(90, 40, 'wand_2'))
+		if self.level_id == '1_1' and self.screen_id == 'a':
+			self.powerups.append(Powerup(110, 40, 'wand_3'))
+		if self.level_id == '1_1' and self.screen_id == 'a':
+			self.powerups.append(Powerup(130, 40, 'wand_4'))
+		if self.level_id == '1_1' and self.screen_id == 'a':
+			self.powerups.append(Powerup(150, 40, 'mumblefoo_piece1'))
+		if self.level_id == '1_1' and self.screen_id == 'a':
+			self.powerups.append(Powerup(170, 40, 'mumblefoo_piece2'))
 		
 		
 	def get_sprites(self):

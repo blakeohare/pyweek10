@@ -58,11 +58,15 @@ class SavedGame:
 
 class SavedState:
 	def __init__(self):
+		self.initialize()
+		
+	def initialize(self):
 		self.active_saved_game = None
 		self.saved_games = []
 		
 		for slot_num in (1, 2, 3):
 			self.saved_games.append(SavedGame(slot_num))
+			
 	
 	def active_game(self):
 		return self.active_saved_game
