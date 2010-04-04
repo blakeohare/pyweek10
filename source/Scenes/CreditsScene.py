@@ -44,7 +44,7 @@ The letter Y
 playing this far!
 ---0
 Lines of Python code:
-4946""".split('---')
+5178""".split('---')
 		self.page_counter = 0
 		self.temp_screen = pygame.Surface((256, 224))
 		self.wave_counter = 0
