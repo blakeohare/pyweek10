@@ -6,3 +6,4 @@ background_scroll_rate:-1
 background_image:clouds
 default_start:A
 enemies:burrower,14,9 burrower,18,18 burrower,31,14 burrower,37,10
+music:overworld2
