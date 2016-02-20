@@ -1,107 +1,130 @@
-class Sprite:
-	
-	def __init__(self, x, y):
-		self.x = x # these points are the CENTER of the player
-		self.y = y
-		self.vy = 0
-		self.vx = 0
-		self.dx = 0
-		self.dy = 0
-		self.width = 1
-		self.height = 1
-		self.on_ground = False
-		self.platform = None
-		self.left_facing = False
-		self.moves_through_walls = False
-		self.immune_to_gravity = False
-		self.invincible = False
-		self.confined_to_scene = False
-		self.killed = False
-		self.walked_into_wall = False
-		self.is_soul_jar = False
-		self.is_powerup = False
-		self.expired = False
-		self.hp = 1
-	
-	def get_collision_radius(self):
-		return (self.width + self.height) / 2.0
-	
-	def get_top_left(self):
-		return (self.get_left(), self.get_top())
-	
-	def get_left(self):
-		return int(self.x - self.width / 2)
-	
-	def get_top(self):
-		return int(self.y - self.height / 2)
-	
-	def get_head_bonk_top(self):
-		return int(self.y - self.height / 2) + 5
-	
-	def get_bottom(self):
-		return self.get_top_left()[1] + self.height
-	
-	def get_left(self):
-		return int(self.x - self.width / 2)
-	
-	def get_right(self):
-		return self.get_left() + self.width
-		
-	def update(self, playScene):
-		pass
+import Math;
 
-	def hit(self, additional_damage):
-		damage = wandStatus.SelectedWand() + 1 + additional_damage
-		self.hp -= damage
-		if self.hp <= 0:
-			return True
-		return False
+class Sprite {
+	field x;
+	field y;
 	
-	def is_collision_with_rect(self, left, right, top, bottom):
-		tolerance = 2
-		if self.get_left() + tolerance > right:
-			return False
-		if self.get_right() - tolerance < left:
-			return False
-		if self.get_top() + tolerance > bottom:
-			return False
-		if self.get_bottom() - tolerance < top:
-			return False
-		return True
+	field vx = 0;
+	field vy = 0;
 	
-	def GetPowerUp(self, counter, playScene):
-		c = int(counter % 100)
-		if c <= 2:
-			return Powerup(self.x, self.y, 'big_recharge')	
-		#elif c <= 4:
-			#return Powerup(self.x, self.y, 'invincibility')
-		elif c <= 50:
-			return Powerup(self.x, self.y, 'little_recharge')
+	field dx = 0;
+	field dy = 0;
+	
+	field width = 1;
+	field height = 1;
+	
+	field lifetime = 0;
+	
+	field on_ground = false;
+	field platform = null;
+	field left_facing = false;
+	field moves_through_walls = false;
+	
+	field immune_to_gravity = false;
+	field invincible = false;
+	field confined_to_scene = false;
+	field killed = false;
+	field walked_into_wall = false;
+	field is_soul_jar = false;
+	field is_powerup = false;
+	field expired = false;
+	field hp = 1;
+	
+	constructor(x, y) {
+		this.x = x; // these points are the CENTER of the player
+		this.y = y;
+	}
+	
+	function get_collision_radius() {
+		return (this.width + this.height) / 2.0;
+	}
+	
+	function get_top_left() {
+		return [this.get_left(), this.get_top()];
+	}
+	
+	function get_left() {
+		return floor(this.x - this.width / 2);
+	}
+	
+	function get_top() {
+		return floor(this.y - this.height / 2);
+	}
+	
+	function get_head_bonk_top() {
+		return floor(this.y - this.height / 2) + 5;
+	}
+	
+	function get_bottom() {
+		return this.get_top_left()[1] + this.height;
+	}
+	
+	function get_left() {
+		return floor(this.x - this.width / 2);
+	}
+	
+	function get_right() {
+		return this.get_left() + this.width;
+	}
+
+	function update(playScene) { } // override me!
+
+	function hit(additional_damage) {
+		damage = wandStatus.SelectedWand() + 1 + additional_damage;
+		this.hp -= damage;
+		return this.hp <= 0;
+	}
+	
+	function is_collision_with_rect(left, right, top, bottom) {
+		tolerance = 2;
+		if (this.get_left() + tolerance > right) return false;
+		if (this.get_right() - tolerance < left) return false;
+		if (this.get_top() + tolerance > bottom) return false;
+		if (this.get_bottom() - tolerance < top) return false;
+		return true;
+	}
+	
+	function GetPowerUp(counter, playScene) {
+		c = floor(counter % 100);
+		if (c <= 2) 
+			return new Powerup(this.x, this.y, 'big_recharge');
+		// else if (c <= 4)
+		// 	return new Powerup(this.x, this.y, 'invincibility');
+		else if (c <= 50)
+			return new Powerup(this.x, this.y, 'little_recharge');
 		
-		return None
+		return null;
+	}
 	
-	def platform_below_vx_location(self, playScene):
-		x = self.x + (2 * self.vx)
+	function platform_below_vx_location(playScene) {
+		x = this.x + (2 * this.vx);
 		
-		if self.platform != None:
-			if self.platform.is_x_in_range(x):
-				return True
-			elif self.platform.left > x:
-				left = playScene.get_left_stiched_platform(self.platform)
-				if left != None: #TODO: will not handle things walking faster than 16 pixels/frame
-					return left.is_x_in_range(x)
-			else:
-				right = playScene.get_right_stiched_platform(self.platform)
-				if right != None:
-					return right.is_x_in_range(x)
-		return False
+		if (this.platform != null) {
+			if (this.platform.is_x_in_range(x)) {
+				return true;
+			} else if (this.platform.left > x) {
+				left = playScene.get_left_stiched_platform(this.platform)
+				if (left != null) { //TODO: will not handle things walking faster than 16 pixels/frame
+					return left.is_x_in_range(x);
+				}
+			} else {
+				right = playScene.get_right_stiched_platform(this.platform)
+				if (right != null) {
+					return right.is_x_in_range(x);
+				}
+			}
+		}
+		return false;
+	}
 		
-	def wall_at_vx_location(self, playScene):
-		return self.walked_into_wall
+	function wall_at_vx_location(playScene) {
+		return this.walked_into_wall;
+	}
 	
-	def is_going_to_vx_bad(self, playScene):
-		return (
-			self.platform != None and 
-			not self.platform_below_vx_location(playScene)
-			) or self.wall_at_vx_location(playScene)
-			
+	function is_going_to_vx_bad(playScene) {
+		return 
+			(this.platform != null && 
+				!this.platform_below_vx_location(playScene)) || 
+			this.wall_at_vx_location(playScene);
+	}
+}

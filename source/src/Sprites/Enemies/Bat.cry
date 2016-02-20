@@ -1,9 +1,10 @@
 
-class EnemyBat(Sprite):
+class EnemyBat : Sprite {
 	
-	def __init__(self, x, y):
+	
+	
+	constructor(x, y) : base(x, y) {
 		self.lifetime = 0
-		Sprite.__init__(self, x, y)
 		self.width = 15
 		self.height = 15
 		self.left_facing = True
@@ -27,3 +28,4 @@ class EnemyBat(Sprite):
 	def update(self, playScene):
 		self.lifetime += 1
 		self.vx = -2
+}

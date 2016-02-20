@@ -1,74 +1,100 @@
 
-class EnemyBurrow(Sprite):
+class EnemyBurrow : Sprite {
 	
-	def __init__(self, x, y):
-		self.lifetime = 0
-		Sprite.__init__(self, x, y)
-		self.width = 20
-		self.height = 15
-		self.left_facing = True
-		self.state_counter = int((7 * x / 16.0) % 60)
-		self.state = ('burrowed','out')[int((x / 16.0) % 2) == 0]
+	constructor(x, y) : base(x, y) {
+		this.width = 20
+		this.height = 15
+		this.left_facing = true;
+		this.state_counter = floor((7 * x / 16.0) % 60);
+		this.state = floor((x / 16) % 2) == 0
+			? 'out'
+			: 'burrowed'; // TODO: change to enums
+	}
 		
-	def draw(self, surface, is_moving, counter, camera_offset):
+	function draw(surface, is_moving, counter, camera_offset) {
 		
-		direction = ('Right', 'Left')[self.left_facing]
+		direction = this.left_facing ? 'Left' : 'Right';
 		
 		num = 1
 		
-		if self.state == 'rising' or self.state == 'burrowing':
-			num = max(0, min(int(self.state_counter / 4), 2))
-			if self.state == 'burrowing':
-				num = 2 - num
-			num += 2
-		elif self.state == 'out':
-			num = 4
-		elif self.state == 'shoot':
-			num = 5
-		
-		
-		
-		file = direction + str(num) + '.png'
-		
-		img = images.Get('sprites/Enemies/Burrower/' + file)
-		
-		xy = self.get_top_left()
-		x = xy[0] - camera_offset[0]
-		y = xy[1] - camera_offset[1]
-		
-		surface.blit(img, (x, y))
-	
-	def update(self, playScene):
-		self.lifetime += 1
-		self.state_counter += 1
-		
-		self.left_facing = playScene.player.x < self.x
-		
-		if self.state == 'burrowed':
-			if self.state_counter == 60:
-				self.state_counter = 0
-				self.state = 'rising'
-		elif self.state == 'rising':
-			if self.state_counter == 12:
-				self.state_counter = 0
-				self.state = 'out'
-		
-		elif self.state == 'burrowing':
-			if self.state_counter == 12:
-				self.state_counter = 0
-				self.state = 'burrowed'
-		
-		elif self.state == 'out':
-			if self.state_counter == 60:
-				self.state_counter = 0
-				self.state = 'shoot'
-		
-		elif self.state == 'shoot':
-			if self.state_counter == 3:
-				playScene.enemies.append(EnemyBurrowerBullet(self.x, self.y + 4, (2,-2)[self.left_facing]))
+		switch (this.state) {
+			case 'rising':
+			case 'burrowing':
+				num = max(0, min(this.state_counter / 4, 2));
+				if this.state == 'burrowing':
+					num = 2 - num;
+				num += 2;
+				break;
 				
-			if self.state_counter == 20:
-				self.state_counter = 0
-				self.state = 'burrowing'
-			
+			case 'out':
+				num = 4;
+				break;
+				
+			case 'shoot':
+				num = 5;
+				break;
+		}
 		
+		file = direction + num + '.png';
+		
+		img = images.Get('sprites/Enemies/Burrower/' + file);
+		
+		xy = this.get_top_left();
+		x = xy[0] - camera_offset[0];
+		y = xy[1] - camera_offset[1];
+		
+		img.blit(x, y);
+	}
+	
+	function update(playScene) {
+		this.lifetime++;
+		this.state_counter++;
+		
+		this.left_facing = playScene.player.x < this.x;
+		
+		switch (this.state) {
+			case 'burrowed':
+				if (this.state_counter == 60) {
+					this.state_counter = 0;
+					this.state = 'rising';
+				}
+				break;
+				
+			case 'rising':
+				if (this.state_counter == 12) {
+					this.state_counter = 0;
+					this.state = 'out';
+				}
+				break;
+			
+			case 'burrowing':
+				if (this.state_counter == 12) {
+					this.state_counter = 0;
+					this.state = 'burrowed';
+				}
+				break;
+			
+			case 'out':
+				if (this.state_counter == 60) {
+					this.state_counter = 0;
+					this.state = 'shoot';
+				}
+				break;
+			
+			case 'shoot':
+				if (this.state_counter == 3) {
+					playScene.enemies.add(new EnemyBurrowerBullet(this.x, this.y + 4, this.left_facing ? -2 : 2));
+				}
+					
+				if (this.state_counter == 20) {
+					this.state_counter = 0;
+					this.state = 'burrowing';
+				}
+				break;
+				
+			default:
+				Core.assert(false);
+				break;
+		}
+	}
+}

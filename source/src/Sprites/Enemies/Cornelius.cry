@@ -1,56 +1,63 @@
 
-class EnemyCornelius(Sprite):
+class EnemyCornelius : Sprite {
 	
-	def __init__(self, x, y):
-		self.lifetime = 0
-		Sprite.__init__(self, x, y)
-		self.width = 19
-		self.height = 25
-		self.left_facing = True
-		self.next_jump = 30
-		self.hp = 25
-		
-	def draw(self, surface, is_moving, counter, camera_offset):
-		
-		direction = ('right', 'left')[self.left_facing]
-		
-		num = int((self.lifetime / 3.0)% 3)
-		
-		file = direction + str(num) + '.png'
-		
-		img = images.Get('sprites/EvilWizardDude/' + file)
-		
-		xy = self.get_top_left()
-		x = xy[0] - camera_offset[0]
-		y = xy[1] - camera_offset[1]
-		
-		surface.blit(img, (x, y))
+	field next_jump = 30;
 	
-	def GetPowerUp(self, counter, playScene):
-		#terrible hackery
-		playScene.next = CutSceneScene('endgame', CreditsScene())
+	static field JUMP_TIMEOUTS = [30, 60, 50];
 	
-	def update(self, playScene):
-		self.lifetime += 1
+	constructor(x, y) : base(x, y) {
+		this.hp = 25;
+		this.width = 19;
+		this.height = 25;
+		this.left_facing = true;
+	}
 		
-		self.left_facing = True
+	function draw(surface, is_moving, counter, camera_offset) {
 		
-		if self.lifetime == self.next_jump:
-			self.next_jump += random.choice((30, 60, 50))
-			self.platform = None
-			self.on_ground = False
-			self.vy = -10
+		direction = this.left_facing ? 'left' : 'right';
 		
-		if int(self.lifetime % 20.0) == 19:
-			
-			dy = self.y - playScene.player.y
-			dx = abs(self.x - playScene.player.x) + 0.0
-			
-			vx = -3.0
-			
-			if dx == 0: dx = .1
-			
-			vy = vx * dy / dx
-			
-			playScene.enemies.append(WizardShoot(self.x, self.y, int(vx), int(vy)))
+		num = this.lifetime / 3 % 3;
 		
+		file = direction + num + '.png';
+		
+		img = images.Get('sprites/EvilWizardDude/' + file);
+		
+		xy = this.get_top_left();
+		x = xy[0] - camera_offset[0];
+		y = xy[1] - camera_offset[1];
+		
+		img.blit(x, y);
+	}
+	
+	function GetPowerUp(counter, playScene) {
+		// terrible hackery
+		playScene.next = new CutSceneScene('endgame', new CreditsScene());
+	}
+	
+	function update(playScene) {
+		this.lifetime++;
+		
+		this.left_facing = true;
+		
+		if (this.lifetime == this.next_jump) {
+			this.next_jump += JUMP_TIMEOUTS.choice();
+			this.platform = null;
+			this.on_ground = false;
+			this.vy = -10;
+		}
+		
+		if (this.lifetime % 20 == 19) {
+			
+			dy = this.y - playScene.player.y;
+			dx = abs(this.x - playScene.player.x) + 0.0;
+			
+			vx = -3.0;
+			
+			if (dx == 0) dx = .1;
+			
+			vy = vx * dy / dx;
+			
+			playScene.enemies.add(new WizardShoot(this.x, this.y, floor(vx), floor(vy)));
+		}
+	}
+}
