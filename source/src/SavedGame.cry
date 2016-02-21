@@ -80,7 +80,7 @@ class SavedState:
 	def erase_game(self, slot_num):
 		game = self.get_saved_game(slot_num)
 		if game.get_value('saved') == 1:
-			proxy_game = SavedGame(4) # does not exist
+			proxy_game = SavedGame(4) // does not exist
 			game.values = proxy_game.values
 			game.save_to_file()
 	
@@ -90,12 +90,12 @@ class SavedState:
 		game_to.values = game_from.values
 		game_to.save_to_file()
 		
-		# now it's a reference to the same dictionary instance but the files are correct
-		# clear instance and re-instantiate one so the dictionary instances are unique
+		// now it's a reference to the same dictionary instance but the files are correct
+		// clear instance and re-instantiate one so the dictionary instances are unique
 		
 		self.saved_games[slot_to - 1] = SavedGame(slot_to)
 		
 		
 
-#STATIC
+
 games = SavedState()

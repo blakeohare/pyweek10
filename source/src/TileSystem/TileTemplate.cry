@@ -65,8 +65,8 @@ class TileTemplate:
 			elif physics == 'ouch':
 				self.ouch_modifier = True
 			else:
-				# other physics flags will not add platforms but may do other things
-				# like affect gravity
+				// other physics flags will not add platforms but may do other things
+				// like affect gravity
 				print ("UNKNOWN PHYSICS: ", self.physics)
 				pass
 			

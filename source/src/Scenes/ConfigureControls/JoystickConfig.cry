@@ -1,3 +1,4 @@
+/*
 class JoystickConfig:
 	def __init__(self, previous_menu, joystick):
 		self.previous_menu = previous_menu
@@ -66,4 +67,4 @@ class JoystickConfig:
 			screen.blit(get_text(text), (10, y))
 			y += 12
 		screen.blit(img, (40, 40))
-		
+//*/

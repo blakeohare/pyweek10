@@ -1,105 +1,128 @@
-class MapScene:
-	def __init__(self, world_num, level, level_to=None):
+class MapScene {
+	field next = this;
+	field counter = 0;
+	field world_num;
+	field location;
+	field nodes;
+	field bg_image;
+	field destination;
+	field move_counter = 0;
+	field facing_left = false;
+	
+	constructor (world_num, level, level_to = null) {
 		games.active_game().save_value('intro_shown', 1)
-		self.counter = 0
-		self.next = self
-		self.world_num = world_num
-		self.location = level
-		self.nodes = self._read_map_file()
-		#TODO: set initial location from save game
-		self.bg_image = None
-		if level_to != None:
-			self.destination = level_to
-		else:
-			self.destination = self.location
-		self.move_counter = 0
-		self.facing_left = False
 		
-	def Update(self):
-		self.counter += 1
+		this.world_num = world_num;
+		this.location = level;
+		this.nodes = this._read_map_file();
+		//TODO: set initial location from save game
+		if (level_to != null) {
+			this.destination = level_to;
+		} else {
+			this.destination = this.location;
+		}
+	}
 		
-		if self.counter == 1:
-			jukebox.PlayMapMusic()
+	function Update() {
+		this.counter++;
 		
-		if self.destination != self.location:
-			self.move_counter += 1
+		if (this.counter == 1) {
+			jukebox.PlayMapMusic();
+		}
+		
+		if (this.destination != this.location) {
+			this.move_counter++;
 			
-			if self.move_counter >= 15:
-				self.move_counter = 0
-				self.location = self.destination
+			if (this.move_counter >= 15) {
+				this.move_counter = 0;
+				this.location = this.destination;
 				
-				screenchange = None
-				if self.location == 'prev':
-					screenchange = MapScene(self.world_num - 1, 'next', '5')
-				elif self.location == 'next':
-					screenchange = MapScene(self.world_num + 1, 'prev', '1')
-				if screenchange != None:
-					self.next = TransitionScene(self, screenchange, 'fadeout', 30)
-		
+				screenchange = null;
+				if (this.location == 'prev') {
+					screenchange = new MapScene(this.world_num - 1, 'next', '5');
+				} else if (this.location == 'next') {
+					screenchange = new MapScene(this.world_num + 1, 'prev', '1');
+				}
+				
+				if (screenchange != null) {
+					this.next = new TransitionScene(this, screenchange, 'fadeout', 30);
+				}
+			}
+		}
+	}
 	
-	def Render(self, screen):
+	function Render(screen) {
 		
-		if self.bg_image == None:
-			self.bg_image = self.generate_map()
+		if (this.bg_image == null) {
+			this.bg_image = this.generate_map();
+		}
 		
-		screen.blit(self.bg_image, (0, 0))
+		this.bg_image.blit(0, 0);
 		
-		flux = abs((self.counter % 30.0) - 15) / 15.0
-		half = int(128 * flux)
-		full = int(255 * flux)
+		flux = abs((this.counter % 30.0) - 15) / 15.0;
+		half = floor(128 * flux);
+		full = floor(255 * flux);
 		
-		complete_color = (half, half, 127 + half)
-		incomplete_color = (full, 0, 0)
-		for node in self.nodes.values():
-			color = incomplete_color
-			if node['completed'] == 1:
-				color = complete_color
-			pygame.draw.circle(screen, (0, 0, 0), (node['x'], node['y']), 8)
-			pygame.draw.circle(screen, color, (node['x'], node['y']), 6)
-			
-			
-		walking = self.location != self.destination
-		direction = ('right','left')[self.facing_left]
-		img = 'sprites/ClumsyWizard/' + direction
-		if walking:
-			img += 'walk' + str(int(int(self.counter / 3) % 3)) + '.png'
-		else:
-			img += 'stand.png'
+		complete_color = [half, half, 127 + half];
+		incomplete_color = [full, 0, 0];
+		for (node : self.nodes.values()) {
+			color = incomplete_color;
+			if (node['completed'] == 1) {
+				color = complete_color;
+			}
+			x = node['x'];
+			y = node['y'];
+			GFX.Draw.ellipse(x - 8, y - 8, 16, 16, 0, 0, 0);
+			GFX.Draw.ellipse(x - 6, y - 6, 12, 12, color[0], color[1], color[2]);
+		}
 		
-		character = images.Get(img)
-		start_node = self.nodes[self.location]
-		end_node = self.nodes[self.destination]
-		start_x = start_node['x']
-		start_y = start_node['y']
-		end_x = end_node['x']
-		end_y = end_node['y']
-		x = int(start_x * (15 - self.move_counter) / 15.0 + end_x * self.move_counter / 15.0 - character.get_width() / 2)
-		y = int(start_y * (15 - self.move_counter) / 15.0 + end_y * self.move_counter / 15.0 - character.get_height() / 2)
-		screen.blit(character, (x, y - 10))
+		walking = this.location != this.destination;
+		direction = this.facing_left ? 'left' : 'right';
+		img = 'sprites/ClumsyWizard/' + direction;
+		if (walking) {
+			img += 'walk' + (this.counter / 3 % 3) + '.png';
+		} else {
+			img += 'stand.png';
+		}
+		
+		character = ImageLibrary.Get(img);
+		start_node = this.nodes[this.location];
+		end_node = this.nodes[this.destination];
+		start_x = start_node['x'];
+		start_y = start_node['y'];
+		end_x = end_node['x'];
+		end_y = end_node['y'];
+		x = floor(start_x * (15 - this.move_counter) / 15.0 + end_x * this.move_counter / 15.0 - character.get_width() / 2);
+		y = floor(start_y * (15 - this.move_counter) / 15.0 + end_y * this.move_counter / 15.0 - character.get_height() / 2);
+		character.blit(x, y - 10);
+	}
 	
-	def ProcessInput(self, events):
-		for event in events:
-			if self.move_counter == 0:
-				node = self.nodes[self.location]
-				if event.down and event.key in ('left','right','down','up'):
-					for connection in node['connections']:
-						if connection[1] == event.key:
-							if node['completed'] or self.nodes[connection[0]]['completed']:
-								self.destination = connection[0]
-								self.facing_left = self.nodes[self.location]['x'] > self.nodes[self.destination]['x']
-							break
-				elif event.down and event.key in ('start', 'B', 'A'):
-					nextScene = PlaySceneInfoScene(self.world_num, self.location)
-					self.next = TransitionScene(self, nextScene, 'fadeout', 30)
+	function ProcessInput(events) {
+		for (event : events) {
+			if (this.move_counter == 0) {
+				node = this.nodes[this.location];
+				if (event.down) {
+					for (connection : node['connections']) {
+						if (connection[1] == event.key) {
+							if (node['completed'] || this.nodes[connection[0]]['completed']) {
+								this.destination = connection[0];
+								this.facing_left = this.nodes[this.location]['x'] > this.nodes[this.destination]['x'];
+							}
+							break;
+						}
+					}
+				} else if (event.down && event.key in ('start', 'B', 'A'):
+					nextScene = PlaySceneInfoScene(this.world_num, this.location)
+					this.next = TransitionScene(this, nextScene, 'fadeout', 30)
 					jukebox.FadeOut(2)
 		
 	
 	def generate_map(self):
-		original = images.Get('maps/world_' + str(self.world_num) + '.png')
+		original = images.Get('maps/world_' + str(this.world_num) + '.png')
 		background = pygame.Surface((256, 224))
 		background.blit(original, (0, 0))
 		
-		nodes = self.nodes
+		nodes = this.nodes
 		
 		color = (93, 72, 55)
 		for start in nodes.keys():
@@ -119,7 +142,7 @@ class MapScene:
 		return background
 	
 	def _read_map_file(self):
-		c = open(os.path.join('levels', 'world_map', 'world_' + str(self.world_num) + '.txt'), 'rt')
+		c = open(os.path.join('levels', 'world_map', 'world_' + str(this.world_num) + '.txt'), 'rt')
 		lines = trim(c.read()).split('\n')
 		c.close()
 		nodes = {}
@@ -132,8 +155,8 @@ class MapScene:
 				else:
 					parts = line.split('\t')
 					id = parts[0]
-					if self.location == '': #TODO: remove this when start location is loaded from saved game
-						self.location = id
+					if this.location == '': // TODO: remove this when start location is loaded from saved game
+						this.location = id
 					coords = parts[1].split(',')
 					x = int(coords[0])
 					y = int(coords[1])
@@ -142,7 +165,7 @@ class MapScene:
 						'x' : x,
 						'y' : y,
 						'connections' : [],
-						'completed' : (id == 'prev') or (games.active_game().get_value('finished_world' + str(self.world_num) + '_' + id) == 1)
+						'completed' : (id == 'prev') or (games.active_game().get_value('finished_world' + str(this.world_num) + '_' + id) == 1)
 					}
 			else:
 				parts = line.split('\t')
@@ -150,12 +173,16 @@ class MapScene:
 				right = parts[1]
 				direction = parts[2]
 				nodes[left]['connections'].append((right, direction))
-				nodes[right]['connections'].append((left, self._swap_direction(direction)))
+				nodes[right]['connections'].append((left, this._swap_direction(direction)))
 				
 		return nodes
 	
-	def _swap_direction(self, d):
-		if d == 'right': return 'left'
-		if d == 'left' : return 'right'
-		if d == 'down' : return 'up'
-		if d == 'up'   : return 'down'
+	function _swap_direction(d) {
+		switch (d) {
+			case 'right': return 'left';
+			case 'left': return 'right';
+			case 'up': return 'down';
+			case 'down': return 'up';
+		}
+	}
+}

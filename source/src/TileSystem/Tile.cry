@@ -109,7 +109,7 @@ class CompositeTile:
 	def has_down_inclines(self):
 		return self.physics_template.has_down_inclines
 	
-	# will filter out the modifier tags and return just the physics	
+	// will filter out the modifier tags and return just the physics	
 	def filter_modifiers(self, raw_physics):
 		
 		final_physics = ''

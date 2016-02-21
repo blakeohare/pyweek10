@@ -90,6 +90,5 @@ class TextPrinter:
 	def clear_cache(self):
 		self.text_cache = {}
 		
-#STATIC
 
 _text_printer = TextPrinter()

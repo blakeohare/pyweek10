@@ -1,13 +1,15 @@
 class Powerup(Sprite):
 	
 	def __init__(self, x, y, type):
-		# types:
-		# little_recharge
-		# big_recharge
-		# wand_1, ... wand_4
-		# mumblefoo_piece1
-		# mumblefoo_piece2
-		# invincibility
+		/*
+			types:
+			- little_recharge
+			- big_recharge
+			- wand_1, ... wand_4
+			- mumblefoo_piece1
+			- mumblefoo_piece2
+			- invincibility
+		*/
 		self.lifetime = 0
 		Sprite.__init__(self, x, y)
 		self.type = type

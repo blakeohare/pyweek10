@@ -1,4 +1,4 @@
-
+/*
 class JoystickInputSource:
 	def __init__(self, pygame_joystick):
 		self.joystick = pygame_joystick
@@ -116,3 +116,4 @@ class JoystickInputSource:
 					return True
 		
 		return False # no key was found
+//*/

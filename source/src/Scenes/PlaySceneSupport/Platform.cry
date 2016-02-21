@@ -1,6 +1,6 @@
 class Platform:
 	def __init__(self, type, left, y_left, width, y_right, height, jumpthrough):
-		self.type = type # jumpthrough, blocking, solid, incline
+		self.type = type // jumpthrough, blocking, solid, incline
 		self.left = left
 		self.y_left = y_left
 		self.width = width
@@ -17,7 +17,7 @@ class Platform:
 			self.height,
 			self.jumpthrough)
 	
-	#won't work for inclines
+	// won't work for inclines
 	def duplicate_right(self, x_offset, y_offset):
 		return Platform(self.type,
 			self.left + x_offset + 8,
@@ -27,7 +27,7 @@ class Platform:
 			self.height,
 			self.jumpthrough)
 			
-	#won't work for inclines
+	// won't work for inclines
 	def duplicate_left(self, x_offset, y_offset):
 		return Platform(self.type,
 			self.left + x_offset,
@@ -44,8 +44,8 @@ class Platform:
 		return self.y_left
 	
 	def get_x_at_y(self, y):
-		# this method is for INCLINES only
-		# y MUST be in the range of this incline
+		// this method is for INCLINES only
+		// y MUST be in the range of this incline
 		percentage = (y - self.y_left + 0.0) / (self.y_right - self.y_left)
 		return int(self.left + percentage * self.width)
 	
@@ -64,11 +64,11 @@ class Platform:
 	def get_bottom(self):
 		if self.type == 'solid':
 			return self.y_left + self.height
-		return self.y_left #inclines aren't "bottomed"
+		return self.y_left // inclines aren't "bottomed"
 	
 	def get_closest_terminating_y(self, x):
 		if x < self.left:
 			return self.y_left
 		else:
 			return self.y_right
-		# this function will not be called when x is in the platform
+		// this function will not be called when x is in the platform

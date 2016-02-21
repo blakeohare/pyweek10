@@ -1,17 +1,23 @@
-class LoadScene:
+class LoadScene {
 	
-	def __init__(self):
-		self.next = self
-		self.counter = 0
+	field next;
+	field counter = 0;
 	
-	def ProcessInput(self, events):
-		pass
+	constructor(self) {
+		this.next = this;
+	}
+	
+	function ProcessInput(events) { }
+	
+	function Render(screen) {
+		images.Get('load_splash.png').blit(0, 0);
+	}
+	
+	function Update() {
+		this.counter++;
 		
-	def Render(self, screen):
-		screen.blit(images.Get('load_splash.png'), (0, 0))
-	
-	def Update(self):
-		self.counter += 1
-		
-		if self.counter > 60:
-			self.next = TransitionScene(self, TitleScene(), 'fadeout', 30)
+		if (this.counter > 60) {
+			this.next = new TransitionScene(this, new TitleScene(), 'fadeout', 30);
+		}
+	}
+}

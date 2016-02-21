@@ -6,7 +6,7 @@ class PlaySceneInfoScene:
 		self.world = str(world)
 		self.level = str(level)
 		self.counter = 0
-		self.duration = 60 #TODO: change this to 60 before release
+		self.duration = 60
 		
 	def ProcessInput(self, events):
 		pass

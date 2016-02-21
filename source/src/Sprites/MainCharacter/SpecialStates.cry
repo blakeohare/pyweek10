@@ -43,7 +43,7 @@ class SpecialStateDying:
 			y = self.y - camera[1]
 			parts = playScene.level_id.split('_')
 			world = int(parts[0])
-			level = parts[1][0] #TODO: make this robust if we ever have more than 9 levels in each
+			level = parts[1][0] // TODO: make this robust if we ever have more than 9 levels in each
 			playScene.next = TransitionScene(playScene, MapScene(world, level), 'circle_in', 59, (x, y))
 
 class SpecialStateVictory:

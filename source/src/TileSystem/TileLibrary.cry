@@ -22,7 +22,7 @@ class TileLibrary:
 			if len(parts) == 5:
 				anim_delay = int(parts[4])
 			key = trim(parts[0])
-			# classification doesn't matter here
+			// classification doesn't matter here
 			image_files = trim(parts[2])
 			if image_files == '':
 				image_files = []
@@ -40,12 +40,11 @@ class TileLibrary:
 	def GetTile(self, x, y, key):
 		return Tile(x, y, self.GetTileTemplate(key))
 	
-	# keys are ordered from bottom to top
+	// keys are ordered from bottom to top
 	def GetCompositeTile(self, x, y, keys):
 		templates = []
 		for key in keys:
 			templates.append(self.GetTileTemplate(key))
 		return CompositeTile(x, y, templates)
 		
-#STATIC
 tile_library = TileLibrary()

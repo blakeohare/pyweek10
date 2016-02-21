@@ -1,123 +1,152 @@
-class LevelLibrary:
+class LevelLibrary {
 	
-	def __init__(self):
-		self.levels = {}
+	field levels;
+	static field instance = new LevelLibrary();
 	
-	def get_level(self, level_key):
-		if not (level_key in self.levels.keys()):
-			self.load_level(level_key)
-		return Level(self.levels[level_key])
+	constructor () {
+		this.levels = {};
+	}
 	
-	def load_level(self, level_key):
-		file = os.path.join('levels', 'levels', level_key + '.txt')
-		c = open(file, 'rt')
-		lines = trim(c.read()).split('\n')
-		c.close()
+	static function get_level(level_key) {
+		level_data = LevelLibrary.instance.levels.get(level_key);
+		if (level_data == null) {
+			LevelLibrary.instance.load_level(level_key);
+		}
+		return new Level(LevelLibrary.instance.levels[level_key]);
+	}
+	
+	function load_level(level_key) {
+		lines = Resources.readText('levels/levels/' + level_key + '.txt').split('\n');
 		
-		values = {}
-		width = 0
-		victory = -1
-		tile_keys = []
-		start_locations = None
-		default_start = None
-		doors = []
-		background = None
-		background_scroll = 0
-		enemies = []
-		storm = False
-		music = 'overworld1'
-		for line in lines:
-			line = trim(line)
-			if len(line) > 0:
-				line = line.split(':')
-				item = line[0]
-				line = ':'.join(line[1:])
-				if item == 'width':
-					width = int(line)
-				elif item == 'tiles':
-					tile_keys = line.split(' ')
-				#elif item == 'victoryX':
-				#	values['victoryX'] = int(line)
-				elif item == 'default_start':
-					values['default_start'] = line
-				elif item == 'start_locations':
-					start_locations = line
-				elif item == 'background_image':
-					if line == 'stormy1':
-						storm = True
-					background = images.Get('backgrounds/' + line + '.png')
-				elif item == 'music':
-					music = line
-				elif item == 'background_scroll_rate':
-					background_scroll = float(line)
-				elif item == 'doors':
-					if line != '':
-						for door in line.split(' '):
-							parts = door.split('|')
-							coords = parts[0].split(',')
-							dest = parts[1].split(',')
-							doors.append((int(coords[0]), int(coords[1]), dest[0], dest[1]))
-				elif item == 'enemies':
-					if line != '':
-						for enemy in line.split(' '):
-							parts = enemy.split(',')
-							enemy_type = parts[0]
-							x = int(parts[1])
-							y = int(parts[2])
-							enemies.append((enemy_type, x, y))
+		values = {};
+		width = 0;
+		victory = -1;
+		tile_keys = [];
+		start_locations = null;
+		default_start = null;
+		doors = [];
+		background = null;
+		background_scroll = 0;
+		enemies = [];
+		storm = false;
+		music = 'overworld1';
+		for (line : lines) {
+			line = line.trim();
+			if (line.length > 0) {
+				line = line.split(':');
+				item = line[0];
+				line = line[1:].join(':').trim();
+				switch (item) {
+					case 'width':
+						width = parseInt(line);
+						break;
+					case 'tiles':
+						tile_keys = line.split(' ');
+						break;
+					//case 'victoryX':
+					//	values['victoryX'] = parseInt(line);
+					//	break;
+					case 'default_start':
+						values['default_start'] = line;
+						break;
+					case 'start_locations':
+						start_locations = line;
+						break;
+					case 'background_image':
+						storm = line == 'stormy1';
+						background = ImageLibrary.INSTANCE.Get('backgrounds/' + line + '.png');
+						break;
+					case 'music':
+						music = line;
+						break;
+					case 'background_scroll_rate':
+						background_scroll = parseFloat(line);
+						break;
+					case 'doors':
+						if (line.length > 0) {
+							for (door : line.split(' ')) {
+								parts = door.split('|');
+								coords = parts[0].split(',');
+								dest = parts[1].split(',');
+								doors.add([parseInt(coords[0]), parseInt(coords[1]), dest[0], dest[1]]);
+							}
+						}
+						break;
+					case 'enemies':
+						if (line != '') {
+							for (enemy : line.split(' ')) {
+								parts = enemy.split(',');
+								enemy_type = parts[0];
+								x = parseInt(parts[1]);
+								y = parseInt(parts[2]);
+								enemies.add([enemy_type, x, y]);
+							}
+						}
+						break;
+					default:
+						Core.assert(false, "Unknown map field: '" + item + "'");
+						break;
+				}
+			}
+		}
 		
-		values['enemies'] = enemies
-		values['storm'] = storm
-		values['doors'] = doors
-		values['start_locations'] = {}
-		values['background'] = background
-		values['background_scroll'] = background_scroll
-		values['music'] = music
-		for loc in start_locations.split(' '):
-			parts = loc.split(',')
-			values['start_locations'][parts[0]] = (int(parts[1]), int(parts[2]))
+		values['enemies'] = enemies;
+		values['storm'] = storm;
+		values['doors'] = doors;
+		values['start_locations'] = {};
+		values['background'] = background;
+		values['background_scroll'] = background_scroll;
+		values['music'] = music;
+		for (loc : start_locations.split(' ')) {
+			parts = loc.split(',');
+			values['start_locations'][parts[0]] = [parseInt(parts[1]), parseInt(parts[2])];
+		}
 
-		tiles = []
-		x = 0
-		y = 0
+		tiles = [];
+		x = 0;
+		y = 0;
 		
-		victory_found = False
+		victory_found = false;
 		
-		previous_is_up_incline = False
-		for tile_key in tile_keys:
-			keys = tile_key.split(',')
-			if len(keys) == 1:
-				tiles.append(tile_library.GetTile(x * 16, y * 16, keys[0]))
-			else:
-				tiles.append(tile_library.GetCompositeTile(x * 16, y * 16, keys))
+		previous_is_up_incline = false;
+		for (tile_key : tile_keys) {
+			keys = tile_key.split(',');
+			if (keys.length == 1) {
+				tiles.add(tile_library.GetTile(x * 16, y * 16, keys[0]));
+			} else {
+				tiles.add(tile_library.GetCompositeTile(x * 16, y * 16, keys));
+			}
 			
-			is_victory = False
+			is_victory = false;
 			
-			for key in keys:
-				if key == 'b2' and not victory_found:
-					is_victory = True
-					values['victoryX'] = x * 16 + 8
-					victory_found = True
+			for (key : keys) {
+				if (key == 'b2' && !victory_found) {
+					is_victory = true;
+					values['victoryX'] = x * 16 + 8;
+					victory_found = true;
+				}
+			}
 			
-			if len(tiles) > 1 and tiles[-1].has_down_inclines():
-				tiles[-2].remove_walls(False)
-				previous_is_up_incline = False
-			elif tiles[-1].has_up_inclines():
-				previous_is_up_incline = True
-			elif previous_is_up_incline:
-				tiles[-1].remove_walls(True)
-				previous_is_up_incline = False
-			else:
-				previous_is_up_incline = False
+			if (tiles.length > 1 && tiles[-1].has_down_inclines()) {
+				tiles[-2].remove_walls(false);
+				previous_is_up_incline = false;
+			} else if (tiles[-1].has_up_inclines()) {
+				previous_is_up_incline = true;
+			} else if (previous_is_up_incline) {
+				tiles[-1].remove_walls(true);
+				previous_is_up_incline = false;
+			} else {
+				previous_is_up_incline = false;
+			}
 			
-			x += 1
-			if x == width:
-				x = 0
-				y += 1
+			x += 1;
+			if (x == width) {
+				x = 0;
+				y += 1;
+			}
+		}
 		
-		
-		self.levels[level_key] = LevelTemplate(tiles, width, values)
-		self.levels[level_key]._remove_me = level_key #TODO: remove me
-		
-#STATIC
-levels = LevelLibrary()
+		this.levels[level_key] = new LevelTemplate(tiles, width, values);
+		this.levels[level_key]._remove_me = level_key //TODO: remove me
+	}
+}

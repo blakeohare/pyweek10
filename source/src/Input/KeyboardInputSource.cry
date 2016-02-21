@@ -13,7 +13,7 @@ class KeyboardInputSource {
 		KeyboardKey.ENTER : 'start',
 		KeyboardKey.NUM_1 : 'L',
 		KeyboardKey.NUM_2 : 'R',
-		};
+	};
 	
 	constructor () { }
 	

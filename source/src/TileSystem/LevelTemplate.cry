@@ -1,28 +1,40 @@
 
-class LevelTemplate:
-	def __init__(self, tiles, width, values):
-		self.width = width
-		self.tiles = tiles
-		self.values = values
-		self.height = int(len(self.tiles) / width)
-		self.virtualized_air = tile_library.GetTile(0, 0, '0')
+class LevelTemplate {
+	field width;
+	field tiles;
+	field values;
+	field height;
+	field virtualized_air;
+	
+	constructor(tiles, width, values) {
+		this.width = width;
+		this.tiles = tiles;
+		this.values = values;
+		this.height = this.tiles.length / width;
+		this.virtualized_air = tile_library.GetTile(0, 0, '0');
 		
 		default_values = {
 			'victoryX' : 0
+		};
+		
+		for (key : default_values.keys()) {
+			if (!this.values.contains(key)) {
+				this.values[key] = default_values[key];
+			}
 		}
-		
-		for key in default_values.keys():
-			if not (key in self.values.keys()):
-				self.values[key] = default_values['victoryX']
+	}
 	
-	def get_tile(self, col, row):
-		if col < 0 or col >= self.width or row < 0 or row >= self.height:
-			return self.virtualized_air
-		return self.tiles[self.width * row + col]
+	function get_tile(col, row) {
+		if (col < 0 || col >= this.width || row < 0 || row >= this.height)
+			return this.virtualized_air;
+		return this.tiles[this.width * row + col];
+	}
 	
-	def get_width(self):
-		return self.width
+	function get_width() {
+		return this.width;
+	}
 	
-	def get_height(self):
-		return self.height
-		
+	function get_height() {
+		return this.height;
+	}
+}

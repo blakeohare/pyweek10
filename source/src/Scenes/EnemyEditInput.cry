@@ -1,0 +1,50 @@
+import Game;
+
+class EnemyEditInput {
+
+	static field INSTANCE = new EnemyEditInput();
+	
+	field num_pressed = -1;
+	field toggle_mode = false;
+	
+	constructor() {}
+	
+	function Clear() {
+		this.num_pressed = -1
+		this.toggle_mode = false;
+	}
+	
+	function Update(event) {
+		if (event.type == EventType.KEY_UP) {
+			switch (event.key) {
+				case KeyboardKey.NUM_0: this.num_pressed = 10; break;
+				case KeyboardKey.P: this.num_pressed = 11; break;
+				case KeyboardKey.EQUALS: this.num_pressed = 12; break;
+				case KeyboardKey.NUM_1:
+				case KeyboardKey.NUM_2:
+				case KeyboardKey.NUM_3:
+				case KeyboardKey.NUM_4:
+				case KeyboardKey.NUM_5:
+				case KeyboardKey.NUM_6:
+				case KeyboardKey.NUM_7:
+				case KeyboardKey.NUM_8:
+				case KeyboardKey.NUM_9:
+					this.num_pressed = event.key - KeyboardKey.NUM_0;
+					break;
+				case KeyboardKey.E:
+					this.toggle_mode = true;
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	
+	function ModeToggled() {
+		return this.toggle_mode;
+	}
+	
+	function NumPressed() {
+		return this.num_pressed;
+	}
+}

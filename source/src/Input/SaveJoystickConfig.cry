@@ -1,4 +1,4 @@
-
+/*
 def save_joystick_config():
 	joystick = input.get_active_joystick()
 	joystick_file = ''
@@ -62,4 +62,4 @@ def load_joystick_config():
 				joystick.mapping = mapping
 				input.set_active_joystick(joystick)
 				return
-				
+//*/

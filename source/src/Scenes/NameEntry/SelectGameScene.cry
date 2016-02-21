@@ -8,7 +8,7 @@ class SelectGameScene:
 		self.next = self
 		self.counter = 0
 		self.cursor_index = starting_slot_index
-		self.mode = 'selection' # 'copy' or 'erase' or paste
+		self.mode = 'selection' // 'copy' or 'erase' or paste
 		self.text_entry = ''
 		self.copy_from = 0
 		wandStatus.wand_selected = 0
@@ -42,7 +42,7 @@ class SelectGameScene:
 					self.mode = 'selection'
 				else:
 					self.mode = 'copy'
-			else: # 0, 1, 2
+			else: // 0, 1, 2
 				if self.mode == 'selection':
 					game = games.get_saved_game(self.cursor_index + 1)
 					if game.get_value('saved') == 0:
@@ -106,12 +106,12 @@ class SelectGameScene:
 			if self.mode == 'paste' and self.copy_from == slot:
 				self._draw_cursor_at(x_offset - 5, mid_y, True)
 		
-		# copy game
+		// copy game
 		screen.blit(get_text('COPY GAME'), (x_offset, 120))
 		if self.cursor_index == 3:
 			self._draw_cursor_at(x_offset - 5, 120 + 4)
 		
-		# erase game
+		// erase game
 		screen.blit(get_text('ERASE GAME'), (x_offset, 140))
 		if self.cursor_index == 4:
 			self._draw_cursor_at(x_offset - 5, 140 + 4)
@@ -146,6 +146,6 @@ class SelectGameBackground:
 			player.y = -100
 		self.fake_playscreen.Render(self.bg)
 		return screen.blit(self.bg, (0, 0))
-#STATIC
+
 
 _selectGameBG = SelectGameBackground()
