@@ -1,28 +1,27 @@
-class PoofCloud(Sprite):
+class PoofCloud : Sprite {
 	
-	def __init__(self, x, y):
-		self.lifetime = 0
-		Sprite.__init__(self, x, y)
-		self.width = 15
-		self.height = 11
-		self.moves_through_walls = True
-		self.immune_to_gravity = True
+	constructor (x, y): base(x, y) {
+		this.width = 15;
+		this.height = 11;
+		this.moves_through_walls = true;
+		this.immune_to_gravity = true;
+	}
 	
-	def draw(self, surface, is_moving, counter, camera_offset):
+	function draw(surface, is_moving, counter, camera_offset) {
 		
-		num = int(self.lifetime / 2.0) + 1
-		num = max(1, min(5, num))
-		file = 'poof/' + str(num) + '.png'
-		img = images.Get(file)
+		img = ImageLibrary.Get('poof/' + ensureRange(this.lifetime / 2 + 1, 1, 5) + '.png');
 		
-		xy = self.get_top_left()
-		x = xy[0] - camera_offset[0]
-		y = xy[1] - camera_offset[1]
+		xy = this.get_top_left();
+		x = xy[0] - camera_offset[0];
+		y = xy[1] - camera_offset[1];
 		
-		surface.blit(img, (x, y))
+		img.blit(x, y);
+	}
 	
-	
-	def update(self, playScene):
-		self.lifetime += 1
-		if self.lifetime == 10:
-			self.expired = True
+	function update(playScene) {
+		this.lifetime++;
+		if (this.lifetime == 10) {
+			this.expired = true;
+		}
+	}
+}

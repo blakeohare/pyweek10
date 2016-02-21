@@ -1,74 +1,95 @@
-class Platform:
-	def __init__(self, type, left, y_left, width, y_right, height, jumpthrough):
-		self.type = type // jumpthrough, blocking, solid, incline
-		self.left = left
-		self.y_left = y_left
-		self.width = width
-		self.height = height # only used for solid type
-		self.y_right = y_right
-		self.jumpthrough = jumpthrough
+import Math;
+
+class Platform {
+	field type;
+	field left;
+	field y_left;
+	field width;
+	field height;
+	field y_right;
+	field jumpthrough;
 	
-	def duplicate(self, x_offset, y_offset):
-		return Platform(self.type,
-			self.left + x_offset,
-			self.y_left + y_offset,
-			self.width,
-			self.y_right + y_offset,
-			self.height,
-			self.jumpthrough)
+	constructor (type, left, y_left, width, y_right, height, jumpthrough) {
+		this.type = type; // jumpthrough, blocking, solid, incline
+		this.left = left;
+		this.y_left = y_left;
+		this.width = width;
+		this.height = height; // only used for solid type
+		this.y_right = y_right;
+		this.jumpthrough = jumpthrough;
+	}
+	
+	function duplicate(x_offset, y_offset) {
+		return new Platform(this.type,
+			this.left + x_offset,
+			this.y_left + y_offset,
+			this.width,
+			this.y_right + y_offset,
+			this.height,
+			this.jumpthrough);
+	}
 	
 	// won't work for inclines
-	def duplicate_right(self, x_offset, y_offset):
-		return Platform(self.type,
-			self.left + x_offset + 8,
-			self.y_left + y_offset,
-			int(self.width / 2),
-			self.y_right + y_offset,
-			self.height,
-			self.jumpthrough)
-			
-	// won't work for inclines
-	def duplicate_left(self, x_offset, y_offset):
-		return Platform(self.type,
-			self.left + x_offset,
-			self.y_left + y_offset,
-			int(self.width / 2),
-			self.y_right + y_offset,
-			self.height,
-			self.jumpthrough)
-			
-	def get_y_at_x(self, x):
-		if self.type == 'incline':
-			percentage = (x - self.left + 0.0) / self.width
-			return int(self.y_right * percentage + self.y_left * (1 - percentage))
-		return self.y_left
+	function duplicate_right(x_offset, y_offset) {
+		return new Platform(this.type,
+			this.left + x_offset + 8,
+			this.y_left + y_offset,
+			this.width / 2,
+			this.y_right + y_offset,
+			this.height,
+			this.jumpthrough);
+	}
 	
-	def get_x_at_y(self, y):
+	// won't work for inclines
+	function duplicate_left(x_offset, y_offset) {
+		return Platform(this.type,
+			this.left + x_offset,
+			this.y_left + y_offset,
+			this.width / 2,
+			this.y_right + y_offset,
+			this.height,
+			this.jumpthrough);
+	}
+			
+	function get_y_at_x(x) {
+		if (this.type == 'incline') {
+			percentage = (x - this.left + 0.0) / this.width;
+			return int(this.y_right * percentage + this.y_left * (1 - percentage));
+		}
+		return this.y_left;
+	}
+	
+	function get_x_at_y(y) {
 		// this method is for INCLINES only
 		// y MUST be in the range of this incline
-		percentage = (y - self.y_left + 0.0) / (self.y_right - self.y_left)
-		return int(self.left + percentage * self.width)
+		percentage = (y - this.y_left + 0.0) / (this.y_right - this.y_left);
+		return floor(this.left + percentage * this.width);
+	}
 	
-	def is_x_in_range(self, x):
-		return self.left <= x and self.left + self.width >= x
+	function is_x_in_range(x) {
+		return this.left <= x and this.left + this.width >= x
 	
-	def get_left_wall_x(self):
-		return self.left
+	function get_left_wall_x() {
+		return this.left;
+	}
 	
-	def get_right_wall_x(self):
-		return self.left + self.width
+	function get_right_wall_x() {
+		return this.left + this.width;
+	}
 	
-	def get_top(self): #assumes non incline type
-		return self.y_left 
+	function get_top() { // assumes non incline type
+		return this.y_left ;
+	}
 	
-	def get_bottom(self):
-		if self.type == 'solid':
-			return self.y_left + self.height
-		return self.y_left // inclines aren't "bottomed"
+	function get_bottom() {
+		if (this.type == 'solid')
+			return this.y_left + this.height;
+		return this.y_left; // inclines aren't "bottomed"
+	}
 	
-	def get_closest_terminating_y(self, x):
-		if x < self.left:
-			return self.y_left
-		else:
-			return self.y_right
-		// this function will not be called when x is in the platform
+	// this function will not be called when x is in the platform
+	function get_closest_terminating_y(x) {
+		if (x < this.left) return this.y_left;
+		return this.y_right;
+	}
+}

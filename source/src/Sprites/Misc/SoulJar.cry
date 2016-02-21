@@ -1,30 +1,35 @@
-class SoulJar(Sprite):
+import Math;
+import Random;
+
+class SoulJar : Sprite {
 	
-	def __init__(self, x, y, random_number):
-		self.lifetime = 0
-		Sprite.__init__(self, x, y)
-		self.width = 8
-		self.height = 8
-		self.vx = 9 * (-1, 1)[int(random_number % 2)]
-		self.vy = -5
-		self.confined_to_scene = True
-		self.is_soul_jar = True
+	constructor (x, y, random_number) : base(x, y) {
+		this.width = 8;
+		this.height = 8;
+		this.vx = randomBoolean() ? 9 : -9;
+		this.vy = -5;
+		this.confined_to_scene = true;
+		this.is_soul_jar = true;
+	}
 	
-	def draw(self, surface, is_moving, counter, camera_offset):
+	function draw(surface, is_moving, counter, camera_offset) {
 		
-		file = 'sprites/mumblefoo/mumblefoo' + str(int(counter % 8)) + '.png'
-		img = images.Get(file)
+		file = 'sprites/mumblefoo/mumblefoo' + (counter % 8) + '.png';
+		img = ImageLibrary.Get(file);
 		
-		xy = self.get_top_left()
-		x = xy[0] - camera_offset[0]
-		y = xy[1] - camera_offset[1]
+		xy = this.get_top_left();
+		x = xy[0] - camera_offset[0];
+		y = xy[1] - camera_offset[1];
 		
-		surface.blit(img, (x, y))
+		img.blit(x, y);
+	}
 	
-	
-	def update(self, playScene):
-		self.lifetime += 1
-		if self.vx > 0:
-			self.vx = max(0, self.vx - .4)
-		elif self.vx < 0:
-			self.vx = min(0, self.vx + .4)
+	function update(playScene) {
+		this.lifetime++;
+		if (this.vx > 0) {
+			this.vx = max(0, this.vx - .4);
+		} else if (this.v < 0) {
+			this.vx = min(0, this.vx + .4);
+		}
+	}
+}
