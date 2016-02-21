@@ -1,5 +1,11 @@
-class InputEvent:
-	def __init__(self, key, down):
-		self.key = key
-		self.down = down
-		self.up = not down
+class InputEvent {
+	field key;
+	field down;
+	field up;
+	
+	constructor (key, down) {
+		this.key = key;
+		this.down = down;
+		this.up = !down;
+	}
+}

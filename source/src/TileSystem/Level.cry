@@ -1,183 +1,139 @@
 
-class Level:
-	def __init__(self, level_template):
-		self.level_template = level_template
-		self.random_start = 0
+class Level {
+	constructor(level_template) {
+		this.level_template = level_template;
+		this.random_start = 0;
+	}
 	
-	def get_tile(self, col, row):
-		return self.level_template.get_tile(col, row)
+	function get_tile(col, row) {
+		return this.level_template.get_tile(col, row);
+	}
 	
-	def get_width(self):
-		return self.level_template.get_width()
+	function get_width() {
+		return this.level_template.get_width();
+	}
 	
-	def get_height(self):
-		return self.level_template.get_height()
+	function get_height() {
+		return this.level_template.get_height();
+	}
 	
-	def Refresh(self):
-		levels.load_level(self.level_template._remove_me)
-		self.level_template = levels.levels[self.level_template._remove_me]
-		#levels.load_level(self.level_template._remove_me)
-		#levels.levels[self.level_template._remove_me] = self.level_template
+	function Refresh() {
+		levels.load_level(this.level_template._remove_me);
+		this.level_template = levels.levels[this.level_template._remove_me];
+		// levels.load_level(this.level_template._remove_me)
+		// levels.levels[this.level_template._remove_me] = this.level_template
+	}
 	
-	def get_enemies(self):
-		enemies = []
-		for enemy in self.level_template.values['enemies']:
-			sprite = None
-			x = enemy[1] * 16
-			y = enemy[2] * 16
-			if enemy[0] == 'bat':
-				sprite = EnemyBat(x, y)
-			elif enemy[0] == 'skeleton':
-				sprite = EnemySkeleton(x, y)
-			elif enemy[0] == 'burrower':
-				sprite = EnemyBurrow(x, y)
-			elif enemy[0] == 'greenblob':
-				sprite = EnemyBlob(x, y, 'green')
-			elif enemy[0] == 'blueblob':
-				sprite = EnemyBlob(x, y, 'blue')
-			elif enemy[0] == 'redblob':
-				sprite = EnemyBlob(x, y, 'red')
-			elif enemy[0] == 'jellyfish':
-				sprite = EnemyJellyFish(x, y)
-			elif enemy[0] == 'orc':
-				sprite = EnemyOrc(x, y)
-			elif enemy[0] == 'earththingy':
-				sprite = EnemyThingy(x, y, 'earth')
-			elif enemy[0] == 'frostthingy':
-				sprite = EnemyThingy(x, y, 'frost')
-			elif enemy[0] == 'flarethingy':
-				sprite = EnemyThingy(x, y, 'flare')
-			if sprite != None:
-				sprite.x += int(sprite.width / 2)
-				sprite.y -= (int(sprite.height / 2) + 1)
-				enemies.append(sprite)
-		return enemies
-				
+	function get_enemies() {
+		enemies = [];
+		for (enemy : this.level_template.values['enemies']) {
+			x = enemy[1] * 16;
+			y = enemy[2] * 16;
+			switch (enemy[0]) {
+				case 'bat': sprite = new EnemyBat(x, y); break;
+				case 'skeleton': sprite = new EnemySkeleton(x, y); break;
+				case 'burrower': sprite = new EnemyBurrow(x, y); break;
+				case 'greenblob': sprite = new EnemyBlob(x, y, 'green'); break;
+				case 'blueblob': sprite = EnemyBlob(x, y, 'blue'); break;
+				case 'redblob': sprite = EnemyBlob(x, y, 'red'); break;
+				case 'jellyfish': sprite = EnemyJellyFish(x, y); break;
+				case 'orc': sprite = EnemyOrc(x, y); break;
+				case 'earththingy': sprite = EnemyThingy(x, y, 'earth'); break;
+				case 'frostthingy': sprite = EnemyThingy(x, y, 'frost'); break;
+				case 'flarethingy': sprite = EnemyThingy(x, y, 'flare'); break;
+				default: Core.assert(false, "Unknown sprite type: " + enemy[0]); break;
+			}
+			sprite.x += sprite.width / 2;
+			sprite.y -= sprite.height / 2 + 1;
+			enemies.add(sprite);
+		}
+		return enemies;
+	}
 	
-	def get_door_dest(self, x, y):
-		for door in self.level_template.values['doors']:
-			if door[0] == x and door[1] == y:
-				return (door[2], door[3])
-		return None
+	function get_door_dest(x, y) {
+		for (door : this.level_template.values['doors']) {
+			if (door[0] == x && door[1] == y) {
+				return [door[2], door[3]];
+			}
+		}
+		return null;
+	}
 	
-	def get_background_image(self, counter):
-		if self.level_template.values['storm']:
-			foo = int(int(counter % 2000) / 100.0)
-			if foo in (1, 3, 11, 15):
-				val = int(counter % 100)
-				if val >= 2 and val <= 13:
-					val = int(val / 2.0)
-					return images.Get('backgrounds/stormy' + str(val) + '.png')
-		return self.level_template.values['background']
+	function get_background_image(counter) {
+		if (this.level_template.values['storm']) {
+			foo = counter % 2000 / 100;
+			if (foo == 1 || foo == 3 || foo == 11 || foo == 15) {
+				val = counter % 100;
+				if (val >= 2 && val <= 13) {
+					val = val / 2;
+					return images.Get('backgrounds/stormy' + val + '.png');
+				}
+			}
+		}
+		return this.level_template.values['background'];
+	}
 	
-	def get_background_offset(self, counter):
-		return int(counter * self.level_template.values['background_scroll'])
+	function get_background_offset(counter) {
+		return int(counter * this.level_template.values['background_scroll']);
+	}
 	
-	def get_victory_x(self):
-		return self.level_template.values['victoryX']
+	function get_victory_x() {
+		return self.level_template.values['victoryX'];
+	}
 	
-	def get_start_location(self, name=None):
-		if name == None:
-			name = self.level_template.values['default_start']
+	function get_start_location(name = null) {
+		if (name == null) {
+			name = this.level_template.values['default_start'];
+		}
 		
-		if name == None:
-			return (1, 1)
+		if (name == null) {
+			return [1, 1];
+		}
 		
-		return self.level_template.values['start_locations'][name]
+		return this.level_template.values['start_locations'][name];
+	}
 	
-	def get_landing_platforms_in_rectangle(self, x_start, x_end, y_start, y_end):
-		#perf is important here, note that this code is duplicated in the other methods
-		x_start = max(0, x_start)
-		x_end = min(x_end, self.get_width() - 1)
-		y_start = max(0, y_start)
-		y_end = min(y_end, self.get_height() - 1)
-		
-		landing = []
-		
-		tiles = self.level_template.tiles
-		width = self.level_template.width
-		
-		x = x_start
-		while x <= x_end:
-			y = y_start
-			while y <= y_end:
-				p = tiles[y * width + x].get_platforms()
-				landing += p['solid']
-				landing += p['jumpthrough']
-				landing += p['blocking']
-				landing += p['incline']
-				y += 1
-			x += 1
-		return landing
+	static field LANDING_PLATFORMS = ['solid', 'jumpthrough', 'blocking', 'incline'];
+	static field WALL_PLATFORMS = ['solid'];
+	static field CEILING_PLATFORMS = ['solid', 'blocking'];
+	static field INCLINE_PLATFORMS = ['incline'];
 	
-	def get_walls_in_rectangle(self, x_start, x_end, y_start, y_end):
-		#perf is important here, note that this code is duplicated in the other methods
-		x_start = max(0, x_start)
-		x_end = min(x_end, self.get_width() - 1)
-		y_start = max(0, y_start)
-		y_end = min(y_end, self.get_height() - 1)
-		
-		landing = []
-		
-		tiles = self.level_template.tiles
-		width = self.level_template.width
-		
-		x = x_start
-		while x <= x_end:
-			y = y_start
-			while y <= y_end:
-				p = tiles[y * width + x].get_platforms()
-				landing += p['solid']
-				y += 1
-			x += 1
-		
-		return landing
+	function get_landing_platforms_in_rectangle(xStart, xEnd, yStart, yEnd) {
+		return getPlatformsInRectangle(xStart, xEnd, yStart, yEnd, Level.LANDING_PLATFORMS);
+	}
 	
-	def get_ceilings_in_rectangle(self, x_start, x_end, y_start, y_end):
-		#perf is important here, note that this code is duplicated in the other methods
-		x_start = max(0, x_start)
-		x_end = min(x_end, self.get_width() - 1)
-		y_start = max(0, y_start)
-		y_end = min(y_end, self.get_height() - 1)
-		
-		landing = []
-		
-		tiles = self.level_template.tiles
-		width = self.level_template.width
-		
-		x = x_start
-		while x <= x_end:
-			y = y_start
-			while y <= y_end:
-				p = tiles[y * width + x].get_platforms()
-				landing += p['blocking']
-				landing += p['solid']
-				y += 1
-			x += 1
-		
-		return landing
-		
-	def get_inclines_in_rectangle(self, x_start, x_end, y_start, y_end):
-		#perf is important here, note that this code is duplicated in the other methods
-		x_start = max(0, x_start)
-		x_end = min(x_end, self.get_width() - 1)
-		y_start = max(0, y_start)
-		y_end = min(y_end, self.get_height() - 1)
-		
-		landing = []
-		
-		tiles = self.level_template.tiles
-		width = self.level_template.width
-		
-		x = x_start
-		while x <= x_end:
-			y = y_start
-			while y <= y_end:
-				p = tiles[y * width + x].get_platforms()
-				landing += p['incline']
-				y += 1
-			x += 1
-		
-		return landing
+	function get_walls_in_rectangle(xStart, xEnd, yStart, yEnd) {
+		return getPlatformsInRectangle(xStart, xEnd, yStart, yEnd, Level.WALL_PLATFORMS);
+	}
 	
+	function get_ceilings_in_rectangle(xStart, xEnd, yStart, yEnd) {
+		return getPlatformsInRectangle(xStart, xEnd, yStart, yEnd, Level.CEILING_PLATFORMS);
+	}
 	
+	function get_inclines_in_rectangle(xStart, xEnd, yStart, yEnd) {
+		return getPlatformsInRectangle(xStart, xEnd, yStart, yEnd, Level.INCLINE_PLATFORMS);
+	}
+	
+	function getPlatformsInRectangle(xStart, xEnd, yStart, yEnd, types) {
+		
+		xStart = Math.max(0, xStart);
+		xEnd = Math.min(xEnd, this.get_width() - 1);
+		yStart = Math.max(0, yStart);
+		yEnd = Math.min(yEnd, this.get_height() - 1);
+		
+		landing = [];
+		
+		tiles = this.level_template.tiles;
+		width = this.level_template.width;
+		
+		for (x = xStart; x <= xEnd; ++x) {
+			for (y = yStart; y <= yEnd; ++y) {
+				p = tiles[y * width + x].get_platforms();
+				for (type : types) {
+					landing.concat(p[type]);
+				}
+			}
+		}
+		return landing;
+	}
+}

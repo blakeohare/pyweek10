@@ -1,35 +1,44 @@
+import Game;
 
-class KeyboardInputSource:
-	def __init__(self):
-		self.keymap = {
-			K_UP : 'up',
-			K_DOWN : 'down',
-			K_LEFT : 'left',
-			K_RIGHT : 'right',
-			K_SPACE : 'B',
-			K_z : 'Y',
-			K_x : 'A',
-			K_m : 'X',
-			K_RETURN : 'start',
-			K_1 : 'L',
-			K_2 : 'R'
+class KeyboardInputSource {
+	static field KEY_MAP = {
+		KeyboardKey.UP : 'up',
+		KeyboardKey.DOWN : 'down',
+		KeyboardKey.LEFT : 'left',
+		KeyboardKey.RIGHT : 'right',
+		KeyboardKey.SPACE : 'B',
+		KeyboardKey.Z : 'Y',
+		KeyboardKey.X : 'A',
+		KeyboardKey.M : 'X',
+		KeyboardKey.ENTER : 'start',
+		KeyboardKey.NUM_1 : 'L',
+		KeyboardKey.NUM_2 : 'R',
+		};
+	
+	constructor () { }
+	
+	function get_input_type() {
+		return 'keyboard';
+	}
+	
+	function process_events(pygame_events) {
+		events = [];
+		for (event : pygame_events) {
+			if (event.type == EventType.KEY_DOWN || event.type == EventType.KEY_UP) {
+				key = KEY_MAP.get(event.key);
+				if (key != null) {
+					events.append(new InputEvent(key, event.down));
+				}
 			}
+		}
+		return events;
+	}
 	
-	def get_input_type(self):
-		return 'keyboard'
-	
-	def process_events(self, pygame_events):
-		events = []
-		for event in pygame_events:
-			if event.type == KEYDOWN or event.type == KEYUP:
-				if event.key in self.keymap.keys():
-					events.append(InputEvent(self.keymap[event.key], event.type == KEYDOWN))
-		return events
-	
-	def get_name(self):
-		return "Keyboard"
+	function get_name(self) {
+		return "Keyboard";
+	}
 		
-	def configure_key(self, key):
-		pass
-		#TODO: configure keyboard keys
-		
+	function configure_key(key) {
+		// TODO: configure keyboard keys
+	}
+}
