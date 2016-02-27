@@ -625,273 +625,347 @@ class PlayScreen {
 				if (sprite.is_powerup) {
 					// pass
 				} else if (!sprite.invincible) {
-					///////////////// YOU LEFT OFF HERE
-					for bullet in this.bullets:
-						if sprite.is_collision_with_rect(bullet.x - 6, bullet.x + 6, bullet.y - 4, bullet.y + 4):
-							bullet.void_this()
-							sprite.killed = sprite.hit(bullet.get_additional_damage())
+					for (bullet : this.bullets) {
+						if (sprite.is_collision_with_rect(bullet.x - 6, bullet.x + 6, bullet.y - 4, bullet.y + 4)) {
+							bullet.void_this();
+							sprite.killed = sprite.hit(bullet.get_additional_damage());
+						}
+					}
+				}
+			}
+		}
 		
+		new_sprites = [];
 		
+		for (powerup : this.powerups) {
+			if (powerup.is_collision_with_rect(this.player.get_left(), this.player.get_right(), this.player.get_top(), this.player.get_bottom())) {
+				powerup.collected(self);
+			} else {
+				new_sprites.add(powerup);
+			}
+		}
+		this.powerups = new_sprites;
 		
-		new_sprites = []
+		new_sprites = [];
 		
-		for powerup in this.powerups:
-			if powerup.is_collision_with_rect(this.player.get_left(), this.player.get_right(), this.player.get_top(), this.player.get_bottom()):
-				powerup.collected(self)
-			else:
-				new_sprites.append(powerup)
-		this.powerups = new_sprites
+		for (enemy : this.enemies) {
+			if (!enemy.killed) {
+				new_sprites.add(enemy);
+			} else {
+				powerup = enemy.GetPowerUp(this.counter, this);
+				this.other_sprites.append(PoofCloud(enemy.x, enemy.y));
+				if (powerup != null) {
+					this.powerups.append(powerup);
+				}
+			}
+		}
 		
-		new_sprites = []
+		this.enemies = new_sprites;
 		
-		for enemy in this.enemies:
-			if not enemy.killed:
-				new_sprites.append(enemy)
-			else:
-				powerup = enemy.GetPowerUp(this.counter, self)
-				this.other_sprites.append(PoofCloud(enemy.x, enemy.y))
-				if powerup != None:
-					this.powerups.append(powerup)
-		this.enemies = new_sprites
+		new_sprites = [];
 		
-		new_sprites = []
+		for (foo : this.other_sprites) {
+			if (!foo.expired) {
+				new_sprites.append(foo);
+			}
+		}
+		this.other_sprites = new_sprites;
 		
-		for foo in this.other_sprites:
-			if not foo.expired:
-				new_sprites.append(foo)
-		this.other_sprites = new_sprites
-		
-		if this.mumblefoo != None and this.mumblefoo.lifetime > 6:
-			if this.is_collision(this.mumblefoo, this.player):
+		if (this.mumblefoo != null && this.mumblefoo.lifetime > 6) {
+			if (this.is_collision(this.mumblefoo, this.player)) {
 			
-				this.wibblywobbly_counter = min(this.wibblywobbly_counter, this.wibblywobbly.get_max_severity())
-				this.mumblefoo = None
+				this.wibblywobbly_counter = Math.min(this.wibblywobbly_counter, this.wibblywobbly.get_max_severity());
+				this.mumblefoo = null;
 				// TODO: play noise
-				jukebox.MumblefooPickedUp()
-				if this.text_triggers['soul_pickup'] != None:
-					this.text_triggers['timer'].append((this.counter + 40, this.text_triggers['soul_pickup'][0], this.text_triggers['soul_pickup'][1]))
+				jukebox.MumblefooPickedUp();
+				if (this.text_triggers['soul_pickup'] != null) {
+					this.text_triggers['timer'].add((this.counter + 40, this.text_triggers['soul_pickup'][0], this.text_triggers['soul_pickup'][1]));
+				}
+			}
+		}
 		
-		if not this.enemy_edit_mode:
-			if this.player.flashing_counter <= 0:
-				for sprite in this.enemies:
-					if this.is_collision(sprite, this.player):
-						if this.mumblefoo == None:
+		if (!this.enemy_edit_mode) {
+			if (this.player.flashing_counter <= 0) {
+				for (sprite : this.enemies) {
+					if (this.is_collision(sprite, this.player)) {
+						if (this.mumblefoo == null) {
 							// You dropped the mumblefoo!
-							jukebox.MumblefooDropped()
-							this.mumblefoo = SoulJar(this.player.x, this.player.y, this.counter)
-						this.vy = -4
-						this.player.flashing_counter = 60
-						if this.player.left_facing:
-							this.vx = 5
-						else:
-							this.vx = -5
+							jukebox.MumblefooDropped();
+							this.mumblefoo = new SoulJar(this.player.x, this.player.y, this.counter);
+						}
+						this.vy = -4;
+						this.player.flashing_counter = 60;
+						if (this.player.left_facing) {
+							this.vx = 5;
+						} else {
+							this.vx = -5;
+						}
+					}
+				}
+			}
+		}
 		
-		if this.mumblefoo == None:
-			this.wibblywobbly_counter = max(0, this.wibblywobbly_counter - 5)
+		if (this.mumblefoo == null) {
+			this.wibblywobbly_counter = Math.max(0, this.wibblywobbly_counter - 5);
 			
 			// Check for door entry
-			door = this.level_info.get_door_dest(int(this.player.x / 16), int(this.player.y / 16))
-			if door != None and this.player.special_state == None:
-				this.player.special_state = SpecialStateDoorEntry(door, this.player)
+			door = this.level_info.get_door_dest(Math.floor(this.player.x / 16), Math.floor(this.player.y / 16));
+			if (door != null && this.player.special_state == null) {
+				this.player.special_state = new SpecialStateDoorEntry(door, this.player);
+			}
 			
 			// Check for victory
-			victory_x = this.level_info.get_victory_x()
-			if victory_x > 0 and this.player.x >= victory_x and this.player.special_state == None:
+			victory_x = this.level_info.get_victory_x();
+			if (victory_x > 0 && this.player.x >= victory_x && this.player.special_state == null) {
 				//TODO: automated victory sequence
-				games.active_game().save_value('finished_world' + this.level_id, 1)
-				parts = this.level_id.split('_')
-				world = int(parts[0])
-				level_from = int(parts[1][0])
-				level_to = str(level_from + 1)
-				level_from = str(level_from)
-				if level_to == '6':
-					level_to = 'next'
-				if world == 0:
-					level_from = '1'
-					level_to = '1'
-					world = 1
+				games.active_game().save_value('finished_world' + this.level_id, 1);
+				parts = this.level_id.split('_');
+				world = Math.floor(parts[0]);
+				level_from = Math.floor(parts[1][0]);
+				level_to = '' + (level_from + 1);
+				level_from = '' + level_from;
+				if (level_to == '6') {
+					level_to = 'next';
+				}
+				if (world == 0) {
+					level_from = '1';
+					level_to = '1';
+					world = 1;
+				}
 				
-				jukebox.PlayVictory()
+				jukebox.PlayVictory();
 				
-				if this.level_id == '3_5':
-					nextScene = CutSceneScene('endgame', CreditsScene())
-				else:
-					nextScene = MapScene(world, level_from, level_to)
+				if (this.level_id == '3_5') {
+					nextScene = new CutSceneScene('endgame', new CreditsScene());
+				} else {
+					nextScene = new MapScene(world, level_from, level_to);
+				}
 				
-				this.player.special_state = SpecialStateVictory(this.player, nextScene)
-			
-		else:
-			this.wibblywobbly_counter += 1
-			if this.player.special_state == None and this.wibblywobbly_counter > this.wibblywobbly.get_max_severity():
-				if this.level_id != '0_1':
-					this.kill_player()
+				this.player.special_state = new SpecialStateVictory(this.player, nextScene);
+			}
+		} else {
+			this.wibblywobbly_counter++;
+			if (this.player.special_state == null && this.wibblywobbly_counter > this.wibblywobbly.get_max_severity()) {
+				if (this.level_id != '0_1') {
+					this.kill_player();
+				}
+			}
+		}
 		
-		if this.player.special_state == None and this.player.y > this.level_info.get_height() * 16 + 30:
-			this.kill_player()
+		if (this.player.special_state == null && this.player.y > this.level_info.get_height() * 16 + 30) {
+			this.kill_player();
+		}
 		
-		new_text_triggers = []
-		for text_trigger in this.text_triggers['timer']:
-			if this.counter >= text_trigger[0] and this.next == self:
-				this.next = TextOverlayScene(text_trigger[1], self, text_trigger[2])
-			else:
-				new_text_triggers.append(text_trigger)
-		this.text_triggers['timer'] = new_text_triggers
-		
-	def get_left_stiched_platform(self, platform):
-		for stiched in this.get_landing_surfaces(platform.left - 1, platform.y_left - 3, platform.y_left + 3):
-			if abs(platform.y_left - stiched.y_right) <= 1 and abs(platform.left - stiched.left - stiched.width) <= 1:
-				return stiched
-		return None
+		new_text_triggers = [];
+		for (text_trigger : this.text_triggers['timer']) {
+			if (this.counter >= text_trigger[0] && this.next == this) {
+				this.next = TextOverlayScene(text_trigger[1], self, text_trigger[2]);
+			} else {
+				new_text_triggers.add(text_trigger);
+			}
+		}
+		this.text_triggers['timer'] = new_text_triggers;
+	}
 	
+	function get_left_stiched_platform(platform) {
+		for (stiched : this.get_landing_surfaces(platform.left - 1, platform.y_left - 3, platform.y_left + 3)) {
+			if (Math.abs(platform.y_left - stiched.y_right) <= 1 && abs(platform.left - stiched.left - stiched.width) <= 1) {
+				return stiched;
+			}
+		}
+		return null;
+	}
 		
-	def get_right_stiched_platform(self, platform):
-		for stiched in this.get_landing_surfaces(platform.left + platform.width + 1, platform.y_right - 3, platform.y_right + 3):
-			if abs(platform.y_right - stiched.y_left) <= 1 and abs(platform.left + platform.width - stiched.left) <= 1:
-				return stiched
-		return None
+	function get_right_stiched_platform(platform) {
+		for (stiched : this.get_landing_surfaces(platform.left + platform.width + 1, platform.y_right - 3, platform.y_right + 3)) {
+			if (Math.abs(platform.y_right - stiched.y_left) <= 1 && Math.abs(platform.left + platform.width - stiched.left) <= 1) {
+				return stiched;
+			}
+		}
+		return null;
+	}
 	
-	def kill_player(self):
-		this.player.special_state = SpecialStateDying(this.player)
-		jukebox.PlayDeath()
+	function kill_player() {
+		this.player.special_state = new SpecialStateDying(this.player);
+		jukebox.PlayDeath();
+	}
 	
-	def is_collision(self, spriteA, spriteB):
+	function is_collision(spriteA, spriteB) {
 		
 		return spriteA.is_collision_with_rect(
 			spriteB.get_left(),
 			spriteB.get_right(),
 			spriteB.get_top(),
-			spriteB.get_bottom())
+			spriteB.get_bottom());
+	}
 	
-	def set_sprite_on_platform(self, sprite, platform):
-		sprite.y = int(platform.get_y_at_x(sprite.x) - sprite.height + sprite.height / 2) // odd math to keep consistent rounding
+	function set_sprite_on_platform(sprite, platform) {
+		sprite.y = Math.floor(platform.get_y_at_x(sprite.x) - sprite.height + sprite.height / 2); // odd math to keep consistent rounding
+	}
 	
-	def find_leftmost_wall_in_path(self, left_x, right_x, y_top, y_bottom):
-		return this._find_first_wall_in_path(left_x, right_x, y_top, y_bottom, True)
+	function find_leftmost_wall_in_path(left_x, right_x, y_top, y_bottom) {
+		return this._find_first_wall_in_path(left_x, right_x, y_top, y_bottom, true);
+	}
 	
-	def find_rightmost_wall_in_path(self, left_x, right_x, y_top, y_bottom):
-		return this._find_first_wall_in_path(left_x, right_x, y_top, y_bottom, False)
+	function find_rightmost_wall_in_path(left_x, right_x, y_top, y_bottom) {
+		return this._find_first_wall_in_path(left_x, right_x, y_top, y_bottom, false);
+	}
 	
-	
-	def _find_first_wall_in_path(self, left_x, right_x, y_top, y_bottom, going_right):
-		furthest = None
+	function _find_first_wall_in_path(left_x, right_x, y_top, y_bottom, going_right) {
+		furthest = null;
 		
-		platforms = this.get_walls(left_x, right_x, y_top, y_bottom)
+		platforms = this.get_walls(left_x, right_x, y_top, y_bottom);
 		
-		for platform in platforms: // all platforms are guaranteed to be solid type
-			if not (y_bottom <= platform.get_top() or y_top > platform.get_bottom()):
-				if going_right:
-					wall_x = platform.left
-				else:
-					wall_x = platform.left + platform.width
+		for (platform : platforms) { // all platforms are guaranteed to be solid type
+			if (!(y_bottom <= platform.get_top() || y_top > platform.get_bottom())) {
+				if (going_right) {
+					wall_x = platform.left;
+				} else {
+					wall_x = platform.left + platform.width;
+				}
+				
+				if (left_x <= wall_x && right_x >= wall_x) {
+					if (furthest == null) {
+						furthest = platform;
+					} else if (going_right && furthest.left > platform.left) {
+						furthest = platform;
+					} else if (!going_right && furthest.left + furthest.width < platform.left + platform.width) {
+						furthest = platform;
+					}
+				}
+			}
+		}
+		return furthest;
+	}
+		
+	function _find_first_platform_in_path(x, upper_y, lower_y, going_down) {
+		furthest = null;
+		
+		if (going_down) {
+			platforms = this.get_landing_surfaces(x, upper_y, lower_y);
+		} else {
+			platforms = this.get_ceilings(x, upper_y, lower_y);
+		}
+		
+		for (platform : platforms) {
+			if (platform.is_x_in_range(x)) {
+				if (going_down) {
+					platform_y = platform.get_y_at_x(x);
+				} else {
+					platform_y = platform.get_bottom();
+				}
 					
-				if left_x <= wall_x and right_x >= wall_x:
-					if furthest == None:
-						furthest = platform
-					elif going_right and furthest.left > platform.left:
-						furthest = platform
-					elif not going_right and furthest.left + furthest.width < platform.left + platform.width:
-						furthest = platform
-		return furthest
+				if (upper_y <= platform_y && lower_y >= platform_y) {
+					if (furthest == null) {
+						furthest = platform;
+					} else if (going_down && furthest.get_y_at_x(x) > platform_y) {
+						furthest = platform;
+					} else if (!going_down && furthest.get_bottom() < platform.get_bottom()) {
+						furthest = platform;
+					}
+				}
+			}
+		}
 		
-	def _find_first_platform_in_path(self, x, upper_y, lower_y, going_down):
-		furthest = None
-		
-		if going_down:
-			platforms = this.get_landing_surfaces(x, upper_y, lower_y)
-		else:
-			platforms = this.get_ceilings(x, upper_y, lower_y)
-		
-		for platform in platforms:
-			if platform.is_x_in_range(x):
-				if going_down:
-					platform_y = platform.get_y_at_x(x)
-				else:
-					platform_y = platform.get_bottom()
-					
-				if upper_y <= platform_y and lower_y >= platform_y:
-					if furthest == None:
-						furthest = platform
-					elif going_down and furthest.get_y_at_x(x) > platform_y:
-						furthest = platform
-					elif not going_down and furthest.get_bottom() < platform.get_bottom():
-						furthest = platform
-		
-		return furthest
-		
-	def find_highest_platform_in_path(self, x, upper_y, lower_y):
-		return this._find_first_platform_in_path(x, upper_y, lower_y, True)
+		return furthest;
+	}
 
-	def find_lowest_platform_in_path(self, x, upper_y, lower_y):
-		return this._find_first_platform_in_path(x, upper_y, lower_y, False)
-		
-	def Render(self, screen):
-		
-		this.render_counter += 1
-		
-		this.update_camera()
-		camera = this.get_camera_offset()
-		cx = camera[0]
-		cy = camera[1]
-		
-		bg = this.level_info.get_background_image(this.counter)
-		if bg != None:
-			scroll_width = (this.level_info.get_width() * 16 - 256)
-			if scroll_width == 0: scroll_width = 1
-			bg_percent = (0.0 + cx) / scroll_width
-			bg_width = bg.get_width()
-			
-			bg_offset = -1 * bg_percent * (bg_width - 256)
-			
-			bg_offset += this.level_info.get_background_offset(this.render_counter)
-			
-			bg_offset = int(bg_offset % bg.get_width())
-			screen.blit(bg, (bg_offset, 0))
-			screen.blit(bg, (bg_offset - bg.get_width(), 0))
-		
-		col_start = max(0, int(cx / 16 - 1))
-		col_end = min(this.level_info.get_width() - 1, col_start + 18)
-		
-		row_start = max(0, int(cy / 16 - 1))
-		row_end = min(this.level_info.get_height() - 1, row_start + 16)
-		
-		for row in range(row_start, row_end + 1):
-			for col in range(col_start, col_end + 1):
-				x = col * 16
-				y = row * 16
-				tile = this.level_info.get_tile(col, row)
-				imgs = tile.get_images(this.render_counter)
-				if imgs != None:
-					for img in imgs:
-						if img != None:
-							screen.blit(img, (x - cx, y - cy))
-		
-		if this.wibblywobbly_counter > 0:
-			this.wibblywobbly.render_color_fade(screen, this.render_counter, this.wibblywobbly_counter)
-		
-		this.player.wand_cooldown= this.wand_cooldown
-		
-		for sprite in this.get_sprites():
-			sprite.draw(screen, this.player.vx != 0, this.counter, camera)
-		
-		for bullet in this.bullets:
-			bullet.draw(screen, cx, cy)
-		
-		if this.wibblywobbly_counter > 0:
-			this.wibblywobbly.render(screen, this.render_counter, this.wibblywobbly_counter)
+	function find_highest_platform_in_path(x, upper_y, lower_y) {
+		return this._find_first_platform_in_path(x, upper_y, lower_y, true);
+	}
 
-		this.render_status(screen)
-		
-		if this.enemy_edit_mode:
-			label = get_text("(enemy insertion mode)")
-			screen.blit(label, (0, 0))
+	function find_lowest_platform_in_path(x, upper_y, lower_y) {
+		return this._find_first_platform_in_path(x, upper_y, lower_y, false);
+	}
 	
-	def render_status(self, screen):
-		if this.renderInventory:
-			left = 256 - 10 - 100
-			top = 5
-			pygame.draw.rect(screen, (0, 0, 0), Rect(left - 1, top - 1, 102, 8))
-			wand_width = wandStatus.GetMagic()
-			colors = wandStatus.GetColors()
-			pygame.draw.rect(screen, colors[0], Rect(left, top, wand_width, 5))
-			pygame.draw.rect(screen, colors[1], Rect(left, top + 2, wand_width, 3))
-			pygame.draw.rect(screen, colors[2], Rect(left, top + 4, wand_width, 2))
+	function Render(screen) {
+		this.render_counter++;
+		
+		this.update_camera();
+		camera = this.get_camera_offset();
+		cx = camera[0];
+		cy = camera[1];
+		
+		bg = this.level_info.get_background_image(this.counter);
+		if (bg != null) {
+			scroll_width = this.level_info.get_width() * 16 - 256;
+			
+			if (scroll_width == 0)
+				scroll_width = 1;
+			
+			bg_percent = (0.0 + cx) / scroll_width;
+			bg_width = bg.get_width();
+			
+			bg_offset = -1 * bg_percent * (bg_width - 256);
+			
+			bg_offset += this.level_info.get_background_offset(this.render_counter);
+			
+			bg_offset = int(bg_offset % bg.get_width());
+			bg.draw(bg_offset, 0);
+			bg.draw(bg_offset - bg.width, 0);
+		}
+		
+		col_start = Math.max(0, Math.floor(cx / 16 - 1));
+		col_end = Math.min(this.level_info.get_width() - 1, col_start + 18);
+		
+		row_start = Math.max(0, Math.floor(cy / 16 - 1));
+		row_end = Math.min(this.level_info.get_height() - 1, row_start + 16);
+		
+		for (row = row_start; row < row_end; ++row) {
+			for (col = col_start; col < col_end; ++col) {
+				x = col * 16;
+				y = row * 16;
+				tile = this.level_info.get_tile(col, row);
+				imgs = tile.get_images(this.render_counter);
+				if (imgs != null) {
+					for (img : imgs) {
+						if (img != null) {
+							img.draw(x - cx, y - cy);
+						}
+					}
+				}
+			}
+		}
+		
+		if (this.wibblywobbly_counter > 0) {
+			this.wibblywobbly.render_color_fade(screen, this.render_counter, this.wibblywobbly_counter);
+		}
+		
+		this.player.wand_cooldown = this.wand_cooldown;
+		
+		for (sprite : this.get_sprites()) {
+			sprite.draw(this.player.vx != 0, this.counter, camera);
+		}
+		
+		for (bullet : this.bullets) {
+			bullet.draw(cx, cy);
+		}
+		
+		if (this.wibblywobbly_counter > 0) {
+			this.wibblywobbly.render(this.render_counter, this.wibblywobbly_counter);
+		}
+
+		this.render_status();
+		
+		if (this.enemy_edit_mode) {
+			label = get_text("(enemy insertion mode)");
+			label.draw(0, 0);
+		}
+	}
+	
+	function render_status() {
+		if (this.renderInventory) {
+			left = 256 - 10 - 100;
+			top = 5;
+			GFX.Draw.rectangle(left - 1, top - 1, 102, 8, 0, 0, 0);
+			wand_width = wandStatus.GetMagic();
+			colors = wandStatus.GetColors();
+			color = colors[0];
+			GFX.Draw.rectangle(left, top, wand_width, 5, color[0], color[1], color[2]);
+			color = colors[1];
+			GFX.Draw.rectangle(left, top + 2, wand_width, 3, color[0], color[1], color[2]);
+			color = colors[2];
+			GFX.Draw.rectangle(left, top + 4, wand_width, 2, color[0], color[1], color[2]);
+		}
+	}
+}
