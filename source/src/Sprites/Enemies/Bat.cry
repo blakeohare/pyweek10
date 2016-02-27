@@ -1,16 +1,15 @@
 
-class EnemyBat : Sprite {
-	
-	
+class EnemeyBat : Sprite {
 	
 	constructor(x, y) : base(x, y) {
-		self.lifetime = 0
-		self.width = 15
-		self.height = 15
-		self.left_facing = True
-		self.immune_to_gravity = True
+		this.lifetime = 0;
+		this.width = 15;
+		this.height = 15;
+		this.left_facing = true;
+		this.immune_to_gravity = true;
+	}
 		
-	def draw(self, surface, is_moving, counter, camera_offset):
+	function draw(is_moving, counter, camera_offset) {
 		
 		direction = ('Right', 'Left')[self.left_facing]
 		
